@@ -1,0 +1,37 @@
+server:
+  contextPath: '/'
+  server:
+    port: 8082
+
+spring:
+  mail:
+    default-encoding: UTF-8
+    host: mail.flowdaq.com
+    port: 587
+    username: noreply@flowdaq.com
+    password: 57u0TWsG
+    protocol: smtp
+    tls: true
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: mail.flowdaq.com    
+
+  resources: 
+    static-locations: 'classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/webui/'
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/cicoda
+    username: root
+    password: Levski888
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true  
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: '/api-docs'   
+ 
+     

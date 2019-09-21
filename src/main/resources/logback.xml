@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%X{user}:%X{requestId}| %date{ISO8601} %-5level
+                %logger{35} - %msg%n
+            </pattern>
+        </encoder>
+        <target>System.out</target>
+    </appender>
+
+
+    <logger name="org.springframework.boot.autoconfigure.security">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="org.springframework.jdbc.datasource">
+        <level value="INFO"/>
+    </logger>
+
+    <logger name="org.springframework.security">
+        <level value="DEBUG"/>
+    </logger>
+    <logger name="org.springframework.web">
+        <level value="DEBUG"/>
+    </logger>
+
+    <logger name="org.eclipse">
+        <level value="OFF"/>
+    </logger>
+
+    <logger name="org.mortbay">
+        <level value="OFF"/>
+    </logger>
+
+    <root>
+        <level value="INFO"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>
