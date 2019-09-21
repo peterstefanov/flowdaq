@@ -27,9 +27,6 @@
 	</parent>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
-		<!-- For Importing project into eclipse uncomment <pluginManagement> tag. 
-			For building and running the project from command-line do not use <pluginManagement> 
-			tag else it will fail to generate main manifest -->
 		<!-- <pluginManagement> -->
 		<plugins>
 			<plugin>
@@ -76,7 +73,6 @@
 							<url>https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js</url>
 							<outputFileName>redoc.min.js</outputFileName>
 							<outputDirectory>${project.basedir}/src/main/resources/public/redoc</outputDirectory>
-							<!--<outputDirectory>${project.build.directory}/src/main/resources/public/redoc</outputDirectory> -->
 						</configuration>
 					</execution>
 				</executions>
@@ -95,7 +91,6 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${project.basedir}/src/main/resources/public</outputDirectory>
-							<!--<outputDirectory>${project.build.directory}/classes/resources/public</outputDirectory> -->
 							<resources>
 								<resource>
 									<directory>${project.basedir}/webui/dist/ng-app</directory>
@@ -218,10 +213,5 @@
 			<artifactId>commons-collections4</artifactId>
 			<version>4.2</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api <dependency> 
-			<groupId>javax.mail</groupId> <artifactId>javax.mail-api</artifactId> <version>1.6.2</version> 
-			</dependency> <dependency> <groupId>com.sun.mail</groupId> <artifactId>javax.mail</artifactId> 
-			<version>1.6.2</version> </dependency> -->
-
 	</dependencies>
 </project>
