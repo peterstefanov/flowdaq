@@ -1,0 +1,19 @@
+package com.flowdaq.app.model.response;
+
+import java.util.Date;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper=false)
+public class CustomerItem {
+	
+	private String companyName;
+	private int full;
+	private int empty;
+	private int max;
+	private int capacity;
+	private Date deliveryDate;
+	private int count;
+}
