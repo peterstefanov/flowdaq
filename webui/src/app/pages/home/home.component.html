@@ -18,7 +18,7 @@
             <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
                 <a *ngIf="userRole === 'admin'" (click)="createAdmin()" clrDropdownItem>Create admin</a>
                 <a *ngIf="userRole === 'admin'" (click)="createDistributor()" clrDropdownItem>Create distributor</a>
-                <a *ngIf="userRole === 'user'" href="/" clrDropdownItem>Create customers</a>
+                <a *ngIf="userRole === 'distributor'" href="/" clrDropdownItem>Create customers</a>
                 <a [routerLink]="'/logout'" clrDropdownItem>Log out</a>
             </clr-dropdown-menu>
             </clr-dropdown>
