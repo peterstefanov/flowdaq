@@ -20,6 +20,7 @@ import { ForgotPasswordComponent } from './pages/forgotpassword/forgotpassword.c
 import { ResetPasswordComponent  } from './pages/resetpassword/resetpassword.component';
 import { LogoutComponent         } from './pages/logout/logout.component';
 import { CustomersComponent      } from './pages/customers/customers.component';
+import { DistributorsComponent   } from './pages/distributors/distributors.component';
 
 // Services
 import { AppConfig               } from './app-config';
@@ -29,6 +30,7 @@ import { ApiRequestService       } from './services/auth/api-request.service';
 import { LoginService            } from './services/auth/login.service';
 import { ResetPasswordService    } from './services/auth/resetpassword.service';
 import { CustomerService         } from './services/api/customer.service';
+import { DistributorService      } from './services/api/distributor.service';
 
 // Components
 import { LogoComponent           } from './components/logo/logo.component';
@@ -46,7 +48,8 @@ import { HeaderLogoComponent     } from './components/headerlogo/headerlogo.comp
     ForgotPasswordComponent,
     ResetPasswordComponent,
     LogoutComponent,
-    CustomersComponent
+    CustomersComponent,
+    DistributorsComponent
   ],
   imports: [
   
@@ -70,7 +73,8 @@ import { HeaderLogoComponent     } from './components/headerlogo/headerlogo.comp
     LoginService,
     AppConfig,
     CustomerService,
-    ResetPasswordService
+    ResetPasswordService,
+    DistributorService
     ],
   bootstrap: [AppComponent]
 })

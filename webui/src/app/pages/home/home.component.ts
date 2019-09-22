@@ -28,7 +28,7 @@ export class HomeComponent {
     public userRole: string = "";
     public distributorName: string = "";
     
-    createDistributorObject: Distributor = {userName: '', email: '', firstName: '', lastName: '', companyName: '', role: 'user' } as Distributor;
+    createDistributorObject: Distributor = {userName: '', email: '', firstName: '', lastName: '', companyName: '', role: 'distributor' } as Distributor;
     distributorCreateModal = false;
     adminCreateModal = false;
     
@@ -82,7 +82,7 @@ export class HomeComponent {
 
     /* Distributor dialog */
     createDistributor(
-        distributor: Distributor = {userName: '', email: '', firstName: '', lastName: '', companyName: '', role: 'user'}
+        distributor: Distributor = {userName: '', email: '', firstName: '', lastName: '', companyName: '', role: 'distributor'}
     ): void {
         this.createDistributorObject = distributor;
         this.distributorCreateModal = true;

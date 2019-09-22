@@ -2,13 +2,18 @@ package com.flowdaq.app.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -59,6 +64,10 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "distributor_id", insertable = false, updatable = false)
+	private Distributor distributor;
+	
 	public String getFullName() {
 		return this.firstName + "" + this.lastName;
 	}

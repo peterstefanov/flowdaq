@@ -1,5 +1,8 @@
 package com.flowdaq.app.service.user;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -9,7 +12,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.flowdaq.app.model.Cooler;
+import com.flowdaq.app.model.Customer;
+import com.flowdaq.app.model.Role;
 import com.flowdaq.app.model.User;
+import com.flowdaq.app.model.response.CustomerItem;
+import com.flowdaq.app.model.response.UserItem;
 import com.flowdaq.app.repository.UserRepository;
 
 @Service
@@ -75,5 +83,27 @@ public class UserServiceImpl implements UserService {
 
 	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
 		this.passwordEncoder = passwordEncoder;
+	}
+
+	@Override
+	public List<UserItem> findAllByUserType(Role role) {		
+		return processResult(userRepository.findAllByRole(role));
 	} 
+	
+	private List<UserItem> processResult(List<User> list) {
+		
+		List<UserItem> result = new ArrayList<>();
+		for (User item : list) {
+			UserItem resultItem = new UserItem();
+			
+			resultItem.setFirstName(item.getFirstName());
+			resultItem.setLastName(item.getLastName());
+			resultItem.setUserId(item.getUsername());
+			resultItem.setEmail(item.getEmailAddress());
+			resultItem.setDistributorName(item.getDistributor().getDistributorName());
+			resultItem.setDistributorId(item.getDistributorId());
+			result.add(resultItem);
+		}		
+		return result;
+	}
 }

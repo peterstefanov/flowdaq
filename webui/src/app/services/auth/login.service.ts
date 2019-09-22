@@ -94,6 +94,7 @@ export class LoginService {
                             "displayName": jsonResp.item.firstName + " " + jsonResp.item.lastName,
                             "distributorName": jsonResp.item.distributorName,
                             "token": jsonResp.item.token,
+                            "distributorId": jsonResp.item.distributorId
                         }
                     };
 

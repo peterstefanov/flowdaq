@@ -4,5 +4,5 @@ export interface Distributor {
   firstName: string;
   lastName: string;
   companyName: string;
-  role: 'user';
+  role: 'distributor';
 }

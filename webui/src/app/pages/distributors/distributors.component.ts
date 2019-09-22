@@ -1,16 +1,16 @@
 import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, HostListener } from '@angular/core';
 import { ColumnMode, SelectionType   } from '@swimlane/ngx-datatable';
 import { Router, NavigationEnd       } from '@angular/router';
-import { CustomerService             } from '../../services/api/customer.service';
+import { DistributorService             } from '../../services/api/distributor.service';
 import { UserInfoService             } from '../../services/user-info.service';
 
 @Component({
-	selector: 'f-customers-pg',
-	templateUrl: './customers.component.html',
-    styleUrls: [ './customers.scss'],
+	selector: 'f-distributors-pg',
+	templateUrl: './distributors.component.html',
+    styleUrls: [ './distributors.scss'],
 })
 
-export class CustomersComponent implements OnDestroy {
+export class DistributorsComponent implements OnDestroy {
 
    @ViewChild('myTable', {
         static: false
@@ -22,20 +22,19 @@ export class CustomersComponent implements OnDestroy {
     expanded: any = {};
     timeout: any;
     isToggled: boolean = false;
-    selected = [];;
+    selected = [];
     public distributorName: string = "";
     
     ColumnMode = ColumnMode;
     SelectionType = SelectionType;
 
-    constructor(private router: Router, private customerService: CustomerService, private userInfoService: UserInfoService) {
+    constructor(private router: Router, private distributorService: DistributorService, private userInfoService: UserInfoService) {
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
             if (e instanceof NavigationEnd) {
                 this.getPageData();
             }
         });
-        this.distributorName = this.userInfoService.getDistributorName();
     }
 
     getPageData() {
@@ -43,7 +42,7 @@ export class CustomersComponent implements OnDestroy {
         if (!this.isToggled) {
             let me = this;
             me.isLoading = true;
-            this.customerService.getCustomers(this.userInfoService.getDistributorId()).subscribe((data) => {
+            this.distributorService.getDistributors().subscribe((data) => {
                 me.rows = data.items;
                 me.isLoading = false;
             });
@@ -57,22 +56,18 @@ export class CustomersComponent implements OnDestroy {
         }, 100);
     }
 
-    /**Customer action*/
-    editCustomer(row) {
-       console.log('edit customer');     
+    /**Distributor action*/
+    editDistributor(row) {
+       console.log('edit Distributor');     
        console.log(row);             
     }     
     
-    deleteCustomer(row) {
-       console.log('delete customer');     
+    deleteDistributor(row) {
+       console.log('delete Distributor');     
        console.log(row);  
     }  
-            
-    createDelivery(row) {
-       console.log('create delivery');     
-       console.log(row);  
-    }  
-   /** END Customer action*/
+  
+   /** END Distributor action*/
             
     toggleExpandRow(row) {
         console.log('Toggled Expand Row!', row);
@@ -85,17 +80,10 @@ export class CustomersComponent implements OnDestroy {
     }
 
     onSelect({ selected }) {
-        console.log('Select Event', selected, this.selected);
+        console.log('Select Event', selected, this.selected);      
         this.selected.splice(0, this.selected.length);
         this.selected.push(...selected);
-    }
-    
-    add() {
-        this.selected.push(this.rows[1], this.rows[3]);
-    }
-
-    update() {
-        this.selected = [this.rows[1], this.rows[3]];
+        this.userInfoService.setDistributorId(this.selected[0].distributorId, this.selected[0].distributorName);
     }
 
     remove() {
@@ -104,9 +92,6 @@ export class CustomersComponent implements OnDestroy {
     
     onActivate(event) {
        console.log('Activate Event', event);
-       if(event.type === 'click') {
-           this.table.rowDetail.toggleExpandRow(event.row);
-       }    
     }
     
     ngOnDestroy() {

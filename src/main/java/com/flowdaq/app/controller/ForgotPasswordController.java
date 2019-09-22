@@ -25,7 +25,7 @@ import com.flowdaq.app.model.request.ForgotPassword;
 import com.flowdaq.app.model.request.PasswordResetRequest;
 import com.flowdaq.app.model.response.Response;
 import com.flowdaq.app.model.response.Response.ResponseStatusEnum;
-import com.flowdaq.app.model.response.ResponseItem;
+import com.flowdaq.app.model.response.UserItem;
 import com.flowdaq.app.service.resetpassword.ResetPasswordRequestService;
 import com.flowdaq.app.service.user.UserService;
 
@@ -111,7 +111,7 @@ public class ForgotPasswordController {
 					response.setStatus(HttpServletResponse.SC_CONFLICT);
 
 				} else {
-					ResponseItem respItem = new ResponseItem();
+					UserItem respItem = new UserItem();
 
 					respItem.setUserId(user.get().getUsername());
 
@@ -135,7 +135,7 @@ public class ForgotPasswordController {
 	public Response validatePassword(@RequestBody PasswordResetRequest passwordResetRequest, HttpServletRequest request,
 			HttpServletResponse response) {
 		Response resp = new Response();
-		ResponseItem respItem = new ResponseItem();
+		UserItem respItem = new UserItem();
 		try {
 			Optional<User> user = userService.findByUsername(passwordResetRequest.getUsername());
 			if (!user.isPresent()) {

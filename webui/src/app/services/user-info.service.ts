@@ -9,6 +9,7 @@ export interface UserInStorage {
     displayName: string;
     token: string;
     distributorName: string;
+    distributorId: number;
 }
 
 export interface LoginInfoInStorage {
@@ -64,7 +65,7 @@ export class UserInfoService {
         return "no-user";
     }
 
-    //Get User's Display name from session storage
+    //Get User's Distributor Display name from session storage
     getDistributorName(): string {
         let userObj: UserInStorage = this.getUserInfo();
         if (userObj !== null) {
@@ -88,5 +89,23 @@ export class UserInfoService {
             return userObj.token;
         }
         return null;
+    }
+
+    //Get User's distributor id from session storage
+    getDistributorId(): number {
+        let userObj: UserInStorage = this.getUserInfo();
+        if (userObj !== null) {
+            return userObj.distributorId
+        }
+        return 0;
+    }
+
+    setDistributorId(distributorId: number, distributorName: string) {
+        let userObj: UserInStorage = this.getUserInfo();
+        if (userObj !== null) {
+            let user = {"userId": userObj.userId, "email": userObj.email, "role": userObj.role, "displayName": userObj.displayName,
+                        "distributorName": distributorName, "token": userObj.token, "distributorId": distributorId };
+            this.storage.setItem(this.currentUserKey, JSON.stringify(user));
+        }
     }
 }

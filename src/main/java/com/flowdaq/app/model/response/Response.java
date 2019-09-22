@@ -13,5 +13,5 @@ public class Response {
 	@ApiModelProperty(required = true)
 	private ResponseStatusEnum operationStatus;
 	private String message;
-	private ResponseItem item;
+	private UserItem item;
 }

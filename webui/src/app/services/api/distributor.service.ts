@@ -5,29 +5,27 @@ import { HttpParams} from "@angular/common/http";
 
 
 @Injectable()
-export class CustomerService {
+export class DistributorService {
 
     constructor(
         private apiRequest: ApiRequestService
     ) {}
 
 
-    getCustomers(distributorId): Observable < any > {
+    getDistributors(): Observable < any > {
         let me = this;
 
-        let customerListSubject = new Subject < any > ();
+        let distributorListSubject = new Subject < any > ();
 
-        this.apiRequest.getNoParams('api/customers/' + distributorId)
+        this.apiRequest.getNoParams('api/distributors')
         .subscribe(jsonResp => {
             let itemsDisplay = jsonResp.items.map(function(value, i, a) {
                 let newRow = Object.assign({}, value, {
-                    companyName: value.companyName,
-                    full: value.full,
-                    empty: value.empty,
-                    max: value.max,
-                    capacity: value.capacity,
-                    deliveryDate: value.deliveryDate,
-                    count: value.count
+                    userId: value.userId,
+                    email: value.email,
+                    displayName: value.firstName + " " + value.lastName,
+                    distributorName: value.distributorName,
+                    distributorId: value.distributorId,
                 });
                 return newRow;
             });
@@ -35,9 +33,9 @@ export class CustomerService {
             let returnObj = Object.assign({}, jsonResp, {
                 items: itemsDisplay
             })
-            customerListSubject.next(returnObj);
+            distributorListSubject.next(returnObj);
         });
 
-        return customerListSubject;
+        return distributorListSubject;
     }
 }

@@ -75,7 +75,6 @@ public class CustomerServiceImpl implements CustomerService {
 			resultItem.setCount(coolers.size());
 			result.add(resultItem);
 		}		
-		//pagable.getContent()
 		return result;
 	}
 }

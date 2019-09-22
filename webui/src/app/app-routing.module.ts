@@ -9,7 +9,7 @@ import { ForgotPasswordComponent  }   from './pages/forgotpassword/forgotpasswor
 import { ResetPasswordComponent   }   from './pages/resetpassword/resetpassword.component';
 import { LogoutComponent          }   from './pages/logout/logout.component';
 import { CustomersComponent       }   from './pages/customers/customers.component';
-
+import { DistributorsComponent     }   from './pages/distributors/distributors.component';
 
 import { AuthGuard                } from './services/auth.guard.service';
 import { PageNotFoundComponent    }   from './pages/404/page-not-found.component';
@@ -18,7 +18,7 @@ const routes: Routes = [
     {path: '', redirectTo: '/home/customers', pathMatch: 'full', data:[{selectedHeaderItemIndex:0, selectedSubNavItemIndex:-1}] },
     {path: 'home', component: HomeComponent, canActivate: [AuthGuard],
         children: [ // Children paths are appended to the parent path
-            {path: 'distributors',component: CustomersComponent, data: [{selectedHeaderItemIndex: 0, selectedSubNavItemIndex: -1}]},
+            {path: 'distributors',component: DistributorsComponent, data: [{selectedHeaderItemIndex: 0, selectedSubNavItemIndex: -1}]},
             {path: 'customers',component: CustomersComponent, data: [{selectedHeaderItemIndex: 1, selectedSubNavItemIndex: -1}]},
             {path: 'locations',component: CustomersComponent, data: [{selectedHeaderItemIndex: 2, selectedSubNavItemIndex: -1}]},
             {path: 'devices',component: CustomersComponent, data: [{selectedHeaderItemIndex: 3, selectedSubNavItemIndex: -1}]},

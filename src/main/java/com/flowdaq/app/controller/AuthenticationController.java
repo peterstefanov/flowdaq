@@ -23,7 +23,7 @@ import com.flowdaq.app.model.User;
 import com.flowdaq.app.model.request.Login;
 import com.flowdaq.app.model.response.Response;
 import com.flowdaq.app.model.response.Response.ResponseStatusEnum;
-import com.flowdaq.app.model.response.ResponseItem;
+import com.flowdaq.app.model.response.UserItem;
 import com.flowdaq.app.security.jwt.TokenService;
 import com.flowdaq.app.service.distributor.DistributorService;
 import com.flowdaq.app.service.user.UserService;
@@ -44,9 +44,6 @@ public class AuthenticationController {
 
 	@Autowired
 	private TokenService tokenService;
-
-	@Autowired
-	private DistributorService distributorService;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -69,7 +66,7 @@ public class AuthenticationController {
 			// Generate GWT
 			String token = tokenService.expiring(ImmutableMap.of("username", login.getUsername()));
 
-			ResponseItem respItem = new ResponseItem();
+			UserItem respItem = new UserItem();
 
 			respItem.setFirstName(user.getFirstName());
 			respItem.setLastName(user.getLastName());
@@ -77,13 +74,9 @@ public class AuthenticationController {
 			respItem.setEmail(user.getEmailAddress());
 			respItem.setToken(token);
 			respItem.setRole(user.getRole().toString());
+		    respItem.setDistributorName(user.getDistributor().getDistributorName());
+		    respItem.setDistributorId(user.getDistributorId());
 
-			if (Role.ADMIN.toString().equalsIgnoreCase(user.getRole().toString())) {
-				respItem.setDistributorName("");
-			} else {
-				Distributor distributor = distributorService.findById(user.getDistributorId());
-				respItem.setDistributorName(distributor.getDistributorName());
-			}
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
 			resp.setMessage("Login Success");
 			resp.setItem(respItem);

@@ -1,0 +1,90 @@
+<div class="pad-16">
+    <div class="clr-row">
+        <div class="clr-col-lg-2 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
+        <div class="clr-col-lg-8 clr-col-md-10 clr-col-sm-6 clr-col-12">
+            <div class="card f-list-selection">
+                <div class="card-header">
+                    Distributor List
+                </div>
+                <div class="card-block">
+                    <div class="card-media-block wrap">         
+                        <div class="card-media-description">
+                            <span class="card-media-text">You can delete and amend distributor. You will be able to view the rest of the tabs as he could see them.</span>
+                        </div>
+                    </div>             
+                    <div *ngIf="selected.length">
+                        <div style="margin-bottom: 10px;">
+                            <span class="card-media-title">
+                                You can 
+                                <small>
+                                    <a href="javascript:void(0)" (click)="remove()">remove</a>
+                                </small>
+                                selected distributor. 
+                            </span>
+                        </div>
+                        <div *ngFor="let sel of selected" style="display: flow-root;margin-bottom: 10px;">
+                            <div style="float: left;"><strong>{{ sel.distributorName }}</strong></div>
+                            <div class="btn-group btn-outline-primary btn-sm" style="float: right;">
+                                <button class="btn btn-sm" (click)="editDistributor(sel)">Edit</button>
+                                <button class="btn btn-warning btn-sm" (click)="deleteDistributor(sel)">Delete</button>
+                            </div>
+                         </div>
+                    </div>              
+               </div>
+           </div>
+           <div class="clr-col-lg-2 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
+       </div>
+    </div>
+    <div class="clr-row">
+        <ngx-datatable 
+             #myTable 
+             class="material" 
+             [rows]="rows" 
+             [columnMode]="ColumnMode.force" 
+             [headerHeight]="70" 
+             [footerHeight]="50" 
+             rowHeight="auto" 
+             [scrollbarV]="false" 
+             [sorts]="[{prop: 'name', dir: 'desc'}]"
+             (page)="onPage($event)"
+             [limit]="5"
+             [selected]="selected"
+             [selectionType]="SelectionType.single"
+             (activate)="onActivate($event)"
+             (select)="onSelect($event)"
+         >         
+
+            <ngx-datatable-column name="UserId" [flexGrow]="2" [minWidth]="80">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="mobile-hidden">{{row.userId}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            
+            <ngx-datatable-column name="Company Name" prop="distributorName" [flexGrow]="4" [minWidth]="250">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <strong>{{row.distributorName}}</strong>
+                </ng-template>
+            </ngx-datatable-column>
+        
+            <ngx-datatable-column name="Distributor Name" prop="displayName" [flexGrow]="4" [minWidth]="250">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="mobile-hidden">{{row.displayName}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+        
+            <ngx-datatable-column name="Distributor Id" prop="distributorId" [flexGrow]="1" [minWidth]="80">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="mobile-hidden">{{row.distributorId}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            
+            <ngx-datatable-column name="Email" [flexGrow]="4" [minWidth]="250">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="mobile-hidden">{{row.email}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+ 
+        </ngx-datatable>
+    </div>
+    <div *ngIf="isLoading" class="spinner spinner-lg">Loading...</div>
+</div>
