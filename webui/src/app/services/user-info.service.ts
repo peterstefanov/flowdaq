@@ -8,6 +8,7 @@ export interface UserInStorage {
     role: string;
     displayName: string;
     token: string;
+    distributorName: string;
 }
 
 export interface LoginInfoInStorage {
@@ -61,6 +62,15 @@ export class UserInfoService {
             return userObj.displayName
         }
         return "no-user";
+    }
+
+    //Get User's Display name from session storage
+    getDistributorName(): string {
+        let userObj: UserInStorage = this.getUserInfo();
+        if (userObj !== null) {
+            return userObj.distributorName
+        }
+        return "no-distributor";
     }
 
     //Get User's role (user/admin) from session storage

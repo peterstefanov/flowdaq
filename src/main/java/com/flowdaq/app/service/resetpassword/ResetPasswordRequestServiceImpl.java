@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class ResetPasswordRequestServiceImpl implements ResetPasswordRequestService{
 
-    private Integer validForSeconds = 60 * 60 * 24;
+    private Integer validForSeconds = 60 * 60 * 3;
     
     private final JavaMailSender emailSender;
     private final ResetPasswordRequestRepository repository;

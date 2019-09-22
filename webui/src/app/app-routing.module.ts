@@ -18,10 +18,11 @@ const routes: Routes = [
     {path: '', redirectTo: '/home/customers', pathMatch: 'full', data:[{selectedHeaderItemIndex:0, selectedSubNavItemIndex:-1}] },
     {path: 'home', component: HomeComponent, canActivate: [AuthGuard],
         children: [ // Children paths are appended to the parent path
-            {path: 'customers',component: CustomersComponent, data: [{selectedHeaderItemIndex: 0, selectedSubNavItemIndex: -1}]},
-            {path: 'locations',component: CustomersComponent, data: [{selectedHeaderItemIndex: 1, selectedSubNavItemIndex: -1}]},
-            {path: 'devices',component: CustomersComponent, data: [{selectedHeaderItemIndex: 2, selectedSubNavItemIndex: -1}]},
-            {path: 'deliveries',component: CustomersComponent, data: [{selectedHeaderItemIndex: 3, selectedSubNavItemIndex: -1}]},
+            {path: 'distributors',component: CustomersComponent, data: [{selectedHeaderItemIndex: 0, selectedSubNavItemIndex: -1}]},
+            {path: 'customers',component: CustomersComponent, data: [{selectedHeaderItemIndex: 1, selectedSubNavItemIndex: -1}]},
+            {path: 'locations',component: CustomersComponent, data: [{selectedHeaderItemIndex: 2, selectedSubNavItemIndex: -1}]},
+            {path: 'devices',component: CustomersComponent, data: [{selectedHeaderItemIndex: 3, selectedSubNavItemIndex: -1}]},
+            {path: 'deliveries',component: CustomersComponent, data: [{selectedHeaderItemIndex: 4, selectedSubNavItemIndex: -1}]},
         ]
     },
 

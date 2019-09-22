@@ -17,12 +17,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.flowdaq.app.model.Distributor;
+import com.flowdaq.app.model.Role;
 import com.flowdaq.app.model.User;
 import com.flowdaq.app.model.request.Login;
 import com.flowdaq.app.model.response.Response;
 import com.flowdaq.app.model.response.Response.ResponseStatusEnum;
 import com.flowdaq.app.model.response.ResponseItem;
 import com.flowdaq.app.security.jwt.TokenService;
+import com.flowdaq.app.service.distributor.DistributorService;
 import com.flowdaq.app.service.user.UserService;
 import com.google.common.collect.ImmutableMap;
 
@@ -43,6 +46,9 @@ public class AuthenticationController {
 	private TokenService tokenService;
 
 	@Autowired
+	private DistributorService distributorService;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 
 	@RequestMapping(value = "/auth", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -53,8 +59,7 @@ public class AuthenticationController {
 		Response resp = new Response();
 		try {
 
-			// System.err.println("Hashed password: " +
-			// passwordEncoder.encode(login.getPassword()));
+			// System.err.println("Hashed password: " + passwordEncoder.encode(login.getPassword()));
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(login.getUsername(),
 					login.getPassword());
 			Authentication authentication = this.authenticationManager.authenticate(authToken);
@@ -73,6 +78,12 @@ public class AuthenticationController {
 			respItem.setToken(token);
 			respItem.setRole(user.getRole().toString());
 
+			if (Role.ADMIN.toString().equalsIgnoreCase(user.getRole().toString())) {
+				respItem.setDistributorName("");
+			} else {
+				Distributor distributor = distributorService.findById(user.getDistributorId());
+				respItem.setDistributorName(distributor.getDistributorName());
+			}
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
 			resp.setMessage("Login Success");
 			resp.setItem(respItem);

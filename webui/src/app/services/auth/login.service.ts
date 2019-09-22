@@ -24,6 +24,7 @@ export interface ResetInfoReturn{
 export class LoginService {
 
     public landingPage: string = "/home/customers";
+    public landingPageAdmin: string = "/home/distributors";
     constructor(
         private router: Router,
         private userInfoService: UserInfoService,
@@ -85,12 +86,13 @@ export class LoginService {
                     loginInfoReturn = {
                         "success": true,
                         "message": jsonResp.message,
-                        "landingPage": this.landingPage,
+                        "landingPage": jsonResp.item.role === 'admin'? this.landingPageAdmin : this.landingPage,
                         "user": {
                             "userId": jsonResp.item.userId,
                             "email": jsonResp.item.email,
                             "role": jsonResp.item.role,
                             "displayName": jsonResp.item.firstName + " " + jsonResp.item.lastName,
+                            "distributorName": jsonResp.item.distributorName,
                             "token": jsonResp.item.token,
                         }
                     };

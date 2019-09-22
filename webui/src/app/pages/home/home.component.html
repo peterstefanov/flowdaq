@@ -9,13 +9,14 @@
             <a *ngFor="let header of appHeaderItems let idx = index" class="nav-link" [routerLink]="header.href" routerLinkActive="active" ><span class="nav-text">{{ header.label }}</span></a>
         </div>
         <div class="header-actions">
-            <label style="line-height: 60px;"> {{userName}}</label>
+            <label style="line-height: 60px;"> {{userDisplayeName}}</label>
             <clr-dropdown>
             <button class="nav-icon" clrDropdownTrigger aria-label="toggle settings menu">
                 <clr-icon shape="cog"></clr-icon>
                 <clr-icon shape="caret down"></clr-icon>
             </button>
             <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+                <a *ngIf="userRole === 'admin'" (click)="createAdmin()" clrDropdownItem>Create admin</a>
                 <a *ngIf="userRole === 'admin'" (click)="createDistributor()" clrDropdownItem>Create distributor</a>
                 <a *ngIf="userRole === 'user'" href="/" clrDropdownItem>Create customers</a>
                 <a [routerLink]="'/logout'" clrDropdownItem>Log out</a>
@@ -32,32 +33,32 @@
             <form clrForm class="clr-form clr-form-horizontal">
                 <clr-input-container>
                     <label>Username</label>
-                    <input type="text" clrInput name="distributorUserName" [(ngModel)]="create.userName" placeholder="Distributor user name"/>
+                    <input type="text" clrInput name="distributorUserName" [(ngModel)]="createDistributorObject.userName" placeholder="Distributor user name"/>
                 </clr-input-container>
                 <clr-input-container>
                     <label>Email</label>
-                    <input type="text" clrInput name="distributorEmail" [(ngModel)]="create.email" placeholder="Distributor email" />
+                    <input type="text" clrInput name="distributorEmail" [(ngModel)]="createDistributorObject.email" placeholder="Distributor email" />
                 </clr-input-container>
                 <clr-input-container>
                     <label>First Name</label>
-                    <input type="text" clrInput name="distributorFirstName" [(ngModel)]="create.firstName" placeholder="Distributor first name"/>
+                    <input type="text" clrInput name="distributorFirstName" [(ngModel)]="createDistributorObject.firstName" placeholder="Distributor first name"/>
                 </clr-input-container>
                 <clr-input-container>
                     <label>Last Name</label>
-                    <input type="text" clrInput name="distributorLastName" [(ngModel)]="create.lastName" placeholder="Distributor last name" />
+                    <input type="text" clrInput name="distributorLastName" [(ngModel)]="createDistributorObject.lastName" placeholder="Distributor last name" />
                 </clr-input-container>
                 <clr-input-container>
                     <label>Company Name</label>
-                    <input type="text" clrInput name="distributorCompany" [(ngModel)]="create.companyName" placeholder="Company name" />
+                    <input type="text" clrInput name="distributorCompany" [(ngModel)]="createDistributorObject.companyName" placeholder="Company name" />
                 </clr-input-container>
                 <clr-input-container>
                     <label>Role</label>
-                    <input type="text" clrInput name="distributorRole"  [(ngModel)]="create.role" placeholder="Distributor role" />
+                    <input type="text" clrInput name="distributorRole"  [(ngModel)]="createDistributorObject.role" placeholder="Distributor role" />
                 </clr-input-container>
             </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-outline" (click)="cancel()">Cancel</button>
-            <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+            <button type="button" class="btn btn-outline" (click)="cancelDistributor()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="saveDistributor()">Save</button>
         </div>
     </clr-modal>

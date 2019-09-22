@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, HostListener } from '@angular/core';
-import { ColumnMode, SelectionType } from '@swimlane/ngx-datatable';
-import { Router, NavigationEnd} from '@angular/router';
-import { CustomerService } from '../../services/api/customer.service';
+import { ColumnMode, SelectionType   } from '@swimlane/ngx-datatable';
+import { Router, NavigationEnd       } from '@angular/router';
+import { CustomerService             } from '../../services/api/customer.service';
+import { UserInfoService             } from '../../services/user-info.service';
 
 @Component({
 	selector: 'f-customers-pg',
@@ -22,17 +23,19 @@ export class CustomersComponent implements OnDestroy {
     timeout: any;
     isToggled: boolean = false;
     selected = [];;
+    public distributorName: string = "";
     
     ColumnMode = ColumnMode;
     SelectionType = SelectionType;
 
-    constructor(private router: Router, private customerService: CustomerService) {
+    constructor(private router: Router, private customerService: CustomerService, private userInfoService: UserInfoService) {
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
             if (e instanceof NavigationEnd) {
                 this.getPageData();
             }
         });
+        this.distributorName = this.userInfoService.getDistributorName();
     }
 
     getPageData() {

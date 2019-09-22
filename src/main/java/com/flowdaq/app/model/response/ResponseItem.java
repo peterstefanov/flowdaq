@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = true)
 public class ResponseItem extends Response{
 
     private String  token;
@@ -13,4 +13,5 @@ public class ResponseItem extends Response{
     private String  lastName;
     private String  email;
     private String role;
+    private String distributorName;
 }

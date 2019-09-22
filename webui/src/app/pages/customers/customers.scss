@@ -16,7 +16,13 @@
          display: initial;
      }
  }
-      
+  
+.f-list-selection {
+    border: none;
+    background-color: inherit;
+    margin-bottom: 1rem;
+    box-shadow: none;
+}    
 f-customers-pg{
 .pad-16 {
   ngx-datatable {
@@ -33,6 +39,7 @@ f-customers-pg{
     }    
   }
 }
+
 
 
 .pad-16 .ngx-datatable.material .datatable-header .datatable-header-cell {background-color: #FAFAFB;}

@@ -49,7 +49,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 		Role role = principal.getRole();
 		
-		if (Role.ADMIN.equals(role) || Role.admin.equals(role)) {			
+		if (Role.ADMIN.toString().equalsIgnoreCase(role.toString())) {			
 			return processResult(customerRepository.findAll());
 		} else {
 			Customer customer = new Customer();
