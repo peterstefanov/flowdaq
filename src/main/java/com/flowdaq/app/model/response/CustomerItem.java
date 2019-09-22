@@ -9,6 +9,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper=false)
 public class CustomerItem {
 	
+	private Long customerId;
 	private String companyName;
 	private int full;
 	private int empty;

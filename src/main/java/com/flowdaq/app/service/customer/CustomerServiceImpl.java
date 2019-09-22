@@ -65,6 +65,7 @@ public class CustomerServiceImpl implements CustomerService {
 			
 			List<Cooler> coolers = item.getCoolers();
 			CustomerItem resultItem = new CustomerItem();
+			resultItem.setCustomerId(item.getId());
 			resultItem.setCompanyName(item.getCompanyName());
 			resultItem.setFull((int) coolers.stream().mapToLong(i -> i.getCurrentFull()).sum());
 			resultItem.setEmpty((int) coolers.stream().mapToLong(i -> i.getCurrentEmpty()).sum());

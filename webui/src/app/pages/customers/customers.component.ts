@@ -57,6 +57,23 @@ export class CustomersComponent implements OnDestroy {
         }, 100);
     }
 
+    /**Customer action*/
+    editCustomer(row) {
+       console.log('edit customer');     
+       console.log(row);             
+    }     
+    
+    deleteCustomer(row) {
+       console.log('delete customer');     
+       console.log(row);  
+    }  
+            
+    createDelivery(row) {
+       console.log('create delivery');     
+       console.log(row);  
+    }  
+   /** END Customer action*/
+            
     toggleExpandRow(row) {
         console.log('Toggled Expand Row!', row);
         this.table.rowDetail.toggleExpandRow(row);

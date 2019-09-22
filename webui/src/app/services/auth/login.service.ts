@@ -86,7 +86,7 @@ export class LoginService {
                     loginInfoReturn = {
                         "success": true,
                         "message": jsonResp.message,
-                        "landingPage": jsonResp.item.role === 'admin'? this.landingPageAdmin : this.landingPage,
+                        "landingPage": jsonResp.item.role === 'admin' ? this.landingPageAdmin : this.landingPage,
                         "user": {
                             "userId": jsonResp.item.userId,
                             "email": jsonResp.item.email,
