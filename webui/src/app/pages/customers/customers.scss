@@ -1,0 +1,40 @@
+@import '../../../assets/scss/var';
+
+@media screen and (max-width: 800px) {
+    .desktop-hidden {
+        display: initial;
+     }
+    .mobile-hidden {
+        display: none;
+     }
+  }
+@media screen and (min-width: 800px) {
+     .desktop-hidden {
+         display: none;
+     }
+     .mobile-hidden {
+         display: initial;
+     }
+ }
+      
+f-customers-pg{
+.pad-16 {
+  ngx-datatable {
+    datatable-header {background-color: #FAFAFB;}
+  }
+}
+
+.pad-16 {
+  ngx-datatable {
+    material {
+       datatable-header {
+          datatable-header-cell {background-color: #FAFAFB;}
+       }
+    }    
+  }
+}
+
+
+.pad-16 .ngx-datatable.material .datatable-header .datatable-header-cell {background-color: #FAFAFB;}
+.pad-16 .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {background-color: #FAFAFB;}
+}

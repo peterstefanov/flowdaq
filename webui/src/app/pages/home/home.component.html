@@ -1,0 +1,63 @@
+<clr-main-container class="main-container"> 
+    <!-- Main App Header -->
+    <clr-header>
+        <div class="branding">
+            <div style="width:40px;margin-right:10px;padding-top:15px;"><hf-logo></hf-logo></div>
+            <span class="title">flowdaq</span>
+        </div>
+        <div class="header-nav" [clr-nav-level]="1">
+            <a *ngFor="let header of appHeaderItems let idx = index" class="nav-link" [routerLink]="header.href" routerLinkActive="active" ><span class="nav-text">{{ header.label }}</span></a>
+        </div>
+        <div class="header-actions">
+            <label style="line-height: 60px;"> {{userName}}</label>
+            <clr-dropdown>
+            <button class="nav-icon" clrDropdownTrigger aria-label="toggle settings menu">
+                <clr-icon shape="cog"></clr-icon>
+                <clr-icon shape="caret down"></clr-icon>
+            </button>
+            <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+                <a *ngIf="userRole === 'admin'" (click)="createDistributor()" clrDropdownItem>Create distributor</a>
+                <a *ngIf="userRole === 'user'" href="/" clrDropdownItem>Create customers</a>
+                <a [routerLink]="'/logout'" clrDropdownItem>Log out</a>
+            </clr-dropdown-menu>
+            </clr-dropdown>
+        </div>
+    </clr-header>
+    <router-outlet></router-outlet>
+</clr-main-container>
+
+    <clr-modal [(clrModalOpen)]="distributorCreateModal" [clrModalClosable]="false">
+        <h3 class="modal-title" >Add new distributor</h3>
+        <div class="modal-body">
+            <form clrForm class="clr-form clr-form-horizontal">
+                <clr-input-container>
+                    <label>Username</label>
+                    <input type="text" clrInput name="distributorUserName" [(ngModel)]="create.userName" placeholder="Distributor user name"/>
+                </clr-input-container>
+                <clr-input-container>
+                    <label>Email</label>
+                    <input type="text" clrInput name="distributorEmail" [(ngModel)]="create.email" placeholder="Distributor email" />
+                </clr-input-container>
+                <clr-input-container>
+                    <label>First Name</label>
+                    <input type="text" clrInput name="distributorFirstName" [(ngModel)]="create.firstName" placeholder="Distributor first name"/>
+                </clr-input-container>
+                <clr-input-container>
+                    <label>Last Name</label>
+                    <input type="text" clrInput name="distributorLastName" [(ngModel)]="create.lastName" placeholder="Distributor last name" />
+                </clr-input-container>
+                <clr-input-container>
+                    <label>Company Name</label>
+                    <input type="text" clrInput name="distributorCompany" [(ngModel)]="create.companyName" placeholder="Company name" />
+                </clr-input-container>
+                <clr-input-container>
+                    <label>Role</label>
+                    <input type="text" clrInput name="distributorRole"  [(ngModel)]="create.role" placeholder="Distributor role" />
+                </clr-input-container>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline" (click)="cancel()">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+        </div>
+    </clr-modal>

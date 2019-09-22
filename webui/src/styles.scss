@@ -1,0 +1,32 @@
+/* You can add global styles to this file, and also import other style files */
+@import './assets/scss/var';
+@import './assets/scss/base';
+
+html {
+    /* make sure we use up the whole viewport */
+    width: 100%;
+    min-height: 100vh;
+}
+body {
+    width: 100%;
+    background-color: $s-bg-gray;
+    //min-height: 100vh; /* this helps with the sticky footer */
+}
+
+
+.header, .header.header-1, header, header.header-1 {
+    background-color: #262f48;
+}
+
+.tile{
+    display:flex;
+    padding:16px;
+    margin:16px;
+    border-radius:2px;
+    &.column { flex-direction: column;}
+    &.center { align-items: center;}
+    &.white {
+        background-color: $s-bg-white;
+        border:1px solid #ccc;
+    }
+}
