@@ -3,11 +3,11 @@ flowdaq
 
 ### Build Frontend 
 Building the frontend will compile the code and place it under the ```webui/dist```. Every time the frontend is modified must be build as well. 
-Building the backend app (using maven) it will pickup the code from ```webui/dist``` and place it under '''public''' sub folder.
+Building the backend app (using maven) it will pickup the code from ```webui/dist``` and place it under ```public``` sub folder.
 ```bash
 # Navigate to PROJECT_FOLDER/webui 
 npm install
-# build the project (this will put the files under dist folder)
+# build the project 
 ng build --prod --aot=true
 ```
 
