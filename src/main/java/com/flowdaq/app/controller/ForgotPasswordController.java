@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flowdaq.app.model.ResetPasswordRequest;
@@ -46,8 +46,7 @@ public class ForgotPasswordController {
 
 	private static Pattern emailPattern = Pattern.compile(EMAIL_REGEX);
 
-	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
+	@PostMapping(value = "/forgotpassword", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Response forgotPassword(@RequestBody ForgotPassword forgotPassword, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
@@ -92,7 +91,7 @@ public class ForgotPasswordController {
 		return resp;
 	}
 
-	@RequestMapping(value = "/resetpassword/{code}", method = RequestMethod.GET)
+	@GetMapping(value = "/resetpassword/{code}")
 	public Response validateRequestPasswordCode(@PathVariable("code") String code, HttpServletRequest request,
 			HttpServletResponse response) {
 		Response resp = new Response();
@@ -131,7 +130,7 @@ public class ForgotPasswordController {
 		return resp;
 	}
 
-	@RequestMapping(value = "/resetpassword/validate", method = RequestMethod.POST)
+	@PostMapping(value = "/resetpassword/validate", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Response validatePassword(@RequestBody PasswordResetRequest passwordResetRequest, HttpServletRequest request,
 			HttpServletResponse response) {
 		Response resp = new Response();
@@ -189,9 +188,7 @@ public class ForgotPasswordController {
 	}
 	
 	public void validateEmailAddress(String email) throws AddressException {
-
 		InternetAddress emailAddr = new InternetAddress(email);
 		emailAddr.validate();
-
 	}
 }

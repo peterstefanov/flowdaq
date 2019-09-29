@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flowdaq.app.model.Cooler;
@@ -31,7 +31,7 @@ public class CustomersController {
 		this.customerService = customerService;
 	}
 
-	@RequestMapping(value = "/customers/{distributorId}", method = RequestMethod.GET)
+	@GetMapping(value = "/customers/{distributorId}")
 	public CustomerResponse getCustomersByPage(@PathVariable Long distributorId) {
 
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

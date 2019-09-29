@@ -11,21 +11,17 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.flowdaq.app.model.Distributor;
-import com.flowdaq.app.model.Role;
 import com.flowdaq.app.model.User;
 import com.flowdaq.app.model.request.Login;
 import com.flowdaq.app.model.response.Response;
 import com.flowdaq.app.model.response.Response.ResponseStatusEnum;
 import com.flowdaq.app.model.response.UserItem;
 import com.flowdaq.app.security.jwt.TokenService;
-import com.flowdaq.app.service.distributor.DistributorService;
 import com.flowdaq.app.service.user.UserService;
 import com.google.common.collect.ImmutableMap;
 
@@ -48,8 +44,7 @@ public class AuthenticationController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@RequestMapping(value = "/auth", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
+	@PostMapping(value = "/auth", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Response login(@RequestBody Login login, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 

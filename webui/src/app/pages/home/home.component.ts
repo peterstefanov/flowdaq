@@ -5,8 +5,10 @@ import { LogoComponent  } from '../../components/logo/logo.component';
 import { HeaderLogoComponent  } from '../../components/headerlogo/headerlogo.component';
 import { LoginService   } from '../../services/auth/login.service';
 import { UserInfoService} from '../../services/user-info.service';
+import { AdminService} from '../../services/api/usermanagement/admin.service';
 
 import { Distributor} from '../../models/distributor';
+import { Admin} from '../../models/admin';
 
 import { Subscription, Observable, Observer, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
 import { map, filter, scan, catchError, switchMap } from 'rxjs/operators';
@@ -20,6 +22,8 @@ import { map, filter, scan, catchError, switchMap } from 'rxjs/operators';
 
 export class HomeComponent {
 
+    public adminErrorMsg: string = '';
+    
     public showAppAlert: boolean = false;
     public appHeaderItems = [];
 
@@ -29,6 +33,7 @@ export class HomeComponent {
     public distributorName: string = "";
     
     createDistributorObject: Distributor = {userName: '', email: '', firstName: '', lastName: '', companyName: '', role: 'distributor' } as Distributor;
+    createAdminObject: Admin = {userName: '', email: '', firstName: '', lastName: '', role: 'admin' } as Admin;
     distributorCreateModal = false;
     adminCreateModal = false;
     
@@ -36,7 +41,8 @@ export class HomeComponent {
         private router: Router,
         private activeRoute: ActivatedRoute,
         private loginService: LoginService,
-        private userInfoService: UserInfoService
+        private userInfoService: UserInfoService,
+        private adminService: AdminService
     ) {
 
         this.router.events.pipe(
@@ -102,20 +108,28 @@ export class HomeComponent {
     
     /* Admin dialog */
     createAdmin(
-        //admin: Admin = {userName: '', email: '', firstName: '', lastName: '', companyName: '', role: 'user'}
+        admin: Admin = {userName: '', email: '', firstName: '', lastName: '', role: 'admin'}
     ): void {
-        //this.createAdmin = distributor;
+        this.createAdminObject = admin;
         this.adminCreateModal = true;
     }
 
     public saveAdmin(): void {
-        console.log('Save dialog admin');
-        //console.log(this.createAdmin);
-        this.cancelAdmin();
+        this.adminService.createAdmin(this.createAdminObject)
+             .subscribe(resp => {
+                    if (resp.success === false) {
+                        this.adminErrorMsg = resp.message;
+                        return;
+                    } else if (resp.success === true) {
+                        this.cancelAdmin();
+                        return;
+                    }              
+                }
+            );
+        
     }
 
     public cancelAdmin(): void {
-        console.log('Cancel dialog distributor');
         this.adminCreateModal = false;
     }
     /* END Admin dialog */
