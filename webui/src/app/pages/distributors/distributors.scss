@@ -15,8 +15,15 @@
      .mobile-hidden {
          display: initial;
      }
- }
-  
+ } 
+ @media screen and (max-width: 1024px) {
+    .info, .ngx-datatable {
+        text-align: left;
+        width: 98%;
+        margin: 0 auto;
+    }
+ } 
+
 .f-list-selection {
     border: none;
     background-color: inherit;

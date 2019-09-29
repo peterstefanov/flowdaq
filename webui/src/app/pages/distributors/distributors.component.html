@@ -54,31 +54,31 @@
              (select)="onSelect($event)"
          >         
 
-            <ngx-datatable-column name="UserId" [flexGrow]="2" [minWidth]="80">
+            <ngx-datatable-column name="UserId" [flexGrow]="1" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="mobile-hidden">{{row.userId}}</span>
                 </ng-template>
             </ngx-datatable-column>
             
-            <ngx-datatable-column name="Company Name" prop="distributorName" [flexGrow]="4" [minWidth]="250">
+            <ngx-datatable-column name="Company Name" prop="distributorName" [flexGrow]="3" [minWidth]="200" [maxWidth]="500">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <strong>{{row.distributorName}}</strong>
                 </ng-template>
             </ngx-datatable-column>
         
-            <ngx-datatable-column name="Distributor Name" prop="displayName" [flexGrow]="4" [minWidth]="250">
+            <ngx-datatable-column name="Distributor Name" prop="displayName" [flexGrow]="3" [minWidth]="230" [maxWidth]="500">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="mobile-hidden">{{row.displayName}}</span>
                 </ng-template>
             </ngx-datatable-column>
         
-            <ngx-datatable-column name="Distributor Id" prop="distributorId" [flexGrow]="1" [minWidth]="80">
+            <ngx-datatable-column name="Distributor Id" prop="distributorId" [flexGrow]="1" [minWidth]="100" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="mobile-hidden">{{row.distributorId}}</span>
                 </ng-template>
             </ngx-datatable-column>
             
-            <ngx-datatable-column name="Email" [flexGrow]="4" [minWidth]="250">
+            <ngx-datatable-column name="Email" [flexGrow]="4" [minWidth]="250" [maxWidth]="540">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="mobile-hidden">{{row.email}}</span>
                 </ng-template>
