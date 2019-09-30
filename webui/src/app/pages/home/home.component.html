@@ -24,85 +24,100 @@
             </clr-dropdown>
         </div>
     </clr-header>
+    <div class="alert-padding">
+        <div *ngIf="adminSuccessMsg" class="alert alert-success" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">{{adminSuccessMsg}}</span>
+                </div>
+            </div>
+            <button type="button" class="close" (click)="closeAdminSuccess()" aria-label="Close">
+                <clr-icon aria-hidden="true" shape="close"></clr-icon>
+            </button>
+        </div>
+    </div>
     <router-outlet></router-outlet>
 </clr-main-container>
-
-    <clr-modal [(clrModalOpen)]="adminCreateModal" [clrModalClosable]="false">
-        <h3 class="modal-title" >Add new admin user</h3>
-        <div class="modal-body">
-            <form clrForm class="clr-form clr-form-horizontal">
-                <clr-input-container>
-                    <label>Username</label>
-                    <input type="text" clrInput name="adminUserName" [(ngModel)]="createAdminObject.userName" placeholder="Admin user name"/>
-                </clr-input-container>
-                <clr-input-container>
-                    <label>Email</label>
-                    <input type="text" clrInput name="adminEmail" [(ngModel)]="createAdminObject.email" placeholder="Admin email" />
-                </clr-input-container>
-                <clr-input-container>
-                    <label>First Name</label>
-                    <input type="text" clrInput name="adminirstName" [(ngModel)]="createAdminObject.firstName" placeholder="Admin first name"/>
-                </clr-input-container>
-                <clr-input-container>
-                    <label>Last Name</label>
-                    <input type="text" clrInput name="adminLastName" [(ngModel)]="createAdminObject.lastName" placeholder="Admin last name" />
-                </clr-input-container>
-                <clr-input-container>
-                    <label>Role</label>
-                    <input type="text" clrInput name="adminRole"  [(ngModel)]="createAdminObject.role" placeholder="Admin role" readonly/>
-                </clr-input-container>
-            </form>
-            <div *ngIf="adminErrorMsg" class="alert alert-danger" role="alert">
-                <div class="alert-items">
-                    <div class="alert-item static">
-                        <div class="alert-icon-wrapper">
-                            <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
-                        </div>
-                        <span class="alert-text">
-                            {{adminErrorMsg}}
-                        </span>
+    
+<clr-modal [(clrModalOpen)]="adminCreateModal" [clrModalClosable]="false">
+    <h3 class="modal-title" >Add new admin user</h3>
+    <div class="modal-body">
+        <form clrForm class="clr-form clr-form-horizontal">
+            <clr-input-container>
+                <label>Username</label>
+                <input type="text" clrInput name="adminUserName" [(ngModel)]="createAdminObject.userName" placeholder="Admin user name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Email</label>
+                <input type="text" clrInput name="adminEmail" [(ngModel)]="createAdminObject.email" placeholder="Admin email" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>First Name</label>
+                <input type="text" clrInput name="adminirstName" [(ngModel)]="createAdminObject.firstName" placeholder="Admin first name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Last Name</label>
+                <input type="text" clrInput name="adminLastName" [(ngModel)]="createAdminObject.lastName" placeholder="Admin last name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Role</label>
+                <input type="text" clrInput name="adminRole"  [(ngModel)]="createAdminObject.role" placeholder="Admin role" readonly/>
+            </clr-input-container>
+        </form>
+        <div *ngIf="adminErrorMsg" class="alert alert-danger" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
                     </div>
+                    <span class="alert-text">
+                        {{adminErrorMsg}}
+                    </span>
                 </div>
             </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-outline" (click)="cancelAdmin()">Cancel</button>
-            <button type="button" class="btn btn-primary" (click)="saveAdmin()">Save</button>
-        </div>
-    </clr-modal>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="cancelAdmin()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveAdmin()">Save</button>
+    </div>
+</clr-modal>
     
-    <clr-modal [(clrModalOpen)]="distributorCreateModal" [clrModalClosable]="false">
-        <h3 class="modal-title" >Add new distributor</h3>
-        <div class="modal-body">
-            <form clrForm class="clr-form clr-form-horizontal">
-                <clr-input-container>
-                    <label>Username</label>
-                    <input type="text" clrInput name="distributorUserName" [(ngModel)]="createDistributorObject.userName" placeholder="Distributor user name"/>
-                </clr-input-container>
-                <clr-input-container>
-                    <label>Email</label>
-                    <input type="text" clrInput name="distributorEmail" [(ngModel)]="createDistributorObject.email" placeholder="Distributor email" />
-                </clr-input-container>
-                <clr-input-container>
-                    <label>First Name</label>
-                    <input type="text" clrInput name="distributorFirstName" [(ngModel)]="createDistributorObject.firstName" placeholder="Distributor first name"/>
-                </clr-input-container>
-                <clr-input-container>
-                    <label>Last Name</label>
-                    <input type="text" clrInput name="distributorLastName" [(ngModel)]="createDistributorObject.lastName" placeholder="Distributor last name" />
-                </clr-input-container>
-                <clr-input-container>
-                    <label>Company Name</label>
-                    <input type="text" clrInput name="distributorCompany" [(ngModel)]="createDistributorObject.companyName" placeholder="Company name" />
-                </clr-input-container>
-                <clr-input-container>
-                    <label>Role</label>
-                    <input type="text" clrInput name="distributorRole"  [(ngModel)]="createDistributorObject.role" placeholder="Distributor role" />
-                </clr-input-container>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-outline" (click)="cancelDistributor()">Cancel</button>
-            <button type="button" class="btn btn-primary" (click)="saveDistributor()">Save</button>
-        </div>
-    </clr-modal>
+<clr-modal [(clrModalOpen)]="distributorCreateModal" [clrModalClosable]="false">
+    <h3 class="modal-title" >Add new distributor</h3>
+    <div class="modal-body">
+        <form clrForm class="clr-form clr-form-horizontal">
+            <clr-input-container>
+                <label>Username</label>
+                <input type="text" clrInput name="distributorUserName" [(ngModel)]="createDistributorObject.userName" placeholder="Distributor user name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Email</label>
+                <input type="text" clrInput name="distributorEmail" [(ngModel)]="createDistributorObject.email" placeholder="Distributor email" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>First Name</label>
+                <input type="text" clrInput name="distributorFirstName" [(ngModel)]="createDistributorObject.firstName" placeholder="Distributor first name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Last Name</label>
+                <input type="text" clrInput name="distributorLastName" [(ngModel)]="createDistributorObject.lastName" placeholder="Distributor last name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Company Name</label>
+                <input type="text" clrInput name="distributorCompany" [(ngModel)]="createDistributorObject.companyName" placeholder="Company name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Role</label>
+                <input type="text" clrInput name="distributorRole"  [(ngModel)]="createDistributorObject.role" placeholder="Distributor role" />
+            </clr-input-container>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="cancelDistributor()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveDistributor()">Save</button>
+    </div>
+</clr-modal>

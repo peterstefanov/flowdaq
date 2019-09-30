@@ -23,8 +23,8 @@ import { map, filter, scan, catchError, switchMap } from 'rxjs/operators';
 export class HomeComponent {
 
     public adminErrorMsg: string = '';
-    
-    public showAppAlert: boolean = false;
+    public adminSuccessMsg: string = '';
+
     public appHeaderItems = [];
 
     public selectedHeaderItemIndex: number = 0;
@@ -82,10 +82,6 @@ export class HomeComponent {
         console.log(val);
     }
 
-    closeAppAlert() {
-        this.showAppAlert = false;
-    }
-
     /* Distributor dialog */
     createDistributor(
         distributor: Distributor = {userName: '', email: '', firstName: '', lastName: '', companyName: '', role: 'distributor'}
@@ -101,7 +97,6 @@ export class HomeComponent {
     }
 
     public cancelDistributor(): void {
-        console.log('Cancel dialog distributor');
         this.distributorCreateModal = false;
     }
     /* END Distributor dialog */
@@ -122,6 +117,7 @@ export class HomeComponent {
                         return;
                     } else if (resp.success === true) {
                         this.cancelAdmin();
+                        this.adminSuccessMsg = resp.message;
                         return;
                     }              
                 }
@@ -131,6 +127,10 @@ export class HomeComponent {
 
     public cancelAdmin(): void {
         this.adminCreateModal = false;
+    }
+    
+    public closeAdminSuccess(): void {
+        this.adminSuccessMsg = '';
     }
     /* END Admin dialog */
 }

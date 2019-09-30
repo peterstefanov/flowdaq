@@ -32,13 +32,13 @@
     box-shadow: none;
 }    
 f-customers-pg{
-.pad-16 {
+.padding-20 {
   ngx-datatable {
     datatable-header {background-color: #FAFAFB;}
   }
 }
 
-.pad-16 {
+.padding-20 {
   ngx-datatable {
     material {
        datatable-header {
@@ -50,6 +50,6 @@ f-customers-pg{
 
 
 
-.pad-16 .ngx-datatable.material .datatable-header .datatable-header-cell {background-color: #FAFAFB;}
-.pad-16 .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {background-color: #FAFAFB;}
+.padding-20 .ngx-datatable.material .datatable-header .datatable-header-cell {background-color: #FAFAFB;}
+.padding-20 .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {background-color: #FAFAFB;}
 }

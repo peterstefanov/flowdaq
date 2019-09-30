@@ -6,17 +6,15 @@ import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,7 +69,7 @@ public class UserManagementController {
 				user.setFirstName(admin.getFirstName());
 				user.setLastName(admin.getLastName());
 				user.setEmailAddress(admin.getEmail());
-				user.setPassword("dummy");
+				user.setPassword(RandomStringUtils.randomAlphabetic(10));
 				user.setRole(Role.admin);
 				
 				userService.save(user);
@@ -96,7 +94,7 @@ public class UserManagementController {
 			}
 
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
-			resp.setMessage("Reset Password link sent to " + admin.getEmail());
+			resp.setMessage("Admin created and reset password link sent to " + admin.getEmail());
 		}
 		
 		return resp;
