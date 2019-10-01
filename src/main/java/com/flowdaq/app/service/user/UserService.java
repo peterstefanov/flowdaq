@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-import com.flowdaq.app.model.Role;
 import com.flowdaq.app.model.User;
 import com.flowdaq.app.model.response.UserItem;
 
@@ -23,5 +22,5 @@ public interface UserService extends UserDetailsService {
 	
 	public boolean isPasswordTheSame(User user, String password);
 	
-	public List<UserItem> findAllByUserType(Role role);
+	public List<UserItem> findAllDistributors();
 }

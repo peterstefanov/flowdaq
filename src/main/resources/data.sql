@@ -12,28 +12,37 @@ CREATE TABLE IF NOT EXISTS `users` (
   INDEX (`user_name` ),
   PRIMARY KEY (`user_name`),
   UNIQUE KEY `email_address_UNIQUE` (`email_address`),
-  UNIQUE KEY `password_UNIQUE` (`password`),
   KEY `fk_user_orgid_idx` (`distributor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `distributors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `distributor_name` varchar(45) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `customers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `org_name` varchar(60) NOT NULL,
   `distributor_id` int(11) NOT NULL COMMENT 'Customer Organizations belong to Distributor',
-  `bill_to_address_id` int(11) DEFAULT NULL,
-  `ship_to_address_id` int(11) DEFAULT NULL,
   `contact` varchar(60) DEFAULT NULL,
   `alt_contact` varchar(60) DEFAULT NULL,
   `email_address` varchar(255) DEFAULT NULL,
   `phone_number` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_org_bill_idx` (`bill_to_address_id`,`ship_to_address_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `address` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `address_line1` varchar(45) DEFAULT NULL,
+  `address_line2` varchar(45) DEFAULT NULL,
+  `address_line3` varchar(45) DEFAULT NULL,
+  `address_city` varchar(45) DEFAULT NULL,
+  `address_state` varchar(45) DEFAULT NULL,
+  `address_country` varchar(45) DEFAULT NULL,
+  `address_postal_code` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `coolers` (

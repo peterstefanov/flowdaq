@@ -1,7 +1,6 @@
 package com.flowdaq.app.service.user;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -12,11 +11,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.flowdaq.app.model.Cooler;
-import com.flowdaq.app.model.Customer;
+import com.flowdaq.app.model.Address;
 import com.flowdaq.app.model.Role;
 import com.flowdaq.app.model.User;
-import com.flowdaq.app.model.response.CustomerItem;
+import com.flowdaq.app.model.response.AddressItem;
 import com.flowdaq.app.model.response.UserItem;
 import com.flowdaq.app.repository.UserRepository;
 
@@ -86,8 +84,8 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserItem> findAllByUserType(Role role) {		
-		return processResult(userRepository.findAllByRole(role));
+	public List<UserItem> findAllDistributors() {		
+		return processResult(userRepository.findAllByRole(Role.distributor));
 	} 
 	
 	private List<UserItem> processResult(List<User> list) {
@@ -102,6 +100,20 @@ public class UserServiceImpl implements UserService {
 			resultItem.setEmail(item.getEmailAddress());
 			resultItem.setDistributorName(item.getDistributor().getDistributorName());
 			resultItem.setDistributorId(item.getDistributorId());
+
+			Address address = item.getDistributor().getBillingAddress();
+			if (address != null) {
+				AddressItem addressItem = AddressItem.builder()
+						.id(address.getId())
+						.addressLine1(address.getAddressLine1())
+						.addressLine2(address.getAddressLine2())
+						.addressLine3(address.getAddressLine3())
+						.city(address.getCity())
+						.state(address.getState())
+						.postalCode(address.getPostalCode())
+						.build();
+				resultItem.setAddress(addressItem);
+			}
 			result.add(resultItem);
 		}		
 		return result;

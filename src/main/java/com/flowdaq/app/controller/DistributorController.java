@@ -38,7 +38,7 @@ public class DistributorController {
 			log.error(messsage);
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		} else {
-			List<UserItem> result = userService.findAllByUserType(Role.distributor);
+			List<UserItem> result = userService.findAllDistributors();
 			resp.setItems(result);
 		}
 

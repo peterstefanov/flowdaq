@@ -42,12 +42,6 @@ public class Customer implements Serializable {
 	@Column(name = "org_name")
 	private String companyName;
 
-	@Column(name = "bill_to_address_id")
-	private Long billingId;
-
-	@Column(name = "ship_to_address_id")
-	private Long shippingId;
-
 	@Column(name = "contact")
 	private String contactName;
 

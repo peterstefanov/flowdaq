@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.flowdaq.app.model.Address;
 import com.flowdaq.app.model.Cooler;
 import com.flowdaq.app.model.Customer;
 import com.flowdaq.app.model.User;
@@ -32,7 +33,7 @@ public class CustomersController {
 	}
 
 	@GetMapping(value = "/customers/{distributorId}")
-	public CustomerResponse getCustomersByPage(@PathVariable Long distributorId) {
+	public CustomerResponse getCustomers(@PathVariable Long distributorId) {
 
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
@@ -59,6 +60,9 @@ public class CustomersController {
 			resultItem.setCapacity(resultItem.getMax() - resultItem.getFull());
 			resultItem.setDeliveryDate(new Date(System.currentTimeMillis()));
 			resultItem.setCount(coolers.size());
+			
+/*			 List<Address> bill = item.getBillingAdresses();
+			 List<Address> shippingAddresses = item.getShippingAdresses();*/
 			result.add(resultItem);
 		}		
 		return result;
