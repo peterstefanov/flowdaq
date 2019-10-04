@@ -103,7 +103,7 @@ public class ForgotPasswordController {
 			if (resetPasswordRequest != null) {
 				Optional<User> user = userService.findByUsername(resetPasswordRequest.getUsername());
 				if (!user.isPresent()) {
-					log.info(" no user found ");
+					log.info("No user found");
 					String responseMessage = "No user found";
 					resp.setOperationStatus(ResponseStatusEnum.ERROR);
 					resp.setMessage(responseMessage);
@@ -165,9 +165,9 @@ public class ForgotPasswordController {
 				} else {
 					user.get().setPassword(passwordResetRequest.getPassword());
 					userService.save(user.get());
-					log.info("Password is valid");
+					log.info("Password is valid and was reset");
 
-				    requestService.delete(passwordResetRequest.getRequestCode());
+				    requestService.delete(passwordResetRequest.getRequestCode(), user.get());
 					respItem.setUserId(user.get().getUsername());
 
 					resp.setOperationStatus(ResponseStatusEnum.SUCCESS);

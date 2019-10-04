@@ -6,7 +6,7 @@ import com.flowdaq.app.model.User;
 
 public interface ResetPasswordRequestService {
 
-    public void delete(String requestCode);
+    public void delete(String requestCode, User user);
 
     public ResetPasswordRequest getResetPasswordRequest(String requestCode);
 
