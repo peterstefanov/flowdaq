@@ -14,4 +14,4 @@ ng build --prod --aot=true
 ### Build Backend 
 ```bash
 # Maven Build : Execute from under the root folder, where pom.xml is present 
-mvn clean install 
+mvn clean install -U
