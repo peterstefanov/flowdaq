@@ -107,7 +107,7 @@
         
             <ngx-datatable-column name="Last Delivery" [flexGrow]="3" [minWidth]="200" [maxWidth]="450">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <span class="mobile-hidden">{{row.deliveryDate}}</span>
+                    <span class="mobile-hidden">{{row.deliveryDate | date}}</span>
                 </ng-template>
             </ngx-datatable-column>
         

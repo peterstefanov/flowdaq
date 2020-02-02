@@ -1,4 +1,5 @@
 export interface Distributor {
+  id: number;
   userName: string;
   email: string;
   firstName: string;

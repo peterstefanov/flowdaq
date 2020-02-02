@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, TemplateRef, ViewChild, HostListener } from '@angular/core';
-import { ColumnMode, SelectionType   } from '@swimlane/ngx-datatable';
-import { Router, NavigationEnd       } from '@angular/router';
-import { DistributorService             } from '../../services/api/distributor.service';
-import { UserInfoService             } from '../../services/user-info.service';
+import { ColumnMode, SelectionType                                          } from '@swimlane/ngx-datatable';
+import { Router, NavigationEnd                                              } from '@angular/router';
+import { DistributorService                                                 } from '../../services/api/distributor.service';
+import { UserInfoService                                                    } from '../../services/user-info.service';
+import { Distributor                                                        } from '../../models/distributor';
 
 @Component({
 	selector: 'f-distributors-pg',
@@ -28,6 +29,9 @@ export class DistributorsComponent implements OnDestroy {
     ColumnMode = ColumnMode;
     SelectionType = SelectionType;
 
+    createDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', role: 'distributor' } as Distributor;
+    distributorCreateModal = false;
+    
     constructor(private router: Router, private distributorService: DistributorService, private userInfoService: UserInfoService) {
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
@@ -59,7 +63,9 @@ export class DistributorsComponent implements OnDestroy {
     /**Distributor action*/
     editDistributor(row) {
        console.log('edit Distributor');     
-       console.log(row);             
+       console.log(row); 
+       this.createDistributorObject = {id: row.distributorId, userName: row.userId, email: row.email, firstName: row.firstName, lastName: row.lastName, companyName: row.displayName, role: 'distributor'} ;
+       this.distributorCreateModal = true;           
     }     
     
     deleteDistributor(row) {
@@ -68,7 +74,20 @@ export class DistributorsComponent implements OnDestroy {
     }  
   
    /** END Distributor action*/
-            
+       
+   /* Distributor dialog */
+    public saveDistributor(): void {
+        console.log('Save dialog distributor');
+        console.log(this.createDistributorObject);
+        //call service to update the Object
+        this.cancelDistributor();
+    }
+
+    public cancelDistributor(): void {
+        this.distributorCreateModal = false;
+    }
+    /* END Distributor dialog */
+    
     toggleExpandRow(row) {
         console.log('Toggled Expand Row!', row);
         this.table.rowDetail.toggleExpandRow(row);
@@ -76,11 +95,9 @@ export class DistributorsComponent implements OnDestroy {
 
     onDetailToggle(event) {
         this.isToggled = true;
-        console.log('Detail Toggled', event);
     }
 
-    onSelect({ selected }) {
-        console.log('Select Event', selected, this.selected);      
+    onSelect({ selected }) {     
         this.selected.splice(0, this.selected.length);
         this.selected.push(...selected);
         this.userInfoService.setDistributorId(this.selected[0].distributorId, this.selected[0].distributorName);
@@ -91,7 +108,9 @@ export class DistributorsComponent implements OnDestroy {
     }
     
     onActivate(event) {
-       console.log('Activate Event', event);
+       if(event.type === 'click') {        
+           this.table.rowDetail.toggleExpandRow(event.row);
+       }    
     }
     
     ngOnDestroy() {

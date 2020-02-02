@@ -5,12 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -35,6 +32,9 @@ public class Address implements Serializable {
 	@Column(name = "id")
 	private Long id;
 	
+	@Column(name = "distributor_id")
+	private Long distributorId;
+	
 	@Column(name = "address_line1")
 	private String addressLine1;
 	
@@ -52,8 +52,4 @@ public class Address implements Serializable {
 	
 	@Column(name = "address_postal_code")
 	private String postalCode;	 
-	
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "distributor_id", nullable = false)
-    private Distributor distributor;
 }

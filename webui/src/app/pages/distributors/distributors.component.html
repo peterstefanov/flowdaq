@@ -38,7 +38,7 @@
     <div class="clr-row">
         <ngx-datatable 
              #myTable 
-             class="material" 
+             class="material expandable" 
              [rows]="rows" 
              [columnMode]="ColumnMode.force" 
              [headerHeight]="70" 
@@ -52,7 +52,16 @@
              [selectionType]="SelectionType.single"
              (activate)="onActivate($event)"
              (select)="onSelect($event)"
-         >         
+         >        
+            <!-- Row Detail Template -->
+            <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                    <div style="padding-left:55px;">
+                        <div><strong>Address</strong></div>
+                        <div>{{ row.address.addressLine1 }}, {{ row.address.addressLine2 }}, {{ row.address.addressLine3 }}, {{ row.address.city }}, {{ row.address.state }}, {{ row.address.postalCode }}</div>
+                   </div>
+               </ng-template>
+            </ngx-datatable-row-detail> 
 
             <ngx-datatable-column name="UserId" [flexGrow]="1" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
@@ -88,3 +97,43 @@
     </div>
     <div *ngIf="isLoading" class="spinner spinner-lg">Loading...</div>
 </div>
+
+<clr-modal [(clrModalOpen)]="distributorCreateModal" [clrModalClosable]="false">
+    <h3 class="modal-title" >Edit distributor</h3>
+    <div class="modal-body">
+        <form clrForm class="clr-form clr-form-horizontal">
+            <clr-input-container>
+                <label>Username</label>
+                <input type="text" clrInput name="distributorUserName" [(ngModel)]="createDistributorObject.userName" placeholder="Distributor user name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Email</label>
+                <input type="text" clrInput name="distributorEmail" [(ngModel)]="createDistributorObject.email" placeholder="Distributor email" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>First Name</label>
+                <input type="text" clrInput name="distributorFirstName" [(ngModel)]="createDistributorObject.firstName" placeholder="Distributor first name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Last Name</label>
+                <input type="text" clrInput name="distributorLastName" [(ngModel)]="createDistributorObject.lastName" placeholder="Distributor last name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Company Name</label>
+                <input type="text" clrInput name="distributorCompany" [(ngModel)]="createDistributorObject.companyName" placeholder="Company name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Role</label>
+                <input type="text" clrInput name="distributorRole"  [(ngModel)]="createDistributorObject.role" readonly placeholder="Distributor role" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Id</label>
+                <input type="text" clrInput name="id"  [(ngModel)]="createDistributorObject.id" readonly placeholder="Distributor id" />
+            </clr-input-container>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="cancelDistributor()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveDistributor()">Save</button>
+    </div>
+</clr-modal>

@@ -1,12 +1,14 @@
 package com.flowdaq.app.model;
 
-import javax.persistence.CascadeType;
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,7 +27,9 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class Distributor {
+public class Distributor implements Serializable{
+
+	private static final long serialVersionUID = -2036999622796996407L;
 
 	@Id
 	@GeneratedValue
@@ -35,6 +39,10 @@ public class Distributor {
 	@Column(name = "distributor_name")
     private String distributorName;
 	
-    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "distributor")
+	@Column(name = "address_id")
+    private String addressId;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "address_id", insertable = false, updatable = false)
     private Address billingAddress;   
 }
