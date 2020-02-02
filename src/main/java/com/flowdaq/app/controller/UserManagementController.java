@@ -12,6 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
@@ -49,6 +50,17 @@ public class UserManagementController {
 	@PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Response createAdmin(@Valid @RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Response resp = new Response();
+		
+		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (!principal.getRole().toString().equalsIgnoreCase(Role.ADMIN.toString())) {
+			String messsage = "User is not authorized to perform this action";
+			log.error(messsage);
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			resp.setOperationStatus(ResponseStatusEnum.ERROR);
+			resp.setMessage(messsage);
+			return resp;
+		} 
 		
 		Optional<User> foundUser = userService.findByUsername(admin.getUserName());
 		

@@ -9,15 +9,10 @@ import static org.apache.commons.lang3.StringUtils.substringBeforeLast;
 import java.util.Date;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.SpringApplication;
-import org.springframework.orm.hibernate5.SpringSessionContext;
 import org.springframework.stereotype.Service;
 
-import com.flowdaq.app.security.authentication.TokenAuthenticationService;
 import com.flowdaq.app.service.date.DateService;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableMap;
@@ -27,7 +22,6 @@ import io.jsonwebtoken.Clock;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.compression.GzipCompressionCodec;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
