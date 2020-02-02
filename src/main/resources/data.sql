@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 CREATE TABLE IF NOT EXISTS `distributors` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `distributor_name` varchar(45) NOT NULL,
-  `address_id` int(11) NOT NULL,
+  `address_id` int(11) NOT NULL, 
   PRIMARY KEY (`id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
