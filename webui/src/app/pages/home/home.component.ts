@@ -5,7 +5,7 @@ import { LogoComponent  } from '../../components/logo/logo.component';
 import { HeaderLogoComponent  } from '../../components/headerlogo/headerlogo.component';
 import { LoginService   } from '../../services/auth/login.service';
 import { UserInfoService} from '../../services/user-info.service';
-import { AdminService} from '../../services/api/usermanagement/admin.service';
+import { AdminManagementService} from '../../services/api/usermanagement/adminmanagement.service';
 
 import { Distributor} from '../../models/distributor';
 import { Admin} from '../../models/admin';
@@ -32,7 +32,7 @@ export class HomeComponent {
     public userRole: string = "";
     public distributorName: string = "";
     
-    createDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', role: 'distributor' } as Distributor;
+    createDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', postalCode: '', role: 'distributor' } as Distributor;
     createAdminObject: Admin = {userName: '', email: '', firstName: '', lastName: '', role: 'admin' } as Admin;
     distributorCreateModal = false;
     adminCreateModal = false;
@@ -42,7 +42,7 @@ export class HomeComponent {
         private activeRoute: ActivatedRoute,
         private loginService: LoginService,
         private userInfoService: UserInfoService,
-        private adminService: AdminService
+        private adminService: AdminManagementService
     ) {
 
         this.router.events.pipe(
@@ -84,7 +84,7 @@ export class HomeComponent {
 
     /* Distributor dialog */
     createDistributor(
-        distributor: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', role: 'distributor'}
+        distributor: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', postalCode: '', role: 'distributor'}
     ): void {
         this.createDistributorObject = distributor;
         this.distributorCreateModal = true;

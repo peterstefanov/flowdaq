@@ -13,7 +13,7 @@ export interface CreateAdminResponse{
 }
 
 @Injectable()
-export class AdminService {
+export class AdminManagementService {
 
     constructor(
         private router: Router,
