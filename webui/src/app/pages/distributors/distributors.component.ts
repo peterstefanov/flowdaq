@@ -4,6 +4,7 @@ import { Router, NavigationEnd                                              } fr
 import { DistributorService                                                 } from '../../services/api/distributor.service';
 import { UserInfoService                                                    } from '../../services/user-info.service';
 import { Distributor                                                        } from '../../models/distributor';
+import { DistributorManagementService                                       } from '../../services/api/usermanagement/distributormanagement.service';
 
 @Component({
 	selector: 'f-distributors-pg',
@@ -29,10 +30,18 @@ export class DistributorsComponent implements OnDestroy {
     ColumnMode = ColumnMode;
     SelectionType = SelectionType;
 
-    editDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
-    distributorCreateModal = false;
+    public distributorErrorMsg: string = '';
+    public distributorSuccessMsg: string = '';
     
-    constructor(private router: Router, private distributorService: DistributorService, private userInfoService: UserInfoService) {
+    editDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
+    distributorEditModal = false;
+    
+    constructor(
+        private router: Router, 
+        private distributorService: DistributorService, 
+        private userInfoService: UserInfoService,
+        private distributorManagementService: DistributorManagementService
+        ) {
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
             if (e instanceof NavigationEnd) {
@@ -64,8 +73,8 @@ export class DistributorsComponent implements OnDestroy {
     editDistributor(row) {
        console.log('edit Distributor');     
        console.log(row); 
-       this.editDistributorObject = {id: row.distributorId, userName: row.userId, email: row.email, firstName: row.firstName, lastName: row.lastName, companyName: row.displayName, addressLine1: row.address.addressLine1, addressLine2: row.address.addressLine2, addressLine3: row.address.addressLine3, city: row.address.city, state: row.address.state, country: row.address.country, postalCode: row.address.postalCode, role: 'distributor'} ;
-       this.distributorCreateModal = true;           
+       this.editDistributorObject = {id: row.distributorId, userName: row.userId, email: row.email.trim(), firstName: row.firstName, lastName: row.lastName, companyName: row.distributorName, addressId: row.address.id, addressLine1: row.address.addressLine1, addressLine2: row.address.addressLine2, addressLine3: row.address.addressLine3, city: row.address.city, state: row.address.state, country: row.address.country, postalCode: row.address.postalCode, role: 'distributor'} ;
+       this.distributorEditModal = true;           
     }     
     
     deleteDistributor(row) {
@@ -79,12 +88,27 @@ export class DistributorsComponent implements OnDestroy {
     public saveDistributor(): void {
         console.log('Save dialog distributor');
         console.log(this.editDistributorObject);
-        //call service to update the Object
-        this.cancelDistributor();
+        
+        this.distributorManagementService.updateDistributor(this.editDistributorObject)
+             .subscribe(resp => {
+                    if (resp.success === false) {
+                        this.distributorErrorMsg = resp.message;
+                        return;
+                    } else if (resp.success === true) {
+                        this.cancelDistributor();
+                        this.distributorSuccessMsg = resp.message;
+                        return;
+                    }              
+                }
+            );
     }
 
     public cancelDistributor(): void {
-        this.distributorCreateModal = false;
+        this.distributorEditModal = false;
+    }
+    
+    public closeDistributorSuccess(): void {
+        this.distributorSuccessMsg = '';
     }
     /* END Distributor dialog */
     

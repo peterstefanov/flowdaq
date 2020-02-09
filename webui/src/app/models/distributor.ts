@@ -5,6 +5,7 @@ export interface Distributor {
   firstName: string;
   lastName: string;
   companyName: string;
+  addressId: number;
   addressLine1: string;
   addressLine2: string;
   addressLine3: string;

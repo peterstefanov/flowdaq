@@ -52,4 +52,36 @@ export class DistributorManagementService {
 
         return distributorDataSubject;
     }
+    
+    updateDistributor(distributor: Distributor): Observable < any > {
+        let me = this;
+
+        let distributorDataSubject: BehaviorSubject < any > = new BehaviorSubject < any > ([]);
+        let createDistributorResponse: CreateDistributorResponse;
+
+        this.apiRequest.put('api/usermanagement/distributor', distributor)
+        .subscribe(jsonResp => {
+                if (jsonResp !== undefined && jsonResp !== null && jsonResp.operationStatus === "SUCCESS") {
+                    createDistributorResponse = {
+                        "success": true,
+                        "message": jsonResp.message
+                    };
+                } else {
+                    createDistributorResponse = {
+                        "success": false,
+                        "message": jsonResp.message
+                    };
+                }
+                distributorDataSubject.next(createDistributorResponse);
+            },
+            err => {
+                createDistributorResponse = {
+                    "success": false,
+                    "message": err.error.message,
+                };
+                distributorDataSubject.next(createDistributorResponse);
+            });
+
+        return distributorDataSubject;
+    }
 }

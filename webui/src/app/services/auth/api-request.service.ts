@@ -81,23 +81,7 @@ export class ApiRequestService {
     put(url:string, body:Object):Observable<any>{
 
         let me = this;
-        return this.http.put(this.appConfig.baseApiPath + url, JSON.stringify(body), { headers:this.getHeaders()})
-        .pipe(
-            catchError(function(error:any){
-                    console.log("PUT Some error in catch!!");
-                    console.log(error);
-                if (error.status === 401){
-                    if (error.error && error.error.operationStatus === 'TOKEN_EXIPRED') {
-                        me.router.navigate(['/logout']);
-                    } else {
-                        me.router.navigate(['/login']);
-                    } 
-                }
-                if (error.status === 500){
-                    me.router.navigate(['/logout']);
-                }
-                return throwError(error || 'Server error')
-            }));
+        return this.http.put(this.appConfig.baseApiPath + url, JSON.stringify(body), { headers:this.getHeaders()}).pipe((map(response => {console.log('PUT RESPONSE'); console.log(response); return response;})));
     }
 
     delete(url:string):Observable<any>{

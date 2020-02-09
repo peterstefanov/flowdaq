@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 public class DistributorRequest {
 
+    private Long id;
+    
     @Size(min = 4, max = 45, message = "Username must be between 4 and 45 characters")
 	private String userName;
 	
@@ -16,14 +18,16 @@ public class DistributorRequest {
 	@NotBlank(message = "Email cannot be blank")
 	private String email;
 	
-    @Size(min = 4, max = 45, message = "First anme must be between 4 and 45 characters")
+    @Size(max = 45, message = "First name must be atmost 45 characters")
 	private String firstName;
 	
-    @Size(min = 4, max = 45, message = "Last Name must be between 4 and 45 characters")
+    @Size(max = 45, message = "Last Name must be atmost 45 characters")
 	private String lastName;
     
     @NotBlank(message = "Company name cannot be blank")
     private String companyName;
+    
+    private Long addressId;
     
     @NotBlank(message = "Address cannot be blank")
     private String addressLine1;

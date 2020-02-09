@@ -51,7 +51,7 @@ public class AuthenticationController {
 		Response resp = new Response();
 		try {
 
-			// System.err.println("Hashed password: " + passwordEncoder.encode(login.getPassword()));
+			log.info("Hashed password: " + passwordEncoder.encode(login.getPassword()));
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(login.getUsername(),
 					login.getPassword());
 			Authentication authentication = this.authenticationManager.authenticate(authToken);

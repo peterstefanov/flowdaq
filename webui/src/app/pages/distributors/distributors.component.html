@@ -1,4 +1,17 @@
 <div class="padding-20">
+        <div *ngIf="distributorSuccessMsg" class="alert alert-success" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">{{distributorSuccessMsg}}</span>
+                </div>
+            </div>
+            <button type="button" class="close" (click)="closeDistributorSuccess()" aria-label="Close">
+                <clr-icon aria-hidden="true" shape="close"></clr-icon>
+            </button>
+        </div>
     <div class="clr-row">
         <div class="clr-col-lg-2 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
         <div class="clr-col-lg-8 clr-col-md-10 clr-col-sm-6 clr-col-12">
@@ -98,13 +111,13 @@
     <div *ngIf="isLoading" class="spinner spinner-lg">Loading...</div>
 </div>
 
-<clr-modal [(clrModalOpen)]="distributorCreateModal" [clrModalClosable]="false">
+<clr-modal [(clrModalOpen)]="distributorEditModal" [clrModalClosable]="false">
     <h3 class="modal-title" >Edit distributor</h3>
     <div class="modal-body">
         <form clrForm class="clr-form clr-form-horizontal">
             <clr-input-container>
                 <label>Username</label>
-                <input type="text" clrInput name="distributorUserName" [(ngModel)]="editDistributorObject.userName" placeholder="Distributor user name"/>
+                <input type="text" clrInput name="distributorUserName" [(ngModel)]="editDistributorObject.userName" readonly placeholder="Distributor user name"/>
             </clr-input-container>
             <clr-input-container>
                 <label>Email</label>
@@ -155,6 +168,18 @@
                 <input type="text" clrInput name="id"  [(ngModel)]="editDistributorObject.id" readonly placeholder="Distributor id" />
             </clr-input-container>
         </form>
+        <div *ngIf="distributorErrorMsg" class="alert alert-danger" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">
+                        {{distributorErrorMsg}}
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline" (click)="cancelDistributor()">Cancel</button>
