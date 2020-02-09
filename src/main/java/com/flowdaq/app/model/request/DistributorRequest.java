@@ -24,6 +24,8 @@ public class DistributorRequest {
     @Size(max = 45, message = "Last Name must be atmost 45 characters")
 	private String lastName;
     
+	private boolean enabled;
+    
     @NotBlank(message = "Company name cannot be blank")
     private String companyName;
     

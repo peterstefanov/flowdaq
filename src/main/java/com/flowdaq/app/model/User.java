@@ -55,6 +55,9 @@ public class User implements UserDetails {
 	@Column(name = "distributor_id")
 	private Long distributorId;
 
+	@Column(name = "enabled")
+	private boolean enabled;
+	
 	@Transient
 	private String token;
 	
@@ -92,6 +95,6 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return true;
+		return this.enabled;
 	}
 }

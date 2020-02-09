@@ -12,11 +12,12 @@ import lombok.EqualsAndHashCode;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserItem extends Response{
 
-    private String  token;
-    private String  userId;
-    private String  firstName;
-    private String  lastName;
-    private String  email;
+    private String token;
+    private String userId;
+    private String firstName;
+    private String lastName;
+    private boolean enabled;
+    private String email;
     private String role;
     private String distributorName;
     private Long distributorId;

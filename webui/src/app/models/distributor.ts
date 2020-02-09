@@ -4,6 +4,7 @@ export interface Distributor {
   email: string;
   firstName: string;
   lastName: string;
+  enabled: boolean;
   companyName: string;
   addressId: number;
   addressLine1: string;

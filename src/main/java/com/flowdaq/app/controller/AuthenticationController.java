@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,8 +53,7 @@ public class AuthenticationController {
 		try {
 
 			log.info("Hashed password: " + passwordEncoder.encode(login.getPassword()));
-			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(login.getUsername(),
-					login.getPassword());
+			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(login.getUsername(), login.getPassword());
 			Authentication authentication = this.authenticationManager.authenticate(authToken);
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			User user = (User) userService.loadUserByUsername(login.getUsername());
@@ -84,7 +84,16 @@ public class AuthenticationController {
 			log.error(exception.getMessage());
 
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		} catch (InternalAuthenticationServiceException exception) {
+
+			resp.setOperationStatus(ResponseStatusEnum.ERROR);
+			resp.setMessage(exception.getMessage());
+
+			log.error(exception.getMessage());
+
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		}
+		
 		return resp;
 	}
 }

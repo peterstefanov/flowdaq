@@ -95,6 +95,7 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				user.setFirstName(distributorRequest.getFirstName());
 				user.setLastName(StringUtils.trim(distributorRequest.getLastName()));
 				user.setEmailAddress(distributorRequest.getEmail());
+				user.setEnabled(true);
 				user.setPassword(RandomStringUtils.randomAlphabetic(10));
 				user.setRole(Role.distributor);
 				
@@ -153,7 +154,8 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			
 			return resp;
 		} else {
-			try {				
+			try {
+				
 				Address address = new Address();
 				address.setId(distributorRequest.getAddressId());
 				address.setAddressLine1(distributorRequest.getAddressLine1());
@@ -177,6 +179,7 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				user.setDistributorId(distributorRequest.getId());
 				user.setFirstName(distributorRequest.getFirstName());
 				user.setLastName(distributorRequest.getLastName());
+				user.setEnabled(distributorRequest.isEnabled());
 				user.setEmailAddress(StringUtils.trim(distributorRequest.getEmail()));
 				user.setPassword(existingUser.get().getPassword());
 				user.setRole(Role.distributor);
@@ -205,5 +208,5 @@ public class DistributorManagementController extends UserManagementBaseControlle
 		}
 		
 		return resp;
-	}
+	}	
 }

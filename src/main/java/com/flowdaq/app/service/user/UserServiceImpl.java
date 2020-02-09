@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -61,7 +62,13 @@ public class UserServiceImpl implements UserService {
         		
 		if (!userEntity.isPresent()) {
             throw new UsernameNotFoundException(username);
-        }				
+        }		
+		
+		if (userEntity.isPresent() && !userEntity.get().isEnabled()) {
+            throw new DisabledException("User account is disabled");
+        }
+		
+		//check for locked account
         return userEntity.get();
 	}
 
@@ -98,6 +105,7 @@ public class UserServiceImpl implements UserService {
 			resultItem.setLastName(item.getLastName());
 			resultItem.setUserId(item.getUsername());
 			resultItem.setEmail(item.getEmailAddress());
+			resultItem.setEnabled(item.isEnabled());
 			resultItem.setDistributorName(item.getDistributor().getDistributorName());
 			resultItem.setDistributorId(item.getDistributorId());
 

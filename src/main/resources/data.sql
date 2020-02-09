@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_name` varchar(45) DEFAULT NULL,
   `distributor_id` int(11) NOT NULL,
   `user_type` varchar(45) DEFAULT NULL,
+  `enabled` bool,
   INDEX (`user_name` ),
   PRIMARY KEY (`user_name`),
   UNIQUE KEY `email_address_UNIQUE` (`email_address`),

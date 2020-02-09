@@ -22,7 +22,7 @@
                 <div class="card-block">
                     <div class="card-media-block wrap">         
                         <div class="card-media-description">
-                            <span class="card-media-text">You can delete and amend distributor. You will be able to view the rest of the tabs as he could see them.</span>
+                            <span class="card-media-text">You can enable/disable, delete and amend distributor. You will be able to view the rest of the tabs as he could see them.</span>
                         </div>
                     </div>             
                     <div *ngIf="selected.length">
@@ -40,6 +40,8 @@
                             <div class="btn-group btn-outline-primary btn-sm" style="float: right;">
                                 <button class="btn btn-sm" (click)="editDistributor(sel)">Edit</button>
                                 <button class="btn btn-warning btn-sm" (click)="deleteDistributor(sel)">Delete</button>
+                                <button *ngIf="!selected[0].enabled" class="btn btn-warning btn-sm" (click)="enableDistributor(sel)">Enable</button>
+                                <button *ngIf="selected[0].enabled" class="btn btn-warning btn-sm" (click)="disableDistributor(sel)">Disable</button>
                             </div>
                          </div>
                     </div>              
@@ -97,6 +99,12 @@
             <ngx-datatable-column name="Distributor Id" prop="distributorId" [flexGrow]="1" [minWidth]="100" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="mobile-hidden">{{row.distributorId}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            
+            <ngx-datatable-column name="Enabled" prop="enabled" [flexGrow]="1" [minWidth]="100" [maxWidth]="200">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="mobile-hidden">{{row.enabled}}</span>
                 </ng-template>
             </ngx-datatable-column>
             
