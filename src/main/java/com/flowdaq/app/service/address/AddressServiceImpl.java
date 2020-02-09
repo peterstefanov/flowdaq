@@ -19,4 +19,9 @@ public class AddressServiceImpl implements AddressService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public Address saveAddress(Address address) {
+		return addressRepository.save(address);
+	}
 }

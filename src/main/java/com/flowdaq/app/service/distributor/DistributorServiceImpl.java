@@ -18,4 +18,9 @@ public class DistributorServiceImpl implements DistributorService{
 	public Distributor findById(Long distributorId) {		
 		return repository.findById(distributorId).orElse(new Distributor());
 	}
+	
+	@Override
+	public Distributor save(Distributor distributor) {		
+		return repository.save(distributor);
+	}
 }

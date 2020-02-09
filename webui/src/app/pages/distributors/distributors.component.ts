@@ -29,7 +29,7 @@ export class DistributorsComponent implements OnDestroy {
     ColumnMode = ColumnMode;
     SelectionType = SelectionType;
 
-    createDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', postalCode: '', role: 'distributor' } as Distributor;
+    editDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
     distributorCreateModal = false;
     
     constructor(private router: Router, private distributorService: DistributorService, private userInfoService: UserInfoService) {
@@ -64,7 +64,7 @@ export class DistributorsComponent implements OnDestroy {
     editDistributor(row) {
        console.log('edit Distributor');     
        console.log(row); 
-       this.createDistributorObject = {id: row.distributorId, userName: row.userId, email: row.email, firstName: row.firstName, lastName: row.lastName, companyName: row.displayName, addressLine1: row.address.addressLine1, addressLine2: row.address.addressLine2, addressLine3: row.address.addressLine3, city: row.address.city, state: row.address.state, postalCode: row.address.postalCode, role: 'distributor'} ;
+       this.editDistributorObject = {id: row.distributorId, userName: row.userId, email: row.email, firstName: row.firstName, lastName: row.lastName, companyName: row.displayName, addressLine1: row.address.addressLine1, addressLine2: row.address.addressLine2, addressLine3: row.address.addressLine3, city: row.address.city, state: row.address.state, country: row.address.country, postalCode: row.address.postalCode, role: 'distributor'} ;
        this.distributorCreateModal = true;           
     }     
     
@@ -78,7 +78,7 @@ export class DistributorsComponent implements OnDestroy {
    /* Distributor dialog */
     public saveDistributor(): void {
         console.log('Save dialog distributor');
-        console.log(this.createDistributorObject);
+        console.log(this.editDistributorObject);
         //call service to update the Object
         this.cancelDistributor();
     }

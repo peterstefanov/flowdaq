@@ -38,6 +38,19 @@
                 <clr-icon aria-hidden="true" shape="close"></clr-icon>
             </button>
         </div>
+        <div *ngIf="distributorSuccessMsg" class="alert alert-success" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">{{distributorSuccessMsg}}</span>
+                </div>
+            </div>
+            <button type="button" class="close" (click)="closeDistributorSuccess()" aria-label="Close">
+                <clr-icon aria-hidden="true" shape="close"></clr-icon>
+            </button>
+        </div>
     </div>
     <router-outlet></router-outlet>
 </clr-main-container>
@@ -131,14 +144,26 @@
                 <input type="text" clrInput name="state" [(ngModel)]="createDistributorObject.state" placeholder="State name" />
             </clr-input-container>
             <clr-input-container>
+                <label>Country</label>
+                <input type="text" clrInput name="country" [(ngModel)]="createDistributorObject.country" placeholder="Country name" />
+            </clr-input-container>
+            <clr-input-container>
                 <label>Postal Code</label>
                 <input type="text" clrInput name="postalCode" [(ngModel)]="createDistributorObject.postalCode" placeholder="Postal Code" />
             </clr-input-container>
-            <clr-input-container>
-                <label>Role</label>
-                <input type="text" clrInput name="distributorRole"  readonly [(ngModel)]="createDistributorObject.role" placeholder="Distributor role" />
-            </clr-input-container>
         </form>
+        <div *ngIf="distributorErrorMsg" class="alert alert-danger" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">
+                        {{distributorErrorMsg}}
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-outline" (click)="cancelDistributor()">Cancel</button>

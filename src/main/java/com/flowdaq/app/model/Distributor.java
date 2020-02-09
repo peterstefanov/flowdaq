@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
@@ -32,7 +33,7 @@ public class Distributor implements Serializable{
 	private static final long serialVersionUID = -2036999622796996407L;
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
     private Long id;
 	
@@ -40,9 +41,9 @@ public class Distributor implements Serializable{
     private String distributorName;
 	
 	@Column(name = "address_id")
-    private String addressId;
+    private Long addressId;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "address_id", insertable = false, updatable = false)
-    private Address billingAddress;   
+    private Address deliveryAddress;   
 }

@@ -7,27 +7,42 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.flowdaq.app.model.Address;
+import com.flowdaq.app.model.Distributor;
 import com.flowdaq.app.model.Role;
 import com.flowdaq.app.model.User;
 import com.flowdaq.app.model.request.Admin;
+import com.flowdaq.app.model.request.DistributorRequest;
 import com.flowdaq.app.model.response.Response;
 import com.flowdaq.app.model.response.Response.ResponseStatusEnum;
+import com.flowdaq.app.service.address.AddressService;
+import com.flowdaq.app.service.distributor.DistributorService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@Transactional
 @RestController
-public class DistributorManagementController extends UserManagementController{
+public class DistributorManagementController extends UserManagementBaseController{
 
+	@Autowired
+	private DistributorService distributorService;
+	
+	@Autowired
+	private AddressService addressService;
+	
+	
 	@PostMapping(value = "/distributor", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Response createDistributor(@Valid @RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Response createDistributor(@Valid @RequestBody DistributorRequest distributorRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Response resp = new Response();
 		
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -41,9 +56,9 @@ public class DistributorManagementController extends UserManagementController{
 			return resp;
 		} 
 		
-		Optional<User> foundUser = userService.findByUsername(admin.getUserName());
+		Optional<User> existingUser = userService.findByUsername(distributorRequest.getUserName());
 		
-		if (foundUser.isPresent()) {
+		if (existingUser.isPresent()) {
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
 			resp.setMessage("User with this username already exist. Try another one, please.");
 
@@ -53,26 +68,43 @@ public class DistributorManagementController extends UserManagementController{
 			
 			return resp;
 		} else {
-			try {
-				//create distributor first use the id generated for the user table
+			try {				
+				Address address = new Address();
+				address.setAddressLine1(distributorRequest.getAddressLine1());
+				address.setAddressLine2(distributorRequest.getAddressLine2());
+				address.setAddressLine3(distributorRequest.getAddressLine3());
+				address.setCity(distributorRequest.getCity());
+				address.setPostalCode(distributorRequest.getPostalCode());
+				address.setState(distributorRequest.getState());
+				address.setCountry(distributorRequest.getCountry());				
+				addressService.saveAddress(address);
+				
+				Distributor distributor = new Distributor();
+				distributor.setAddressId(address.getId());
+				distributor.setDistributorName(distributorRequest.getCompanyName());
+				distributor.setDeliveryAddress(address);
+                distributorService.save(distributor);
+                
+				Long distributorId = distributor.getId();
+				address.setDistributorId(distributorId);
 				
 				User user = new User();
-				user.setUsername(admin.getUserName());
-				user.setDistributorId(9L);
-				user.setFirstName(admin.getFirstName());
-				user.setLastName(admin.getLastName());
-				user.setEmailAddress(admin.getEmail());
+				user.setUsername(distributorRequest.getUserName());
+				user.setDistributorId(distributorId);
+				user.setFirstName(distributorRequest.getFirstName());
+				user.setLastName(distributorRequest.getLastName());
+				user.setEmailAddress(distributorRequest.getEmail());
 				user.setPassword(RandomStringUtils.randomAlphabetic(10));
-				user.setRole(Role.admin);
+				user.setRole(Role.distributor);
 				
 				userService.save(user);
 				requestService.createResetPasswordRequest(user);
 				
 			} catch(DataIntegrityViolationException dive) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);
-				resp.setMessage("Distributor with this email already exists.");
+				resp.setMessage("User with this email already exists.");
 
-				log.error("Distributor with this email already exists. ", dive);
+				log.error("User with this email already exists. ", dive);
 
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				return resp;
@@ -87,7 +119,7 @@ public class DistributorManagementController extends UserManagementController{
 			}
 
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
-			resp.setMessage("Distributor created and reset password link sent to " + admin.getEmail());
+			resp.setMessage("Distributor created and reset password link sent to " + distributorRequest.getEmail());
 		}
 		
 		return resp;

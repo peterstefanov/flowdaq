@@ -11,5 +11,6 @@ export interface Distributor {
   city: string;
   state: string;
   postalCode: string;  
+  country: string;
   role: 'distributor';
 }

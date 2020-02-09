@@ -50,6 +50,9 @@ public class Address implements Serializable {
 	@Column(name = "address_state")
 	private String state;
 	
+	@Column(name = "address_country")
+	private String country;
+	
 	@Column(name = "address_postal_code")
 	private String postalCode;	 
 }

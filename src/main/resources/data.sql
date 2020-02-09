@@ -36,12 +36,12 @@ CREATE TABLE IF NOT EXISTS `customers` (
 
 CREATE TABLE IF NOT EXISTS `address` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `address_line1` varchar(45) DEFAULT NULL,
+  `address_line1` varchar(45) NOT NULL,
   `address_line2` varchar(45) DEFAULT NULL,
   `address_line3` varchar(45) DEFAULT NULL,
-  `address_city` varchar(45) DEFAULT NULL,
+  `address_city` varchar(45) NOT NULL,
   `address_state` varchar(45) DEFAULT NULL,
-  `address_country` varchar(45) DEFAULT NULL,
+  `address_country` varchar(45) NOT NULL,
   `address_postal_code` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

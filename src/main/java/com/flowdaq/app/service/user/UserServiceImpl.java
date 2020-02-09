@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
 			resultItem.setDistributorName(item.getDistributor().getDistributorName());
 			resultItem.setDistributorId(item.getDistributorId());
 
-			Address address = item.getDistributor().getBillingAddress();
+			Address address = item.getDistributor().getDeliveryAddress();
 			if (address != null) {
 				AddressItem addressItem = AddressItem.builder()
 						.id(address.getId())
@@ -110,6 +110,7 @@ public class UserServiceImpl implements UserService {
 						.addressLine3(address.getAddressLine3())
 						.city(address.getCity())
 						.state(address.getState())
+						.country(address.getCountry())
 						.postalCode(address.getPostalCode())
 						.build();
 				resultItem.setAddress(addressItem);

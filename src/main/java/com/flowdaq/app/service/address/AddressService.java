@@ -7,4 +7,6 @@ import com.flowdaq.app.model.Address;
 public interface AddressService {
 
 	public List<Address> getAddresses();
+	
+	public Address saveAddress(Address address);
 }

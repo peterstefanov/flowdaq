@@ -58,7 +58,7 @@
                 <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
                     <div style="padding-left:55px;">
                         <div><strong>Address</strong></div>
-                        <div>{{ row.address.addressLine1 }}, {{ row.address.addressLine2 }}, {{ row.address.addressLine3 }}, {{ row.address.city }}, {{ row.address.state }}, {{ row.address.postalCode }}</div>
+                        <div>{{ row.address.addressLine1 }}, {{ row.address.addressLine2 }}, {{ row.address.addressLine3 }}, {{ row.address.city }}, {{ row.address.state }}, {{ row.address.country }}, {{ row.address.postalCode }}</div>
                    </div>
                </ng-template>
             </ngx-datatable-row-detail> 
@@ -104,55 +104,55 @@
         <form clrForm class="clr-form clr-form-horizontal">
             <clr-input-container>
                 <label>Username</label>
-                <input type="text" clrInput name="distributorUserName" [(ngModel)]="createDistributorObject.userName" placeholder="Distributor user name"/>
+                <input type="text" clrInput name="distributorUserName" [(ngModel)]="editDistributorObject.userName" placeholder="Distributor user name"/>
             </clr-input-container>
             <clr-input-container>
                 <label>Email</label>
-                <input type="text" clrInput name="distributorEmail" [(ngModel)]="createDistributorObject.email" placeholder="Distributor email" />
+                <input type="text" clrInput name="distributorEmail" [(ngModel)]="editDistributorObject.email" placeholder="Distributor email" />
             </clr-input-container>
             <clr-input-container>
                 <label>First Name</label>
-                <input type="text" clrInput name="distributorFirstName" [(ngModel)]="createDistributorObject.firstName" placeholder="Distributor first name"/>
+                <input type="text" clrInput name="distributorFirstName" [(ngModel)]="editDistributorObject.firstName" placeholder="Distributor first name"/>
             </clr-input-container>
             <clr-input-container>
                 <label>Last Name</label>
-                <input type="text" clrInput name="distributorLastName" [(ngModel)]="createDistributorObject.lastName" placeholder="Distributor last name" />
+                <input type="text" clrInput name="distributorLastName" [(ngModel)]="editDistributorObject.lastName" placeholder="Distributor last name" />
             </clr-input-container>
             <clr-input-container>
                 <label>Company Name</label>
-                <input type="text" clrInput name="distributorCompany" [(ngModel)]="createDistributorObject.companyName" placeholder="Company name" />
+                <input type="text" clrInput name="distributorCompany" [(ngModel)]="editDistributorObject.companyName" placeholder="Company name" />
             </clr-input-container>
              <clr-input-container>
                 <label>Address Line 1</label>
-                <input type="text" clrInput name="addressLine1" [(ngModel)]="createDistributorObject.addressLine1" placeholder="Address Line 1" />
+                <input type="text" clrInput name="addressLine1" [(ngModel)]="editDistributorObject.addressLine1" placeholder="Address Line 1" />
             </clr-input-container>
             <clr-input-container>
                 <label>Address Line 2</label>
-                <input type="text" clrInput name="addressLine2" [(ngModel)]="createDistributorObject.addressLine2" placeholder="Address Line 2" />
+                <input type="text" clrInput name="addressLine2" [(ngModel)]="editDistributorObject.addressLine2" placeholder="Address Line 2" />
             </clr-input-container>
             <clr-input-container>
                 <label>Address Line 3</label>
-                <input type="text" clrInput name="addressLine3" [(ngModel)]="createDistributorObject.addressLine1" placeholder="Address Line 3" />
+                <input type="text" clrInput name="addressLine3" [(ngModel)]="editDistributorObject.addressLine1" placeholder="Address Line 3" />
             </clr-input-container>
             <clr-input-container>
                 <label>City</label>
-                <input type="text" clrInput name="city" [(ngModel)]="createDistributorObject.city" placeholder="City name" />
+                <input type="text" clrInput name="city" [(ngModel)]="editDistributorObject.city" placeholder="City name" />
             </clr-input-container>
             <clr-input-container>
                 <label>State</label>
-                <input type="text" clrInput name="state" [(ngModel)]="createDistributorObject.state" placeholder="State name" />
+                <input type="text" clrInput name="state" [(ngModel)]="editDistributorObject.state" placeholder="State name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Country</label>
+                <input type="text" clrInput name="country" [(ngModel)]="editDistributorObject.country" placeholder="Country name" />
             </clr-input-container>
             <clr-input-container>
                 <label>Postal Code</label>
-                <input type="text" clrInput name="postalCode" [(ngModel)]="createDistributorObject.postalCode" placeholder="Postal Code" />
-            </clr-input-container>
-            <clr-input-container>
-                <label>Role</label>
-                <input type="text" clrInput name="distributorRole"  [(ngModel)]="createDistributorObject.role" readonly placeholder="Distributor role" />
+                <input type="text" clrInput name="postalCode" [(ngModel)]="editDistributorObject.postalCode" placeholder="Postal Code" />
             </clr-input-container>
             <clr-input-container>
                 <label>Id</label>
-                <input type="text" clrInput name="id"  [(ngModel)]="createDistributorObject.id" readonly placeholder="Distributor id" />
+                <input type="text" clrInput name="id"  [(ngModel)]="editDistributorObject.id" readonly placeholder="Distributor id" />
             </clr-input-container>
         </form>
     </div>

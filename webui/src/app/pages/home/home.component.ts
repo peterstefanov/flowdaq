@@ -1,17 +1,18 @@
 import { Component, ViewEncapsulation, ViewChild, OnInit } from '@angular/core';
-import { Router,ActivatedRoute, NavigationEnd } from '@angular/router';
+import { Router,ActivatedRoute, NavigationEnd            } from '@angular/router';
 
-import { LogoComponent  } from '../../components/logo/logo.component';
-import { HeaderLogoComponent  } from '../../components/headerlogo/headerlogo.component';
-import { LoginService   } from '../../services/auth/login.service';
-import { UserInfoService} from '../../services/user-info.service';
-import { AdminManagementService} from '../../services/api/usermanagement/adminmanagement.service';
+import { LogoComponent                                   } from '../../components/logo/logo.component';
+import { HeaderLogoComponent                             } from '../../components/headerlogo/headerlogo.component';
+import { LoginService                                    } from '../../services/auth/login.service';
+import { UserInfoService                                 } from '../../services/user-info.service';
+import { AdminManagementService                          } from '../../services/api/usermanagement/adminmanagement.service';
+import { DistributorManagementService                    } from '../../services/api/usermanagement/distributormanagement.service';
 
-import { Distributor} from '../../models/distributor';
-import { Admin} from '../../models/admin';
+import { Distributor                                     } from '../../models/distributor';
+import { Admin                                           } from '../../models/admin';
 
 import { Subscription, Observable, Observer, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
-import { map, filter, scan, catchError, switchMap } from 'rxjs/operators';
+import { map, filter, scan, catchError, switchMap        } from 'rxjs/operators';
 
 @Component({
   selector   : 'home-comp',
@@ -25,6 +26,9 @@ export class HomeComponent {
     public adminErrorMsg: string = '';
     public adminSuccessMsg: string = '';
 
+    public distributorErrorMsg: string = '';
+    public distributorSuccessMsg: string = '';
+    
     public appHeaderItems = [];
 
     public selectedHeaderItemIndex: number = 0;
@@ -32,7 +36,7 @@ export class HomeComponent {
     public userRole: string = "";
     public distributorName: string = "";
     
-    createDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', postalCode: '', role: 'distributor' } as Distributor;
+    createDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
     createAdminObject: Admin = {userName: '', email: '', firstName: '', lastName: '', role: 'admin' } as Admin;
     distributorCreateModal = false;
     adminCreateModal = false;
@@ -42,7 +46,8 @@ export class HomeComponent {
         private activeRoute: ActivatedRoute,
         private loginService: LoginService,
         private userInfoService: UserInfoService,
-        private adminService: AdminManagementService
+        private adminService: AdminManagementService,
+        private distributorService: DistributorManagementService
     ) {
 
         this.router.events.pipe(
@@ -84,20 +89,33 @@ export class HomeComponent {
 
     /* Distributor dialog */
     createDistributor(
-        distributor: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', postalCode: '', role: 'distributor'}
+        distributor: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', companyName: '', addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor'}
     ): void {
         this.createDistributorObject = distributor;
         this.distributorCreateModal = true;
     }
 
-    public saveDistributor(): void {
-        console.log('Save dialog distributor');
-        console.log(this.createDistributorObject);
-        this.cancelDistributor();
+    public saveDistributor(): void {      
+        this.distributorService.createDistributor(this.createDistributorObject)
+             .subscribe(resp => {
+                    if (resp.success === false) {
+                        this.distributorErrorMsg = resp.message;
+                        return;
+                    } else if (resp.success === true) {
+                        this.cancelDistributor();
+                        this.distributorSuccessMsg = resp.message;
+                        return;
+                    }              
+                }
+            );
     }
 
     public cancelDistributor(): void {
         this.distributorCreateModal = false;
+    }
+    
+    public closeDistributorSuccess(): void {
+        this.distributorSuccessMsg = '';
     }
     /* END Distributor dialog */
     

@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @SuppressWarnings("deprecation")
 @Slf4j
 @RestController
-public class AdminManagementController extends UserManagementController{
+public class AdminManagementController extends UserManagementBaseController{
 
 	@PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Response createAdmin(@Valid @RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -23,7 +23,7 @@ import com.flowdaq.app.service.user.UserService;
 @RestController
 @Validated
 @RequestMapping(value = "/api/usermanagement", produces = MediaType.APPLICATION_JSON_VALUE)
-public class UserManagementController {
+public class UserManagementBaseController {
 
 	@Autowired
 	protected UserService userService;
