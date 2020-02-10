@@ -68,14 +68,19 @@ export class HomeComponent {
             this.appHeaderItems = [
                 {label: 'Distributors', href: '/home/distributors', subNav: []},
                 {label: 'Customers', href: '/home/customers', subNav: []},
-                {label: 'Locations', href: '/home/locations', subNav: []},
+                {label: 'Facilities', href: '/home/locations', subNav: []},
                 {label: 'Devices', href: '/home/devices', subNav: []},
+                {label: 'Deliveries', href: '/home/deliveries', subNav: []}
+            ];
+        } else if (this.userRole === 'distributor') {
+            this.appHeaderItems = [  
+                {label: 'Customers', href: '/home/customers', subNav: []},
                 {label: 'Deliveries', href: '/home/deliveries', subNav: []}
             ];
         } else {
              this.appHeaderItems = [
                 {label: 'Customers', href: '/home/customers', subNav: []},
-                {label: 'Locations', href: '/home/locations', subNav: []},
+                {label: 'Facilities', href: '/home/locations', subNav: []},
                 {label: 'Devices', href: '/home/devices', subNav: []},
                 {label: 'Deliveries', href: '/home/deliveries', subNav: []}
             ];
