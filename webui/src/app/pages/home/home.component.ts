@@ -68,7 +68,7 @@ export class HomeComponent {
             this.appHeaderItems = [
                 {label: 'Distributors', href: '/home/distributors', subNav: []},
                 {label: 'Customers', href: '/home/customers', subNav: []},
-                {label: 'Facilities', href: '/home/locations', subNav: []},
+                {label: 'Facilities', href: '/home/facilities', subNav: []},
                 {label: 'Devices', href: '/home/devices', subNav: []},
                 {label: 'Deliveries', href: '/home/deliveries', subNav: []}
             ];
@@ -77,7 +77,12 @@ export class HomeComponent {
                 {label: 'Customers', href: '/home/customers', subNav: []},
                 {label: 'Deliveries', href: '/home/deliveries', subNav: []}
             ];
-        } else {
+        } else if (this.userRole === 'customer') {
+            this.appHeaderItems = [  
+                {label: 'Facilities', href: '/home/facilities', subNav: []},
+                {label: 'Deliveries', href: '/home/deliveries', subNav: []}
+            ];
+        }else {
              this.appHeaderItems = [
                 {label: 'Customers', href: '/home/customers', subNav: []},
                 {label: 'Facilities', href: '/home/locations', subNav: []},

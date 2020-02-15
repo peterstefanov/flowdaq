@@ -20,7 +20,7 @@ const routes: Routes = [
         children: [ // Children paths are appended to the parent path
             {path: 'distributors',component: DistributorsComponent, data: [{selectedHeaderItemIndex: 0, selectedSubNavItemIndex: -1}]},
             {path: 'customers',component: CustomersComponent, data: [{selectedHeaderItemIndex: 1, selectedSubNavItemIndex: -1}]},
-            {path: 'locations',component: CustomersComponent, data: [{selectedHeaderItemIndex: 2, selectedSubNavItemIndex: -1}]},
+            {path: 'facilities',component: CustomersComponent, data: [{selectedHeaderItemIndex: 2, selectedSubNavItemIndex: -1}]},
             {path: 'devices',component: CustomersComponent, data: [{selectedHeaderItemIndex: 3, selectedSubNavItemIndex: -1}]},
             {path: 'deliveries',component: CustomersComponent, data: [{selectedHeaderItemIndex: 4, selectedSubNavItemIndex: -1}]},
         ]

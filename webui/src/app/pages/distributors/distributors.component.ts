@@ -14,9 +14,7 @@ import { DistributorManagementService                                       } fr
 
 export class DistributorsComponent implements OnDestroy {
 
-   @ViewChild('myTable', {
-        static: false
-    }) table: any;
+    @ViewChild('myTable', {static: false}) table: any;
 
     rows: any[];
     isLoading: boolean = false;
@@ -50,16 +48,13 @@ export class DistributorsComponent implements OnDestroy {
         });
     }
 
-    getPageData() {
-
-        if (!this.isToggled) {
-            let me = this;
-            me.isLoading = true;
-            this.distributorService.getDistributors().subscribe((data) => {
-                me.rows = data.items;
-                me.isLoading = false;
-            });
-        }
+    public getPageData() {
+        let me = this;
+        me.isLoading = true;
+        this.distributorService.getDistributors().subscribe((data) => {
+            me.rows = data.items;
+            me.isLoading = false;
+        });
     }
 
     onPage(event) {
@@ -105,6 +100,9 @@ export class DistributorsComponent implements OnDestroy {
                     } else if (resp.success === true) {
                         this.cancelDistributor();
                         this.distributorSuccessMsg = resp.message;
+                        /**On success unselect the user and reload the table*/
+                        this.remove();
+                        this.getPageData();
                         return;
                     }              
                 }
