@@ -18,9 +18,13 @@ public interface UserService extends UserDetailsService {
 	
 	public Optional<User> findByEmailAddress(String email);
 	
+	public Optional<User> findByDistributorId(Long distributorId);
+	
 	public boolean isValidPassword(User user, String password);
 	
 	public boolean isPasswordTheSame(User user, String password);
 	
 	public List<UserItem> findAllDistributors();
+
+	public void deleteUser(User user);
 }

@@ -80,33 +80,44 @@ export class DistributorsComponent implements OnDestroy {
        this.saveDistributor();          
     } 
     
-    deleteDistributor(row) {
-       console.log('delete Distributor');     
-       console.log(row);  
+    deleteDistributor(row) {       
+       this.distributorManagementService.deleteDistributor(row.distributorId)
+           .subscribe(resp => {
+               if (resp.success === false) {
+                   this.distributorErrorMsg = resp.message;
+                   return;
+               } else if (resp.success === true) {
+                   this.cancelDistributor();
+                   this.distributorSuccessMsg = resp.message;
+                   /**On success unselect the user and reload the table*/
+                   this.remove();
+                   this.getPageData();
+                   return;
+               }              
+           }
+       );
     }  
   
    /** END Distributor action*/
        
    /* Distributor dialog */
     public saveDistributor(): void {
-        console.log('Save dialog distributor');
-        console.log(this.editDistributorObject);
         
         this.distributorManagementService.updateDistributor(this.editDistributorObject)
-             .subscribe(resp => {
-                    if (resp.success === false) {
-                        this.distributorErrorMsg = resp.message;
-                        return;
-                    } else if (resp.success === true) {
-                        this.cancelDistributor();
-                        this.distributorSuccessMsg = resp.message;
-                        /**On success unselect the user and reload the table*/
-                        this.remove();
-                        this.getPageData();
-                        return;
-                    }              
-                }
-            );
+            .subscribe(resp => {
+                if (resp.success === false) {
+                    this.distributorErrorMsg = resp.message;
+                    return;
+                } else if (resp.success === true) {
+                    this.cancelDistributor();
+                    this.distributorSuccessMsg = resp.message;
+                    /**On success unselect the user and reload the table*/
+                    this.remove();
+                    this.getPageData();
+                    return;
+                 }              
+             }
+         );
     }
 
     public cancelDistributor(): void {
@@ -119,7 +130,6 @@ export class DistributorsComponent implements OnDestroy {
     /* END Distributor dialog */
     
     toggleExpandRow(row) {
-        console.log('Toggled Expand Row!', row);
         this.table.rowDetail.toggleExpandRow(row);
     }
 

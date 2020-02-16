@@ -13,6 +13,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -209,4 +211,70 @@ public class DistributorManagementController extends UserManagementBaseControlle
 		
 		return resp;
 	}	
+	
+	@DeleteMapping(value = "/distributor/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Response deleteDistributor(HttpServletResponse response, @PathVariable Long id) throws Exception {
+		Response resp = new Response();
+		
+		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (!principal.getRole().toString().equalsIgnoreCase(Role.ADMIN.toString())) {
+			String messsage = "User is not authorized to perform this action";
+			log.error(messsage);
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			resp.setOperationStatus(ResponseStatusEnum.ERROR);
+			resp.setMessage(messsage);
+			return resp;
+		} 
+		
+		Optional<Distributor>existingDistributor = distributorService.findById(id);
+		
+		if (!existingDistributor.isPresent()) {
+			String messsage = "No distributor with this id";
+			log.info(messsage);
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			resp.setOperationStatus(ResponseStatusEnum.ERROR);
+			resp.setMessage(messsage);
+			return resp;
+		}
+		
+		Optional<User> existingUser = userService.findByDistributorId(id);
+		
+		if (!existingUser.isPresent()) {
+			resp.setOperationStatus(ResponseStatusEnum.ERROR);
+			resp.setMessage("No distributor with this id");
+
+			log.info("No distributor with this id");
+
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			
+			return resp;
+		} else {
+			try {
+				
+				addressService.deleteAddress(existingDistributor.get().getAddressId());
+				
+                distributorService.deleteDistributorById(id);      
+
+                /**TODO delete all customers associated with this distributor*/
+				userService.deleteUser(existingUser.get());
+				
+
+			} catch (Exception e) {
+				resp.setOperationStatus(ResponseStatusEnum.ERROR);
+				resp.setMessage("Distributor cannot be deleted.");
+
+				log.error("Distributor cannot be deleted. ", e);
+
+				response.setStatus(HttpServletResponse.SC_CONFLICT);
+				return resp;
+			}
+
+			//response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
+			resp.setMessage("Distributor was deleted successfully");
+		}
+		
+		return resp;
+	}
 }

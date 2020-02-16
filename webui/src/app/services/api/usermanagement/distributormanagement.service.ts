@@ -7,7 +7,7 @@ import { ApiRequestService                   } from '../../auth/api-request.serv
 import { Distributor                         } from '../../../models/distributor';
 
 
-export interface CreateDistributorResponse{
+export interface DistributorResponse{
     success:boolean;
     message:string;
 }
@@ -25,29 +25,29 @@ export class DistributorManagementService {
         let me = this;
 
         let distributorDataSubject: BehaviorSubject < any > = new BehaviorSubject < any > ([]);
-        let createDistributorResponse: CreateDistributorResponse;
+        let distributorResponse: DistributorResponse;
 
         this.apiRequest.post('api/usermanagement/distributor', distributor)
         .subscribe(jsonResp => {
                 if (jsonResp !== undefined && jsonResp !== null && jsonResp.operationStatus === "SUCCESS") {
-                    createDistributorResponse = {
+                    distributorResponse = {
                         "success": true,
                         "message": jsonResp.message
                     };
                 } else {
-                    createDistributorResponse = {
+                    distributorResponse = {
                         "success": false,
                         "message": jsonResp.message
                     };
                 }
-                distributorDataSubject.next(createDistributorResponse);
+                distributorDataSubject.next(distributorResponse);
             },
             err => {
-                createDistributorResponse = {
+                distributorResponse = {
                     "success": false,
                     "message": err.error.message,
                 };
-                distributorDataSubject.next(createDistributorResponse);
+                distributorDataSubject.next(distributorResponse);
             });
 
         return distributorDataSubject;
@@ -57,29 +57,61 @@ export class DistributorManagementService {
         let me = this;
 
         let distributorDataSubject: BehaviorSubject < any > = new BehaviorSubject < any > ([]);
-        let createDistributorResponse: CreateDistributorResponse;
+        let distributorResponse: DistributorResponse;
 
         this.apiRequest.put('api/usermanagement/distributor', distributor)
         .subscribe(jsonResp => {
                 if (jsonResp !== undefined && jsonResp !== null && jsonResp.operationStatus === "SUCCESS") {
-                    createDistributorResponse = {
+                    distributorResponse = {
                         "success": true,
                         "message": jsonResp.message
                     };
                 } else {
-                    createDistributorResponse = {
+                    distributorResponse = {
                         "success": false,
                         "message": jsonResp.message
                     };
                 }
-                distributorDataSubject.next(createDistributorResponse);
+                distributorDataSubject.next(distributorResponse);
             },
             err => {
-                createDistributorResponse = {
+                distributorResponse = {
                     "success": false,
                     "message": err.error.message,
                 };
-                distributorDataSubject.next(createDistributorResponse);
+                distributorDataSubject.next(distributorResponse);
+            });
+
+        return distributorDataSubject;
+    }
+    
+    deleteDistributor(distributorId): Observable < any > {
+        let me = this;
+
+        let distributorDataSubject: BehaviorSubject < any > = new BehaviorSubject < any > ([]);
+        let distributorResponse: DistributorResponse;
+
+        this.apiRequest.delete('api/usermanagement/distributor/' + distributorId)
+            .subscribe(jsonResp => {
+                if (jsonResp !== undefined && jsonResp !== null && jsonResp.operationStatus === "SUCCESS") {
+                    distributorResponse = {
+                        "success": true,
+                        "message": jsonResp.message
+                    };
+                } else {
+                    distributorResponse = {
+                        "success": false,
+                        "message": jsonResp.message
+                    };
+                }
+                distributorDataSubject.next(distributorResponse);
+            },
+            err => {
+                distributorResponse = {
+                    "success": false,
+                    "message": err.error.message,
+                };
+                distributorDataSubject.next(distributorResponse);
             });
 
         return distributorDataSubject;

@@ -24,4 +24,9 @@ public class AddressServiceImpl implements AddressService{
 	public Address saveAddress(Address address) {
 		return addressRepository.save(address);
 	}
+	
+	@Override
+	public void deleteAddress(Long addressId) {
+		addressRepository.deleteById(addressId);
+	}
 }

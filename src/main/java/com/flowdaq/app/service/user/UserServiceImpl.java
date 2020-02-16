@@ -56,6 +56,17 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+
+	@Override
+	public Optional<User> findByDistributorId(Long distributorId) {
+		return userRepository.findOneByDistributorId(distributorId);
+	}
+	
+	@Override
+	public void deleteUser(User user) {
+	    userRepository.delete(user);
+	}
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Optional<User> userEntity = userRepository.findOneByUsername(username);
