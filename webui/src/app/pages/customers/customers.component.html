@@ -25,9 +25,9 @@
                         <div *ngFor="let sel of selected" style="display: flow-root;margin-bottom: 10px;">
                             <div style="float: left;"><strong>{{ sel.companyName }}</strong></div>
                             <div class="btn-group btn-outline-primary btn-sm" style="float: right;">
-                                <button class="btn btn-sm" (click)="editCustomer(sel)">Edit</button>
-                                <button class="btn btn-warning btn-sm" (click)="deleteCustomer(sel)">Delete</button>
-                                <button class="btn btn-sm" (click)="createDelivery(sel)">Create delivery</button>
+                                <button class="btn btn-sm" (click)="editCustomer(sel)"><clr-icon shape="pencil"></clr-icon> Edit</button>
+                                <button class="btn btn-warning btn-sm" (click)="deleteCustomer(sel)"><clr-icon shape="trash"></clr-icon> Delete</button>
+                                <button class="btn btn-sm" (click)="createDelivery(sel)"><clr-icon shape="plus"></clr-icon> Create delivery</button>                          
                             </div>
                          </div>
                     </div>              

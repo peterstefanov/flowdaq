@@ -37,11 +37,21 @@
                         </div>
                         <div *ngFor="let sel of selected" style="display: flow-root;margin-bottom: 10px;">
                             <div style="float: left;"><strong>{{ sel.distributorName }}</strong></div>
-                            <div class="btn-group btn-outline-primary btn-sm" style="float: right;">
-                                <button class="btn btn-sm" (click)="editDistributor(sel)">Edit</button>
-                                <button class="btn btn-warning btn-sm" (click)="deleteDistributor(sel)">Delete</button>
-                                <button *ngIf="!selected[0].enabled" class="btn btn-warning btn-sm" (click)="enableDistributor(sel)">Enable</button>
-                                <button *ngIf="selected[0].enabled" class="btn btn-warning btn-sm" (click)="disableDistributor(sel)">Disable</button>
+
+							<div class="btn-group btn-outline-primary btn-sm" style="float: right;">
+                                <button class="btn btn-sm" (click)="editDistributor(sel)"><clr-icon shape="pencil"></clr-icon> Edit</button>
+                                <button *ngIf="!selected[0].enabled" class="btn btn-sm" (click)="enableDistributor(sel)"><clr-icon shape="unlock"></clr-icon> Enable</button>
+                                <button *ngIf="selected[0].enabled" class="btn btn-sm" (click)="disableDistributor(sel)"><clr-icon shape="lock"></clr-icon> Disable</button>
+                                <button class="btn btn-warning btn-sm" (click)="deleteDistributor(sel)"><clr-icon shape="trash"></clr-icon> Delete</button>
+                                
+                                <!-- <div class="btn-group-overflow {{overflowToggle}}">
+                                    <button class="btn dropdown-toggle" (click)="onOverflowToggle(overflowToggle)"><clr-icon shape="ellipsis-horizontal"></clr-icon></button>
+                                    <div class="dropdown-menu">
+                                        <button *ngIf="!selected[0].enabled" class="btn btn-success btn-sm" (click)="enableDistributor(sel)"><clr-icon shape="check"></clr-icon> Enable</button>
+                                        <button *ngIf="selected[0].enabled" class="btn btn-warning btn-sm" (click)="disableDistributor(sel)"><clr-icon shape="check"></clr-icon> Disable</button>
+                                        <button class="btn btn-warning btn-sm" (click)="deleteDistributor(sel)"><clr-icon shape="trash"></clr-icon> Delete</button>
+                                    </div> -->
+                                </div>
                             </div>
                          </div>
                     </div>              

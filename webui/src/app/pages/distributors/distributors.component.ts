@@ -6,6 +6,10 @@ import { UserInfoService                                                    } fr
 import { Distributor                                                        } from '../../models/distributor';
 import { DistributorManagementService                                       } from '../../services/api/usermanagement/distributormanagement.service';
 
+import '@clr/icons/shapes/core-shapes';
+import '@clr/icons/shapes/essential-shapes';
+import '@clr/icons/shapes/technology-shapes';
+
 @Component({
 	selector: 'f-distributors-pg',
 	templateUrl: './distributors.component.html',
@@ -24,6 +28,7 @@ export class DistributorsComponent implements OnDestroy {
     isToggled: boolean = false;
     selected = [];
     public distributorName: string = "";
+    public overflowToggle: string = "close";
     
     ColumnMode = ColumnMode;
     SelectionType = SelectionType;
@@ -133,6 +138,16 @@ export class DistributorsComponent implements OnDestroy {
         this.table.rowDetail.toggleExpandRow(row);
     }
 
+    onOverflowToggle(overflowToggle) {
+        console.log(overflowToggle);
+        if (overflowToggle == "open") {
+            this.overflowToggle = "close";
+        } else {
+            this.overflowToggle = "open";
+        }
+        
+    }
+    
     onDetailToggle(event) {
         this.isToggled = true;
     }
