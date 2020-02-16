@@ -20,4 +20,6 @@ public interface CustomerService {
 	public List<Customer> findAllByDistributorId(Long distributorId);
 
 	public List<CustomerItem> findAllByRole(User principal);
+	
+	public void deleteAllByDistributorId(Long distributirId);
 }

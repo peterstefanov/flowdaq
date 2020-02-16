@@ -58,6 +58,12 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 	}
 
+	@Override
+	public void deleteAllByDistributorId(Long distributorId) {
+		List<Customer> customersEntity = customerRepository.findAllByDistributorId(distributorId);
+		customerRepository.deleteInBatch(customersEntity);		
+	}
+	
 	private List<CustomerItem> processResult(List<Customer> list) {
 		
 		List<CustomerItem> result = new ArrayList<>();

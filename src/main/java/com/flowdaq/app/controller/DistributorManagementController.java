@@ -28,6 +28,7 @@ import com.flowdaq.app.model.request.DistributorRequest;
 import com.flowdaq.app.model.response.Response;
 import com.flowdaq.app.model.response.Response.ResponseStatusEnum;
 import com.flowdaq.app.service.address.AddressService;
+import com.flowdaq.app.service.customer.CustomerService;
 import com.flowdaq.app.service.distributor.DistributorService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,9 @@ public class DistributorManagementController extends UserManagementBaseControlle
 
 	@Autowired
 	private AddressService addressService;
+
+	@Autowired
+	private CustomerService customerService;
 
 	@PostMapping(value = "/distributor", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Response createDistributor(@Valid @RequestBody DistributorRequest distributorRequest,
@@ -252,12 +256,10 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			return resp;
 		} else {
 			try {
-
 				addressService.deleteAddress(existingDistributor.get().getAddressId());
-
 				distributorService.deleteDistributorById(id);
-
-				/** TODO delete all customers associated with this distributor */
+				customerService.deleteAllByDistributorId(id);
+				/**TODO Delete coolers/devices associated with each customer?*/
 				userService.deleteUser(existingUser.get());
 
 			} catch (Exception e) {
