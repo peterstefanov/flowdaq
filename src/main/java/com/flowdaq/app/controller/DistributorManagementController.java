@@ -35,19 +35,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Transactional
 @RestController
-public class DistributorManagementController extends UserManagementBaseController{
+public class DistributorManagementController extends UserManagementBaseController {
 
 	@Autowired
 	private DistributorService distributorService;
-	
+
 	@Autowired
 	private AddressService addressService;
-	
-	
+
 	@PostMapping(value = "/distributor", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Response createDistributor(@Valid @RequestBody DistributorRequest distributorRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Response createDistributor(@Valid @RequestBody DistributorRequest distributorRequest,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Response resp = new Response();
-		
+
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		if (!principal.getRole().toString().equalsIgnoreCase(Role.ADMIN.toString())) {
@@ -57,10 +57,10 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
 			resp.setMessage(messsage);
 			return resp;
-		} 
-		
+		}
+
 		Optional<User> existingUser = userService.findByUsername(distributorRequest.getUserName());
-		
+
 		if (existingUser.isPresent()) {
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
 			resp.setMessage("User with this username already exist. Try another one, please.");
@@ -68,10 +68,10 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			log.info("User with this username already exist. Try another one, please.");
 
 			response.setStatus(HttpServletResponse.SC_CONFLICT);
-			
+
 			return resp;
 		} else {
-			try {				
+			try {
 				Address address = new Address();
 				address.setAddressLine1(distributorRequest.getAddressLine1());
 				address.setAddressLine2(distributorRequest.getAddressLine2());
@@ -79,18 +79,18 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				address.setCity(distributorRequest.getCity());
 				address.setPostalCode(distributorRequest.getPostalCode());
 				address.setState(distributorRequest.getState());
-				address.setCountry(distributorRequest.getCountry());				
+				address.setCountry(distributorRequest.getCountry());
 				addressService.saveAddress(address);
-				
+
 				Distributor distributor = new Distributor();
 				distributor.setAddressId(address.getId());
 				distributor.setDistributorName(distributorRequest.getCompanyName());
 				distributor.setDeliveryAddress(address);
-                distributorService.save(distributor);
-                
+				distributorService.save(distributor);
+
 				Long distributorId = distributor.getId();
 				address.setDistributorId(distributorId);
-				
+
 				User user = new User();
 				user.setUsername(distributorRequest.getUserName());
 				user.setDistributorId(distributorId);
@@ -100,11 +100,11 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				user.setEnabled(true);
 				user.setPassword(RandomStringUtils.randomAlphabetic(10));
 				user.setRole(Role.distributor);
-				
+
 				userService.save(user);
 				requestService.createResetPasswordRequest(user);
-				
-			} catch(DataIntegrityViolationException dive) {
+
+			} catch (DataIntegrityViolationException dive) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);
 				resp.setMessage("User with this email already exists.");
 
@@ -125,14 +125,15 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
 			resp.setMessage("Distributor created and reset password link sent to " + distributorRequest.getEmail());
 		}
-		
+
 		return resp;
 	}
-	
+
 	@PutMapping(value = "/distributor", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Response editDistributor(@Valid @RequestBody DistributorRequest distributorRequest, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Response editDistributor(@Valid @RequestBody DistributorRequest distributorRequest,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Response resp = new Response();
-		
+
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		if (!principal.getRole().toString().equalsIgnoreCase(Role.ADMIN.toString())) {
@@ -142,10 +143,10 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
 			resp.setMessage(messsage);
 			return resp;
-		} 
-		
+		}
+
 		Optional<User> existingUser = userService.findByUsername(distributorRequest.getUserName());
-		
+
 		if (!existingUser.isPresent()) {
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
 			resp.setMessage("User with this username does not exist. Try another one, please.");
@@ -153,11 +154,11 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			log.info("User with this username does not exist. Try another one, please.");
 
 			response.setStatus(HttpServletResponse.SC_CONFLICT);
-			
+
 			return resp;
 		} else {
 			try {
-				
+
 				Address address = new Address();
 				address.setId(distributorRequest.getAddressId());
 				address.setAddressLine1(distributorRequest.getAddressLine1());
@@ -166,16 +167,16 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				address.setCity(distributorRequest.getCity());
 				address.setPostalCode(distributorRequest.getPostalCode());
 				address.setState(distributorRequest.getState());
-				address.setCountry(distributorRequest.getCountry());				
+				address.setCountry(distributorRequest.getCountry());
 				addressService.saveAddress(address);
-				
+
 				Distributor distributor = new Distributor();
 				distributor.setId(distributorRequest.getId());
 				distributor.setAddressId(address.getId());
 				distributor.setDistributorName(distributorRequest.getCompanyName());
 				distributor.setDeliveryAddress(address);
-                distributorService.save(distributor);                
-				
+				distributorService.save(distributor);
+
 				User user = new User();
 				user.setUsername(distributorRequest.getUserName());
 				user.setDistributorId(distributorRequest.getId());
@@ -186,8 +187,8 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				user.setPassword(existingUser.get().getPassword());
 				user.setRole(Role.distributor);
 				userService.save(user);
-				
-			} catch(DataIntegrityViolationException dive) {
+
+			} catch (DataIntegrityViolationException dive) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);
 				resp.setMessage("User with this email already exists.");
 
@@ -208,14 +209,14 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
 			resp.setMessage("Distributor was edited successfully");
 		}
-		
+
 		return resp;
-	}	
-	
+	}
+
 	@DeleteMapping(value = "/distributor/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Response deleteDistributor(HttpServletResponse response, @PathVariable Long id) throws Exception {
 		Response resp = new Response();
-		
+
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
 		if (!principal.getRole().toString().equalsIgnoreCase(Role.ADMIN.toString())) {
@@ -225,10 +226,10 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
 			resp.setMessage(messsage);
 			return resp;
-		} 
-		
-		Optional<Distributor>existingDistributor = distributorService.findById(id);
-		
+		}
+
+		Optional<Distributor> existingDistributor = distributorService.findById(id);
+
 		if (!existingDistributor.isPresent()) {
 			String messsage = "No distributor with this id";
 			log.info(messsage);
@@ -237,9 +238,9 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			resp.setMessage(messsage);
 			return resp;
 		}
-		
+
 		Optional<User> existingUser = userService.findByDistributorId(id);
-		
+
 		if (!existingUser.isPresent()) {
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
 			resp.setMessage("No distributor with this id");
@@ -247,18 +248,17 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			log.info("No distributor with this id");
 
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			
+
 			return resp;
 		} else {
 			try {
-				
-				addressService.deleteAddress(existingDistributor.get().getAddressId());
-				
-                distributorService.deleteDistributorById(id);      
 
-                /**TODO delete all customers associated with this distributor*/
+				addressService.deleteAddress(existingDistributor.get().getAddressId());
+
+				distributorService.deleteDistributorById(id);
+
+				/** TODO delete all customers associated with this distributor */
 				userService.deleteUser(existingUser.get());
-				
 
 			} catch (Exception e) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);
@@ -270,11 +270,11 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				return resp;
 			}
 
-			//response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+			// response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
 			resp.setMessage("Distributor was deleted successfully");
 		}
-		
+
 		return resp;
 	}
 }
