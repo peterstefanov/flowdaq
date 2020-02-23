@@ -62,6 +62,7 @@ public class AdminManagementController extends UserManagementBaseController{
 				user.setLastName(admin.getLastName());
 				user.setEmailAddress(admin.getEmail());
 				user.setEnabled(true);
+				user.setPhoneNumber(admin.getPhoneNumber());
 				user.setPassword(RandomStringUtils.randomAlphabetic(10));
 				user.setRole(Role.admin);
 				

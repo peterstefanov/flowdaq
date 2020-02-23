@@ -58,6 +58,9 @@ public class User implements UserDetails {
 	@Column(name = "enabled")
 	private boolean enabled;
 	
+	@Column(name = "phone_number")
+	private String phoneNumber;
+	
 	@Transient
 	private String token;
 	

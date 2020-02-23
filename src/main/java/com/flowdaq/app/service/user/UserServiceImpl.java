@@ -117,6 +117,7 @@ public class UserServiceImpl implements UserService {
 			resultItem.setUserId(item.getUsername());
 			resultItem.setEmail(item.getEmailAddress());
 			resultItem.setEnabled(item.isEnabled());
+			resultItem.setPhoneNumber(item.getPhoneNumber());
 			resultItem.setDistributorName(item.getDistributor().getDistributorName());
 			resultItem.setDistributorId(item.getDistributorId());
 

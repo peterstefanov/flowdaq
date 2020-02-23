@@ -21,4 +21,7 @@ public class Admin {
 	
     @Size(min = 4, max = 45, message = "Last Name must be between 4 and 45 characters")
 	private String lastName;
+    
+    @Size(max = 45, message = "Phone number must be atmost 45 characters")
+    private String phoneNumber;
 }

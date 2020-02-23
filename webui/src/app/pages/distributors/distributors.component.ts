@@ -36,7 +36,7 @@ export class DistributorsComponent implements OnDestroy {
     public distributorErrorMsg: string = '';
     public distributorSuccessMsg: string = '';
     
-    editDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
+    editDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
     distributorEditModal = false;
     
     constructor(
@@ -71,17 +71,17 @@ export class DistributorsComponent implements OnDestroy {
 
     /**Distributor action*/
     editDistributor(row) {
-       this.editDistributorObject = {id: row.distributorId, userName: row.userId, email: row.email.trim(), firstName: row.firstName, lastName: row.lastName, enabled: row.enabled, companyName: row.distributorName, addressId: row.address.id, addressLine1: row.address.addressLine1, addressLine2: row.address.addressLine2, addressLine3: row.address.addressLine3, city: row.address.city, state: row.address.state, country: row.address.country, postalCode: row.address.postalCode, role: 'distributor'} ;
+       this.editDistributorObject = {id: row.distributorId, userName: row.userId, email: row.email.trim(), firstName: row.firstName, lastName: row.lastName, enabled: row.enabled, phoneNumber: row.phoneNumber, companyName: row.distributorName, addressId: row.address.id, addressLine1: row.address.addressLine1, addressLine2: row.address.addressLine2, addressLine3: row.address.addressLine3, city: row.address.city, state: row.address.state, country: row.address.country, postalCode: row.address.postalCode, role: 'distributor'} ;
        this.distributorEditModal = true;           
     }     
     
     enableDistributor(row) {
-       this.editDistributorObject = {id: row.distributorId, userName: row.userId, email: row.email.trim(), firstName: row.firstName, lastName: row.lastName, enabled: true, companyName: row.distributorName, addressId: row.address.id, addressLine1: row.address.addressLine1, addressLine2: row.address.addressLine2, addressLine3: row.address.addressLine3, city: row.address.city, state: row.address.state, country: row.address.country, postalCode: row.address.postalCode, role: 'distributor'} ;
+       this.editDistributorObject = {id: row.distributorId, userName: row.userId, email: row.email.trim(), firstName: row.firstName, lastName: row.lastName, enabled: true, phoneNumber: row.phoneNumber,companyName: row.distributorName, addressId: row.address.id, addressLine1: row.address.addressLine1, addressLine2: row.address.addressLine2, addressLine3: row.address.addressLine3, city: row.address.city, state: row.address.state, country: row.address.country, postalCode: row.address.postalCode, role: 'distributor'} ;
        this.saveDistributor();          
     } 
     
     disableDistributor(row) {
-       this.editDistributorObject = {id: row.distributorId, userName: row.userId, email: row.email.trim(), firstName: row.firstName, lastName: row.lastName, enabled: false, companyName: row.distributorName, addressId: row.address.id, addressLine1: row.address.addressLine1, addressLine2: row.address.addressLine2, addressLine3: row.address.addressLine3, city: row.address.city, state: row.address.state, country: row.address.country, postalCode: row.address.postalCode, role: 'distributor'} ;
+       this.editDistributorObject = {id: row.distributorId, userName: row.userId, email: row.email.trim(), firstName: row.firstName, lastName: row.lastName, enabled: false, phoneNumber: row.phoneNumber,companyName: row.distributorName, addressId: row.address.id, addressLine1: row.address.addressLine1, addressLine2: row.address.addressLine2, addressLine3: row.address.addressLine3, city: row.address.city, state: row.address.state, country: row.address.country, postalCode: row.address.postalCode, role: 'distributor'} ;
        this.saveDistributor();          
     } 
     

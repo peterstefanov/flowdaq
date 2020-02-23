@@ -12,9 +12,7 @@ import { UserInfoService             } from '../../services/user-info.service';
 
 export class CustomersComponent implements OnDestroy {
 
-   @ViewChild('myTable', {
-        static: false
-    }) table: any;
+   @ViewChild('myTable', {static: false}) table: any;
 
     rows: any[];
     isLoading: boolean = false;
@@ -67,7 +65,17 @@ export class CustomersComponent implements OnDestroy {
        console.log('delete customer');     
        console.log(row);  
     }  
-            
+       
+     enableCustomer(row) {
+       console.log('enableCustomer ');     
+       console.log(row);           
+    } 
+    
+    disableCustomer(row) {
+       console.log('disableCustomer');     
+       console.log(row);           
+    } 
+    
     createDelivery(row) {
        console.log('create delivery');     
        console.log(row);  

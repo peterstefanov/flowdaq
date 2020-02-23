@@ -21,5 +21,6 @@ public class UserItem extends Response{
     private String role;
     private String distributorName;
     private Long distributorId;
+    private String phoneNumber;
     private AddressItem address;
 }

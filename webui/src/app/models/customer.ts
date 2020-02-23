@@ -1,11 +1,11 @@
-export interface Distributor {
+export interface Customer {
   id: number;
   userName: string;
   email: string;
   firstName: string;
   lastName: string;
   enabled: boolean;
-  phoneNumber: string;
+ phoneNumber: string;
   companyName: string;
   addressId: number;
   addressLine1: string;
@@ -15,5 +15,5 @@ export interface Distributor {
   state: string;
   postalCode: string;  
   country: string;
-  role: 'distributor';
+  role: 'customer';
 }

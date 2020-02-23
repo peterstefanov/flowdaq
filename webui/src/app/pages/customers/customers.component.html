@@ -4,12 +4,13 @@
         <div class="clr-col-lg-8 clr-col-md-10 clr-col-sm-6 clr-col-12">
             <div class="card f-list-selection">
                 <div class="card-header">
-                    Customer list for distributor {{distributorName}}
+                    Customer list for distributor <strong>{{distributorName}}</strong>
                 </div>
                 <div class="card-block">
                     <div class="card-media-block wrap">         
                         <div class="card-media-description">
-                            <span class="card-media-text">Expand the row to see the customer details. You can also delete, amend customer and set up a delivery.</span>
+                            <span class="card-media-text">Expand the row to see the customer address details. You can also delete, amend, disable/enable customer and schedule a delivery, once you have selected it. Per customer display all bottles information(max, full, empty and capacity), 
+                            as well the overall number of coolers per customer and last delivery date.</span>
                         </div>
                     </div>             
                     <div *ngIf="selected.length">
@@ -19,15 +20,19 @@
                                 <small>
                                     <a href="javascript:void(0)" (click)="remove()">remove</a>
                                 </small>
-                                selected customer/s.
+                                selected customer.
                             </span>
                         </div>
+                        
                         <div *ngFor="let sel of selected" style="display: flow-root;margin-bottom: 10px;">
                             <div style="float: left;"><strong>{{ sel.companyName }}</strong></div>
-                            <div class="btn-group btn-outline-primary btn-sm" style="float: right;">
+
+							<div class="btn-group btn-outline-primary btn-sm" style="float: right;">
                                 <button class="btn btn-sm" (click)="editCustomer(sel)"><clr-icon shape="pencil"></clr-icon> Edit</button>
+                                <button *ngIf="!selected[0].enabled" class="btn btn-sm" (click)="enableCustomer(sel)"><clr-icon shape="unlock"></clr-icon> Enable</button>
+                                <button *ngIf="selected[0].enabled" class="btn btn-sm" (click)="disableCustomer(sel)"><clr-icon shape="lock"></clr-icon> Disable</button>
                                 <button class="btn btn-warning btn-sm" (click)="deleteCustomer(sel)"><clr-icon shape="trash"></clr-icon> Delete</button>
-                                <button class="btn btn-sm" (click)="createDelivery(sel)"><clr-icon shape="plus"></clr-icon> Create delivery</button>                          
+                                <button class="btn btn-sm" (click)="createDelivery(sel)"><clr-icon shape="plus"></clr-icon> Create delivery</button> 
                             </div>
                          </div>
                     </div>              
@@ -48,70 +53,60 @@
              [scrollbarV]="false" 
              [sorts]="[{prop: 'name', dir: 'desc'}]"
              (page)="onPage($event)"
-             [limit]="8"
+             [limit]="5"
              [selected]="selected"
-             [selectionType]="SelectionType.multiClick"
+             [selectionType]="SelectionType.single"
              (activate)="onActivate($event)"
              (select)="onSelect($event)"
-         >
+         > 
          
             <!-- Row Detail Template -->
             <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
                 <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
                     <div style="padding-left:55px;">
                         <div><strong>Address</strong></div>
-                        <div>{{ row.full }}, {{ row.empty }}, {{ row.max }}, {{ row.capacity }}, {{ row.deliveryDate }}, {{ row.count }}</div>
+                        <div>{{ row.address.addressLine1 }}, {{ row.address.addressLine2 }}, {{ row.address.addressLine3 }}, {{ row.address.city }}, {{ row.address.state }}, {{ row.address.country }}, {{ row.address.postalCode }}</div>
                    </div>
                </ng-template>
-            </ngx-datatable-row-detail>
-         
-            <!-- Column Templates -->
-            <ngx-datatable-column
-                [width]="20"
-                [resizeable]="true"
-                [sortable]="false"
-                [draggable]="false"
-                [canAutoResize]="false"
-            >
-            </ngx-datatable-column>
+            </ngx-datatable-row-detail> 
         
-            <ngx-datatable-column name="Customer" prop="companyName" [flexGrow]="3" [minWidth]="200" [maxWidth]="450">
+            <ngx-datatable-column name="Customer" prop="companyName" [flexGrow]="3" [minWidth]="200" [maxWidth]="500">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <strong>{{row.companyName}}</strong>
                 </ng-template>
             </ngx-datatable-column>
         
-            <ngx-datatable-column name="Full" [flexGrow]="1" [minWidth]="70" [maxWidth]="150">
+            <ngx-datatable-column name="Full" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="mobile-hidden">{{row.full}}</span>
                 </ng-template>
             </ngx-datatable-column>
         
-            <ngx-datatable-column name="Empty" [flexGrow]="1" [minWidth]="70" [maxWidth]="150">
+            <ngx-datatable-column name="Empty" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="mobile-hidden">{{row.empty}}</span>
                 </ng-template>
             </ngx-datatable-column>
         
-            <ngx-datatable-column name="Max" [flexGrow]="1" [minWidth]="70" [maxWidth]="150">
+            <ngx-datatable-column name="Max" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="mobile-hidden">{{row.max}}</span>
                 </ng-template>
             </ngx-datatable-column>
         
-            <ngx-datatable-column name="Capacity" [flexGrow]="2" [minWidth]="70" [maxWidth]="150">
+            <ngx-datatable-column name="Capacity" [flexGrow]="2" [minWidth]="70" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="mobile-hidden">{{row.capacity}}</span>
                 </ng-template>
             </ngx-datatable-column>
         
-            <ngx-datatable-column name="Last Delivery" [flexGrow]="3" [minWidth]="200" [maxWidth]="450">
+            <ngx-datatable-column name="Last Delivery" [flexGrow]="3" [minWidth]="200" [maxWidth]="500">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="mobile-hidden">{{row.deliveryDate | date}}</span>
                 </ng-template>
             </ngx-datatable-column>
         
-            <ngx-datatable-column name="No. Coolers" [flexGrow]="1" [minWidth]="80" [maxWidth]="150">
+            <ngx-datatable-column name="No. Coolers" [flexGrow]="1" [minWidth]="80" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <span class="mobile-hidden">{{row.count}}</span>
                 </ng-template>
@@ -121,3 +116,17 @@
     </div>
     <div *ngIf="isLoading" class="spinner spinner-lg">Loading...</div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

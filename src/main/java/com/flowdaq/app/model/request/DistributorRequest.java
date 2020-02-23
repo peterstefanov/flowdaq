@@ -47,5 +47,8 @@ public class DistributorRequest {
     private String country;
     
     private String postalCode;
+    
+    @Size(max = 45, message = "Phone number must be atmost 45 characters")
+    private String phoneNumber;
 
 }

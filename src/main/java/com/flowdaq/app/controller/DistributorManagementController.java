@@ -102,6 +102,7 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				user.setLastName(StringUtils.trim(distributorRequest.getLastName()));
 				user.setEmailAddress(distributorRequest.getEmail());
 				user.setEnabled(true);
+				user.setPhoneNumber(distributorRequest.getPhoneNumber());
 				user.setPassword(RandomStringUtils.randomAlphabetic(10));
 				user.setRole(Role.distributor);
 
@@ -187,6 +188,7 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				user.setFirstName(distributorRequest.getFirstName());
 				user.setLastName(distributorRequest.getLastName());
 				user.setEnabled(distributorRequest.isEnabled());
+				user.setPhoneNumber(distributorRequest.getPhoneNumber());
 				user.setEmailAddress(StringUtils.trim(distributorRequest.getEmail()));
 				user.setPassword(existingUser.get().getPassword());
 				user.setRole(Role.distributor);

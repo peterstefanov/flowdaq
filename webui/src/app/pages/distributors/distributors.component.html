@@ -43,15 +43,6 @@
                                 <button *ngIf="!selected[0].enabled" class="btn btn-sm" (click)="enableDistributor(sel)"><clr-icon shape="unlock"></clr-icon> Enable</button>
                                 <button *ngIf="selected[0].enabled" class="btn btn-sm" (click)="disableDistributor(sel)"><clr-icon shape="lock"></clr-icon> Disable</button>
                                 <button class="btn btn-warning btn-sm" (click)="deleteDistributor(sel)"><clr-icon shape="trash"></clr-icon> Delete</button>
-                                
-                                <!-- <div class="btn-group-overflow {{overflowToggle}}">
-                                    <button class="btn dropdown-toggle" (click)="onOverflowToggle(overflowToggle)"><clr-icon shape="ellipsis-horizontal"></clr-icon></button>
-                                    <div class="dropdown-menu">
-                                        <button *ngIf="!selected[0].enabled" class="btn btn-success btn-sm" (click)="enableDistributor(sel)"><clr-icon shape="check"></clr-icon> Enable</button>
-                                        <button *ngIf="selected[0].enabled" class="btn btn-warning btn-sm" (click)="disableDistributor(sel)"><clr-icon shape="check"></clr-icon> Disable</button>
-                                        <button class="btn btn-warning btn-sm" (click)="deleteDistributor(sel)"><clr-icon shape="trash"></clr-icon> Delete</button>
-                                    </div> -->
-                                </div>
                             </div>
                          </div>
                     </div>              
@@ -84,6 +75,9 @@
                     <div style="padding-left:55px;">
                         <div><strong>Address</strong></div>
                         <div>{{ row.address.addressLine1 }}, {{ row.address.addressLine2 }}, {{ row.address.addressLine3 }}, {{ row.address.city }}, {{ row.address.state }}, {{ row.address.country }}, {{ row.address.postalCode }}</div>
+                        <div><strong>Phone number</strong></div>
+                        <div>{{ row.phoneNumber }}</div>
+                   
                    </div>
                </ng-template>
             </ngx-datatable-row-detail> 
@@ -148,6 +142,10 @@
             <clr-input-container>
                 <label>Last Name</label>
                 <input type="text" clrInput name="distributorLastName" [(ngModel)]="editDistributorObject.lastName" placeholder="Distributor last name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Phone number</label>
+                <input type="text" clrInput name="phoneNumber" [(ngModel)]="editDistributorObject.phoneNumber" placeholder="Phone number" />
             </clr-input-container>
             <clr-input-container>
                 <label>Company Name</label>

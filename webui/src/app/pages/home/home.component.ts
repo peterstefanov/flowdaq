@@ -36,8 +36,8 @@ export class HomeComponent {
     public userRole: string = "";
     public distributorName: string = "";
     
-    createDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
-    createAdminObject: Admin = {userName: '', email: '', firstName: '', lastName: '', role: 'admin' } as Admin;
+    createDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
+    createAdminObject: Admin = {userName: '', email: '', firstName: '', lastName: '', phoneNumber: '', role: 'admin' } as Admin;
     distributorCreateModal = false;
     adminCreateModal = false;
     
@@ -99,7 +99,7 @@ export class HomeComponent {
 
     /* Distributor dialog */
     createDistributor(
-        distributor: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, companyName: '', addressId: 0,  addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor'}
+        distributor: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0,  addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor'}
     ): void {
         this.createDistributorObject = distributor;
         this.distributorCreateModal = true;
@@ -131,7 +131,7 @@ export class HomeComponent {
     
     /* Admin dialog */
     createAdmin(
-        admin: Admin = {userName: '', email: '', firstName: '', lastName: '', role: 'admin'}
+        admin: Admin = {userName: '', email: '', firstName: '', lastName: '', phoneNumber: '', role: 'admin'}
     ): void {
         this.createAdminObject = admin;
         this.adminCreateModal = true;
