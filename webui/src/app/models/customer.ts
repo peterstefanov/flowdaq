@@ -5,7 +5,7 @@ export interface Customer {
   firstName: string;
   lastName: string;
   enabled: boolean;
- phoneNumber: string;
+  phoneNumber: string;
   companyName: string;
   addressId: number;
   addressLine1: string;

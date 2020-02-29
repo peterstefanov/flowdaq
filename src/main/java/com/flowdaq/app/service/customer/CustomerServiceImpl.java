@@ -8,11 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.flowdaq.app.model.Address;
 import com.flowdaq.app.model.Cooler;
 import com.flowdaq.app.model.Customer;
-import com.flowdaq.app.model.Role;
 import com.flowdaq.app.model.User;
+import com.flowdaq.app.model.response.AddressItem;
 import com.flowdaq.app.model.response.CustomerItem;
+import com.flowdaq.app.model.response.UserItem;
 import com.flowdaq.app.repository.CustomerRepository;
 
 @Service
@@ -35,8 +37,8 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<Customer> findAllByDistributorId(Long distributorId) {
-		return customerRepository.findAllByDistributorId(distributorId);
+	public List<CustomerItem> findAllByDistributorId(Long distributorId) {
+		return processResult(customerRepository.findAllByDistributorId(distributorId));
 	}
 
 	@Override
@@ -44,19 +46,6 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepository.findAll(pagebale);
 	}
 
-	@Override
-	public List<CustomerItem> findAllByRole(User principal) {
-
-		Role role = principal.getRole();
-		
-		if (Role.ADMIN.toString().equalsIgnoreCase(role.toString())) {			
-			return processResult(customerRepository.findAll());
-		} else {
-			Customer customer = new Customer();
-			customer.setDistributorId(principal.getDistributorId());
-			return processResult(customerRepository.findAll(org.springframework.data.domain.Example.of(customer)));
-		}
-	}
 
 	@Override
 	public void deleteAllByDistributorId(Long distributorId) {
@@ -67,6 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
 	private List<CustomerItem> processResult(List<Customer> list) {
 		
 		List<CustomerItem> result = new ArrayList<>();
+		
 		for (Customer item : list) {
 			
 			List<Cooler> coolers = item.getCoolers();
@@ -79,8 +69,37 @@ public class CustomerServiceImpl implements CustomerService {
 			resultItem.setCapacity(resultItem.getMax() - resultItem.getFull());
 			resultItem.setDeliveryDate(new Date(System.currentTimeMillis()));
 			resultItem.setCount(coolers.size());
+			
+			UserItem userItem = new UserItem();
+			User user = item.getUser();
+			userItem.setFirstName(user.getFirstName());
+			userItem.setLastName(user.getLastName());
+			userItem.setUserId(user.getUsername());
+			userItem.setEmail(user.getEmailAddress());
+			userItem.setEnabled(user.isEnabled());
+			userItem.setPhoneNumber(user.getPhoneNumber());
+			userItem.setDistributorName(user.getDistributor().getDistributorName());
+			userItem.setDistributorId(user.getDistributorId());
+			
+			Address address = item.getDeliveryAddress();
+			if (address != null) {
+				AddressItem addressItem = AddressItem.builder()
+						.id(address.getId())
+						.addressLine1(address.getAddressLine1())
+						.addressLine2(address.getAddressLine2())
+						.addressLine3(address.getAddressLine3())
+						.city(address.getCity())
+						.state(address.getState())
+						.country(address.getCountry())
+						.postalCode(address.getPostalCode())
+						.build();
+				userItem.setAddress(addressItem);
+			}
+			
+			resultItem.setUserItem(userItem );
 			result.add(resultItem);
-		}		
+		}
+		
 		return result;
 	}
 }

@@ -15,7 +15,7 @@ import com.flowdaq.app.model.Role;
 import com.flowdaq.app.model.User;
 import com.flowdaq.app.model.response.DistributorResponse;
 import com.flowdaq.app.model.response.UserItem;
-import com.flowdaq.app.service.user.UserService;
+import com.flowdaq.app.service.distributor.DistributorService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DistributorController {
 
 	@Autowired
-	private UserService userService;
+	private DistributorService distributorService;
 
 	@GetMapping(value = "/distributors")
 	public DistributorResponse getDistributorsList(HttpServletResponse response) {
@@ -38,7 +38,7 @@ public class DistributorController {
 			log.error(messsage);
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 		} else {
-			List<UserItem> result = userService.findAllDistributors();
+			List<UserItem> result = distributorService.findAllDistributors();
 			resp.setItems(result);
 		}
 

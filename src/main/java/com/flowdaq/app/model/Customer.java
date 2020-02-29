@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -42,20 +43,28 @@ public class Customer implements Serializable {
 	@Column(name = "org_name")
 	private String companyName;
 
+	@Column(name = "user_name")
+	private String username;
+	
 	@Column(name = "contact")
 	private String contactName;
 
 	@Column(name = "alt_contact")
 	private String alternativeContactName;
 
-	@Column(name = "email_address")
-	private String emailAddress;
+	@Column(name = "address_id")
+	private Long addressId;
 
-	@Column(name = "phone_number")
-	private String phoneNumber;
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_name", insertable = false, updatable = false)
+	private User user;
+	
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "address_id", insertable = false, updatable = false)
+	private Address deliveryAddress;
 
 	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name = "customer_id", insertable = false, updatable = false)
+	@JoinColumn(name = "id", insertable = false, updatable = false)
 	private List<Cooler> coolers;
 
 	public void setCoolers(List<Cooler> coolers) {

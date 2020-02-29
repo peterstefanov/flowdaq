@@ -1,12 +1,10 @@
 package com.flowdaq.app.service.user;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.flowdaq.app.model.User;
-import com.flowdaq.app.model.response.UserItem;
 
 public interface UserService extends UserDetailsService {
 
@@ -23,8 +21,6 @@ public interface UserService extends UserDetailsService {
 	public boolean isValidPassword(User user, String password);
 	
 	public boolean isPasswordTheSame(User user, String password);
-	
-	public List<UserItem> findAllDistributors();
 
 	public void deleteUser(User user);
 }

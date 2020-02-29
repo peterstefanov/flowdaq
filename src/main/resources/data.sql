@@ -26,14 +26,14 @@ CREATE TABLE IF NOT EXISTS `distributors` (
 
 CREATE TABLE IF NOT EXISTS `customers` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(45) NOT NULL,
   `org_name` varchar(60) NOT NULL,
-  `distributor_id` int(11) NOT NULL COMMENT 'Customer Organizations belong to Distributor',
+  `distributor_id` int(11) NOT NULL,
+  `address_id` int(11) NOT NULL, 
   `contact` varchar(60) DEFAULT NULL,
   `alt_contact` varchar(60) DEFAULT NULL,
-  `email_address` varchar(255) DEFAULT NULL,
-  `phone_number` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_org_bill_idx` (`bill_to_address_id`,`ship_to_address_id`)
+  KEY `fk_org_bill_idx` (`address_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `address` (

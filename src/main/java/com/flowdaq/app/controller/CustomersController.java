@@ -1,7 +1,5 @@
 package com.flowdaq.app.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.MediaType;
@@ -11,9 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.flowdaq.app.model.Address;
-import com.flowdaq.app.model.Cooler;
-import com.flowdaq.app.model.Customer;
 import com.flowdaq.app.model.User;
 import com.flowdaq.app.model.response.CustomerItem;
 import com.flowdaq.app.model.response.CustomerResponse;
@@ -28,6 +23,8 @@ public class CustomersController {
 
 	private CustomerService customerService;
 	
+	private final String DATE_FORMAT = "MM-dd-yyyy";
+	
 	public CustomersController(CustomerService customerService) {
 		this.customerService = customerService;
 	}
@@ -37,34 +34,11 @@ public class CustomersController {
 
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		List<CustomerItem> result = processResult(customerService.findAllByDistributorId(distributorId));
+		List<CustomerItem> result = customerService.findAllByDistributorId(distributorId);
 	      
 		CustomerResponse response = new CustomerResponse();
 		response.setItems(result);
 		
 		return response;
-	}
-	
-	private List<CustomerItem> processResult(List<Customer> list) {
-		
-		List<CustomerItem> result = new ArrayList<>();
-		for (Customer item : list) {
-			
-			List<Cooler> coolers = item.getCoolers();
-			CustomerItem resultItem = new CustomerItem();
-			resultItem.setCustomerId(item.getId());
-			resultItem.setCompanyName(item.getCompanyName());
-			resultItem.setFull((int) coolers.stream().mapToLong(i -> i.getCurrentFull()).sum());
-			resultItem.setEmpty((int) coolers.stream().mapToLong(i -> i.getCurrentEmpty()).sum());
-			resultItem.setMax((int) coolers.stream().mapToLong(i -> i.getMaxBottleCount()).sum());
-			resultItem.setCapacity(resultItem.getMax() - resultItem.getFull());
-			resultItem.setDeliveryDate(new Date(System.currentTimeMillis()));
-			resultItem.setCount(coolers.size());
-			
-/*			 List<Address> bill = item.getBillingAdresses();
-			 List<Address> shippingAddresses = item.getShippingAdresses();*/
-			result.add(resultItem);
-		}		
-		return result;
 	}
 }

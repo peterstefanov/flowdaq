@@ -17,4 +17,5 @@ public class CustomerItem {
 	private int capacity;
 	private Date deliveryDate;
 	private int count;
+	private UserItem userItem;
 }

@@ -65,7 +65,9 @@
                 <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
                     <div style="padding-left:55px;">
                         <div><strong>Address</strong></div>
-                        <div>{{ row.address.addressLine1 }}, {{ row.address.addressLine2 }}, {{ row.address.addressLine3 }}, {{ row.address.city }}, {{ row.address.state }}, {{ row.address.country }}, {{ row.address.postalCode }}</div>
+                        <div>{{ row.userItem.address.addressLine1 }}, {{ row.userItem.address.addressLine2 }}, {{ row.userItem.address.addressLine3 }}, {{ row.userItem.address.city }}, {{ row.userItem.address.state }}, {{ row.userItem.address.country }}, {{ row.userItem.address.postalCode }}</div>
+                        <div><strong>Phone number</strong></div>
+                        <div>{{ row.userItem.phoneNumber }}</div>
                    </div>
                </ng-template>
             </ngx-datatable-row-detail> 

@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.flowdaq.app.model.Customer;
-import com.flowdaq.app.model.User;
 import com.flowdaq.app.model.response.CustomerItem;
 
 public interface CustomerService {
@@ -17,9 +16,7 @@ public interface CustomerService {
 	
 	public List<Customer> findAll();
 	
-	public List<Customer> findAllByDistributorId(Long distributorId);
-
-	public List<CustomerItem> findAllByRole(User principal);
+	public List<CustomerItem> findAllByDistributorId(Long distributorId);
 	
 	public void deleteAllByDistributorId(Long distributirId);
 }
