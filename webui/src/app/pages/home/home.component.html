@@ -18,7 +18,7 @@
             <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
                 <a *ngIf="userRole === 'admin'" (click)="createAdmin()" clrDropdownItem>Create admin</a>
                 <a *ngIf="userRole === 'admin'" (click)="createDistributor()" clrDropdownItem>Create distributor</a>
-                <a *ngIf="userRole === 'distributor'" href="/" clrDropdownItem>Create customers</a>
+                <a *ngIf="userRole === 'distributor'" (click)="createCustomer()" clrDropdownItem>Create customers</a>
                 <a [routerLink]="'/logout'" clrDropdownItem>Log out</a>
             </clr-dropdown-menu>
             </clr-dropdown>
@@ -176,5 +176,81 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-outline" (click)="cancelDistributor()">Cancel</button>
         <button type="button" class="btn btn-primary" (click)="saveDistributor()">Save</button>
+    </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="customerCreateModal" [clrModalClosable]="false">
+    <h3 class="modal-title" >Add new customer</h3>
+    <div class="modal-body">
+        <form clrForm class="clr-form clr-form-horizontal">
+            <clr-input-container>
+                <label>Username</label>
+                <input type="text" clrInput name="customerUserName" [(ngModel)]="createCustomerObject.userName" placeholder="Customer user name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Email</label>
+                <input type="text" clrInput name="customerEmail" [(ngModel)]="createCustomerObject.email" placeholder="Customer email" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>First Name</label>
+                <input type="text" clrInput name="customerFirstName" [(ngModel)]="createCustomerObject.firstName" placeholder="Customer first name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Last Name</label>
+                <input type="text" clrInput name="customerLastName" [(ngModel)]="createCustomerObject.lastName" placeholder="Customer last name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Phone number</label>
+                <input type="text" clrInput name="phoneNumber" [(ngModel)]="createCustomerObject.phoneNumber" placeholder="Phone number" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Company Name</label>
+                <input type="text" clrInput name="distributorCompany" [(ngModel)]="createCustomerObject.companyName" placeholder="Company name" />
+            </clr-input-container>
+             <clr-input-container>
+                <label>Address Line 1</label>
+                <input type="text" clrInput name="addressLine1" [(ngModel)]="createCustomerObject.addressLine1" placeholder="Address Line 1" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Address Line 2</label>
+                <input type="text" clrInput name="addressLine2" [(ngModel)]="createCustomerObject.addressLine2" placeholder="Address Line 2" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Address Line 3</label>
+                <input type="text" clrInput name="addressLine3" [(ngModel)]="createCustomerObject.addressLine1" placeholder="Address Line 3" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>City</label>
+                <input type="text" clrInput name="city" [(ngModel)]="createCustomerObject.city" placeholder="City name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>State</label>
+                <input type="text" clrInput name="state" [(ngModel)]="createCustomerObject.state" placeholder="State name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Country</label>
+                <input type="text" clrInput name="country" [(ngModel)]="createCustomerObject.country" placeholder="Country name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Postal Code</label>
+                <input type="text" clrInput name="postalCode" [(ngModel)]="createCustomerObject.postalCode" placeholder="Postal Code" />
+            </clr-input-container>
+        </form>
+        <div *ngIf="customerErrorMsg" class="alert alert-danger" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">
+                        {{customerErrorMsg}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="cancelCustomer()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveCustomer()">Save</button>
     </div>
 </clr-modal>

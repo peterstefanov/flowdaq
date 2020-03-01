@@ -1,4 +1,5 @@
 export interface Customer {
+  distributorId: number;
   id: number;
   userName: string;
   email: string;

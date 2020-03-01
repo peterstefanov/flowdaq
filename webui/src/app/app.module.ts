@@ -33,6 +33,7 @@ import { CustomerService               } from './services/api/customer.service';
 import { DistributorService            } from './services/api/distributor.service';
 import { AdminManagementService        } from './services/api/usermanagement/adminmanagement.service';
 import { DistributorManagementService  } from './services/api/usermanagement/distributormanagement.service';
+import { CustomerManagementService     } from './services/api/usermanagement/customermanagement.service';
 
 // Components
 import { LogoComponent                 } from './components/logo/logo.component';
@@ -78,7 +79,8 @@ import { HeaderLogoComponent           } from './components/headerlogo/headerlog
     ResetPasswordService,
     DistributorService,
     AdminManagementService,
-    DistributorManagementService
+    DistributorManagementService,
+    CustomerManagementService
     ],
   bootstrap: [AppComponent]
 })

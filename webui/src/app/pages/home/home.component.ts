@@ -7,9 +7,11 @@ import { LoginService                                    } from '../../services/
 import { UserInfoService                                 } from '../../services/user-info.service';
 import { AdminManagementService                          } from '../../services/api/usermanagement/adminmanagement.service';
 import { DistributorManagementService                    } from '../../services/api/usermanagement/distributormanagement.service';
+import { CustomerManagementService                       } from '../../services/api/usermanagement/customermanagement.service';
 
 import { Distributor                                     } from '../../models/distributor';
 import { Admin                                           } from '../../models/admin';
+import { Customer                                        } from '../../models/customer';
 
 import { Subscription, Observable, Observer, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
 import { map, filter, scan, catchError, switchMap        } from 'rxjs/operators';
@@ -29,6 +31,9 @@ export class HomeComponent {
     public distributorErrorMsg: string = '';
     public distributorSuccessMsg: string = '';
     
+    public customerErrorMsg: string = '';
+    public customerSuccessMsg: string = '';
+    
     public appHeaderItems = [];
 
     public selectedHeaderItemIndex: number = 0;
@@ -36,8 +41,11 @@ export class HomeComponent {
     public userRole: string = "";
     public distributorName: string = "";
     
+    createCustomerObject: Customer = {distributorId: 0,id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'customer' } as Customer;
     createDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
     createAdminObject: Admin = {userName: '', email: '', firstName: '', lastName: '', phoneNumber: '', role: 'admin' } as Admin;
+    
+    customerCreateModal = false;
     distributorCreateModal = false;
     adminCreateModal = false;
     
@@ -47,7 +55,8 @@ export class HomeComponent {
         private loginService: LoginService,
         private userInfoService: UserInfoService,
         private adminService: AdminManagementService,
-        private distributorService: DistributorManagementService
+        private distributorService: DistributorManagementService,
+        private customerService: CustomerManagementService
     ) {
 
         this.router.events.pipe(
@@ -96,6 +105,39 @@ export class HomeComponent {
         console.log('navbarSelectionChange');
         console.log(val);
     }
+    
+    /* Customer dialog */
+    createCustomer(
+        customer: Customer = {distributorId: this.userInfoService.getDistributorId(), id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0,  addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'customer'}
+    ): void {
+        this.createCustomerObject = customer;
+        this.customerCreateModal = true;
+    }
+
+    public saveCustomer(): void {      
+        this.customerService.createCustomer(this.createCustomerObject)
+             .subscribe(resp => {
+                    if (resp.success === false) {
+                        this.customerErrorMsg = resp.message;
+                        return;
+                    } else if (resp.success === true) {
+                        this.cancelCustomer();
+                        this.customerSuccessMsg = resp.message;
+                        return;
+                    }              
+                }
+            );
+    }
+
+    public cancelCustomer(): void {
+        this.customerCreateModal = false;
+    }
+    
+    public closeCustomerSuccess(): void {
+        this.customerSuccessMsg = '';
+    }
+    /* END Customer dialog */
+    
 
     /* Distributor dialog */
     createDistributor(
