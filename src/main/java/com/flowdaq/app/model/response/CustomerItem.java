@@ -17,5 +17,7 @@ public class CustomerItem {
 	private int capacity;
 	private Date deliveryDate;
 	private int count;
+	private String contact;	
+	private String altContact;
 	private UserItem userItem;
 }

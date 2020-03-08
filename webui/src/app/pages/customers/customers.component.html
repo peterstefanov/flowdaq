@@ -1,4 +1,17 @@
 <div class="padding-20">
+    <div *ngIf="customerSuccessMsg" class="alert alert-success" role="alert">
+        <div class="alert-items">
+            <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                    <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+                </div>
+                <span class="alert-text">{{customerSuccessMsg}}</span>
+            </div>
+        </div>
+        <button type="button" class="close" (click)="closeCustpmerSuccess()" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
     <div class="clr-row">
         <div class="clr-col-lg-2 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
         <div class="clr-col-lg-8 clr-col-md-10 clr-col-sm-6 clr-col-12">
@@ -119,7 +132,93 @@
     <div *ngIf="isLoading" class="spinner spinner-lg">Loading...</div>
 </div>
 
-
+<clr-modal [(clrModalOpen)]="customerEditModal" [clrModalClosable]="false">
+    <h3 class="modal-title" >Edit customer</h3>
+    <div class="modal-body">
+        <form clrForm class="clr-form clr-form-horizontal">
+            <clr-input-container>
+                <label>Username</label>
+                <input type="text" clrInput name="customerUserName" [(ngModel)]="editCustomerObject.userName" readonly placeholder="Customer user name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Email</label>
+                <input type="text" clrInput name="customerEmail" [(ngModel)]="editCustomerObject.email" placeholder="Customer email" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>First Name</label>
+                <input type="text" clrInput name="customerFirstName" [(ngModel)]="editCustomerObject.firstName" placeholder="Customer first name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Last Name</label>
+                <input type="text" clrInput name="customerLastName" [(ngModel)]="editCustomerObject.lastName" placeholder="Customer last name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Phone number</label>
+                <input type="text" clrInput name="phoneNumber" [(ngModel)]="editCustomerObject.phoneNumber" placeholder="Phone number" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Contact Name</label>
+                <input type="text" clrInput name="contactName" [(ngModel)]="editCustomerObject.contact" placeholder="Contact Name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Alternative Contact Name</label>
+                <input type="text" clrInput name="altContact" [(ngModel)]="editCustomerObject.altContact" placeholder="Alternative Contact Name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Company Name</label>
+                <input type="text" clrInput name="customerCompany" [(ngModel)]="editCustomerObject.companyName" placeholder="Company name" />
+            </clr-input-container>
+             <clr-input-container>
+                <label>Address Line 1</label>
+                <input type="text" clrInput name="addressLine1" [(ngModel)]="editCustomerObject.addressLine1" placeholder="Address Line 1" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Address Line 2</label>
+                <input type="text" clrInput name="addressLine2" [(ngModel)]="editCustomerObject.addressLine2" placeholder="Address Line 2" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Address Line 3</label>
+                <input type="text" clrInput name="addressLine3" [(ngModel)]="editCustomerObject.addressLine3" placeholder="Address Line 3" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>City</label>
+                <input type="text" clrInput name="city" [(ngModel)]="editCustomerObject.city" placeholder="City name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>State</label>
+                <input type="text" clrInput name="state" [(ngModel)]="editCustomerObject.state" placeholder="State name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Country</label>
+                <input type="text" clrInput name="country" [(ngModel)]="editCustomerObject.country" placeholder="Country name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Postal Code</label>
+                <input type="text" clrInput name="postalCode" [(ngModel)]="editCustomerObject.postalCode" placeholder="Postal Code" />
+            </clr-input-container>
+             <clr-input-container>
+                <label>Id</label>
+                <input type="text" clrInput name="id" [(ngModel)]="editCustomerObject.id" readonly placeholder="Customer id" />
+            </clr-input-container>
+        </form>
+        <div *ngIf="customerErrorMsg" class="alert alert-danger" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">
+                        {{customerErrorMsg}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="cancelCustomer()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveCustomer()">Save</button>
+    </div>
+</clr-modal>
 
 
 

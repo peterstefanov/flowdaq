@@ -173,17 +173,17 @@ public class CustomerManagementController extends UserManagementBaseController {
 				User user = new User();
 				user.setDistributorId(customerRequest.getDistributorId());
 				user.setUsername(customerRequest.getUserName());
-				user.setDistributorId(customerRequest.getId());
 				user.setFirstName(customerRequest.getFirstName());
 				user.setLastName(customerRequest.getLastName());
 				user.setEnabled(customerRequest.isEnabled());
 				user.setPhoneNumber(customerRequest.getPhoneNumber());
 				user.setEmailAddress(StringUtils.trim(customerRequest.getEmail()));
 				user.setPassword(existingUser.get().getPassword());
-				user.setRole(Role.distributor);
+				user.setRole(Role.customer);
 				userService.save(user);
 				
 				Customer customer = new Customer();
+				customer.setId(customerRequest.getId());
 				customer.setDistributorId(customerRequest.getDistributorId());
 				customer.setAddressId(address.getId());
 				customer.setUsername(user.getUsername());

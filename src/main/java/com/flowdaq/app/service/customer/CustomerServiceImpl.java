@@ -77,6 +77,8 @@ public class CustomerServiceImpl implements CustomerService {
 			resultItem.setCapacity(resultItem.getMax() - resultItem.getFull());
 			resultItem.setDeliveryDate(new Date(System.currentTimeMillis()));
 			resultItem.setCount(coolers.size());
+			resultItem.setContact(item.getContactName());
+			resultItem.setAltContact(item.getAlternativeContactName());
 			
 			UserItem userItem = new UserItem();
 			User user = item.getUser();
