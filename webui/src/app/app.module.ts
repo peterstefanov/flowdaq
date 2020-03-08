@@ -21,6 +21,7 @@ import { ResetPasswordComponent        } from './pages/resetpassword/resetpasswo
 import { LogoutComponent               } from './pages/logout/logout.component';
 import { CustomersComponent            } from './pages/customers/customers.component';
 import { DistributorsComponent         } from './pages/distributors/distributors.component';
+import { FacilitiesComponent           } from './pages/facilities/facilities.component';
 
 // Services
 import { AppConfig                     } from './app-config';
@@ -52,7 +53,8 @@ import { HeaderLogoComponent           } from './components/headerlogo/headerlog
     ResetPasswordComponent,
     LogoutComponent,
     CustomersComponent,
-    DistributorsComponent
+    DistributorsComponent,
+    FacilitiesComponent
   ],
   imports: [
   

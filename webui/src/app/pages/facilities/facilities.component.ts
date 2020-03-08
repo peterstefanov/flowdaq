@@ -5,12 +5,12 @@ import { CustomerService             } from '../../services/api/customer.service
 import { UserInfoService             } from '../../services/user-info.service';
 
 @Component({
-	selector: 'f-customers-pg',
-	templateUrl: './customers.component.html',
-    styleUrls: [ './customers.scss'],
+	selector: 'f-facilities-pg',
+	templateUrl: './facilities.component.html',
+    styleUrls: [ './facilities.scss'],
 })
 
-export class CustomersComponent implements OnDestroy {
+export class FacilitiesComponent implements OnDestroy {
 
    @ViewChild('myTable', {static: false}) table: any;
 
@@ -21,7 +21,7 @@ export class CustomersComponent implements OnDestroy {
     timeout: any;
     isToggled: boolean = false;
     selected = [];;
-    public distributorName: string = "";
+    public customerName: string = "";
     
     ColumnMode = ColumnMode;
     SelectionType = SelectionType;
@@ -33,7 +33,7 @@ export class CustomersComponent implements OnDestroy {
                 this.getPageData();
             }
         });
-        this.distributorName = this.userInfoService.getDistributorName();
+        this.customerName = this.userInfoService.getCustomerCompany();
     }
 
     getPageData() {
@@ -66,7 +66,7 @@ export class CustomersComponent implements OnDestroy {
        console.log(row);  
     }  
        
-    enableCustomer(row) {
+     enableCustomer(row) {
        console.log('enableCustomer ');     
        console.log(row);           
     } 
@@ -93,9 +93,9 @@ export class CustomersComponent implements OnDestroy {
     }
 
     onSelect({ selected }) {
+        console.log('Select Event', selected, this.selected);
         this.selected.splice(0, this.selected.length);
         this.selected.push(...selected);
-        this.userInfoService.setCustomerCompany(this.selected[0].companyName);
     }
     
     add() {
