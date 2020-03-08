@@ -20,6 +20,7 @@ public class UserItem extends Response{
     private String email;
     private String role;
     private String distributorName;
+    private String customerCompany;
     private Long distributorId;
     private String phoneNumber;
     private AddressItem address;

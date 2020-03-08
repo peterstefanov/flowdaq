@@ -10,6 +10,7 @@ export interface UserInStorage {
     token: string;
     distributorName: string;
     distributorId: number;
+    customerCompany: string;
 }
 
 export interface LoginInfoInStorage {
@@ -107,5 +108,23 @@ export class UserInfoService {
                         "distributorName": distributorName, "token": userObj.token, "distributorId": distributorId };
             this.storage.setItem(this.currentUserKey, JSON.stringify(user));
         }
+    }
+
+    setCustomerCompany(customerCompany: string) {
+        let userObj: UserInStorage = this.getUserInfo();
+        if (userObj !== null) {
+            let user = {"userId": userObj.userId, "email": userObj.email, "role": userObj.role, "displayName": userObj.displayName,
+                        "distributorName": userObj.distributorName, "token": userObj.token, "distributorId": userObj.distributorId, "customerCompany": customerCompany };
+            this.storage.setItem(this.currentUserKey, JSON.stringify(user));
+        }
+    }
+
+    //Get User's Customer Company name from session storage
+    getCustomerCompany(): string {
+        let userObj: UserInStorage = this.getUserInfo();
+        if (userObj !== null) {
+            return userObj.customerCompany
+        }
+        return "no-customerCompany";
     }
 }

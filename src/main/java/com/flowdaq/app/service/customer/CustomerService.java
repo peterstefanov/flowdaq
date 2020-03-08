@@ -19,4 +19,6 @@ public interface CustomerService {
 	public List<CustomerItem> findAllByDistributorId(Long distributorId);
 	
 	public void deleteAllByDistributorId(Long distributirId);
+
+	public String getCustomerCompany(String username);
 }

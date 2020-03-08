@@ -3,7 +3,9 @@ package com.flowdaq.app.service.customer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,12 @@ public class CustomerServiceImpl implements CustomerService {
 	public void deleteAllByDistributorId(Long distributorId) {
 		List<Customer> customersEntity = customerRepository.findAllByDistributorId(distributorId);
 		customerRepository.deleteInBatch(customersEntity);		
+	}
+	
+	@Override
+	public String getCustomerCompany(String username) {
+		Optional<Customer> cust = customerRepository.findByUsername(username);
+		return cust.isPresent() ? cust.get().getCompanyName() : StringUtils.EMPTY;
 	}
 	
 	private List<CustomerItem> processResult(List<Customer> list) {
