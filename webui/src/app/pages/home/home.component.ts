@@ -41,7 +41,7 @@ export class HomeComponent {
     public userRole: string = "";
     public distributorName: string = "";
     
-    createCustomerObject: Customer = {distributorId: 0,id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'customer' } as Customer;
+    createCustomerObject: Customer = {distributorId: 0,id: 0, userName: '', email: '', firstName: '', lastName: '', contact: '', altContact: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'customer' } as Customer;
     createDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
     createAdminObject: Admin = {userName: '', email: '', firstName: '', lastName: '', phoneNumber: '', role: 'admin' } as Admin;
     
@@ -108,7 +108,7 @@ export class HomeComponent {
     
     /* Customer dialog */
     createCustomer(
-        customer: Customer = {distributorId: this.userInfoService.getDistributorId(), id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0,  addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'customer'}
+        customer: Customer = {distributorId: this.userInfoService.getDistributorId(), id: 0, userName: '', email: '', firstName: '', lastName: '', contact: '', altContact: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0,  addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'customer'}
     ): void {
         this.createCustomerObject = customer;
         this.customerCreateModal = true;

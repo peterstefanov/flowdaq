@@ -18,7 +18,7 @@
             <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
                 <a *ngIf="userRole === 'admin'" (click)="createAdmin()" clrDropdownItem>Create admin</a>
                 <a *ngIf="userRole === 'admin'" (click)="createDistributor()" clrDropdownItem>Create distributor</a>
-                <a *ngIf="userRole === 'distributor'" (click)="createCustomer()" clrDropdownItem>Create customers</a>
+                <a *ngIf="userRole === 'distributor'" (click)="createCustomer()" clrDropdownItem>Create customer</a>
                 <a [routerLink]="'/logout'" clrDropdownItem>Log out</a>
             </clr-dropdown-menu>
             </clr-dropdown>
@@ -204,8 +204,16 @@
                 <input type="text" clrInput name="phoneNumber" [(ngModel)]="createCustomerObject.phoneNumber" placeholder="Phone number" />
             </clr-input-container>
             <clr-input-container>
+                <label>Contact Name</label>
+                <input type="text" clrInput name="contactName" [(ngModel)]="createCustomerObject.contact" placeholder="Contact Name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Alternative Contact Name</label>
+                <input type="text" clrInput name="altContact" [(ngModel)]="createCustomerObject.altContact" placeholder="Alternative Contact Name" />
+            </clr-input-container>
+            <clr-input-container>
                 <label>Company Name</label>
-                <input type="text" clrInput name="distributorCompany" [(ngModel)]="createCustomerObject.companyName" placeholder="Company name" />
+                <input type="text" clrInput name="customerCompany" [(ngModel)]="createCustomerObject.companyName" placeholder="Company name" />
             </clr-input-container>
              <clr-input-container>
                 <label>Address Line 1</label>

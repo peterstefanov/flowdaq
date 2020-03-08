@@ -5,6 +5,8 @@ export interface Customer {
   email: string;
   firstName: string;
   lastName: string;
+  contact: string;
+  altContact: string;
   enabled: boolean;
   phoneNumber: string;
   companyName: string;

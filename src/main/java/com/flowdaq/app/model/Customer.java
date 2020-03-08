@@ -45,7 +45,7 @@ public class Customer implements Serializable {
 
 	@Column(name = "user_name")
 	private String username;
-	
+
 	@Column(name = "contact")
 	private String contactName;
 
@@ -58,7 +58,7 @@ public class Customer implements Serializable {
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_name", insertable = false, updatable = false)
 	private User user;
-	
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "address_id", insertable = false, updatable = false)
 	private Address deliveryAddress;

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.flowdaq.app.model.Role;
 import com.flowdaq.app.model.User;
-import com.flowdaq.app.model.request.Admin;
+import com.flowdaq.app.model.request.AdminRequest;
 import com.flowdaq.app.model.response.Response;
 import com.flowdaq.app.model.response.Response.ResponseStatusEnum;
 
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminManagementController extends UserManagementBaseController{
 
 	@PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Response createAdmin(@Valid @RequestBody Admin admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Response createAdmin(@Valid @RequestBody AdminRequest admin, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		Response resp = new Response();
 		
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

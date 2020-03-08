@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class Admin {
+public class UserRequest {
 
     @Size(min = 4, max = 45, message = "Username must be between 4 and 45 characters")
 	private String userName;
@@ -24,4 +24,5 @@ public class Admin {
     
     @Size(max = 45, message = "Phone number must be atmost 45 characters")
     private String phoneNumber;
+    
 }

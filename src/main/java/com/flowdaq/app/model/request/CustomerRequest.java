@@ -7,12 +7,18 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class DistributorRequest extends UserRequest {
+public class CustomerRequest extends UserRequest {
 
 	private Long id;
 
+	private Long distributorId;
+	
 	private boolean enabled;
 
+	private String contact;
+	
+	private String altContact;
+	
 	@NotBlank(message = "Company name cannot be blank")
 	private String companyName;
 

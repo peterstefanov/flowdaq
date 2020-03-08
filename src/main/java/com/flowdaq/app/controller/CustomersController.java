@@ -34,7 +34,13 @@ public class CustomersController {
 
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
-		List<CustomerItem> result = customerService.findAllByDistributorId(distributorId);
+		List<CustomerItem> result = null;
+		try {
+			result = customerService.findAllByDistributorId(distributorId);
+		} catch (Exception e) {
+			log.error("Retrieving customers error: ", e.getCause());
+		}
+		
 	      
 		CustomerResponse response = new CustomerResponse();
 		response.setItems(result);

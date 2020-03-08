@@ -28,22 +28,22 @@ import lombok.ToString;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @ToString
-public class Distributor implements Serializable{
+public class Distributor implements Serializable {
 
 	private static final long serialVersionUID = -2036999622796996407L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-    private Long id;
-	
+	private Long id;
+
 	@Column(name = "distributor_name")
-    private String distributorName;
-	
+	private String distributorName;
+
 	@Column(name = "address_id")
-    private Long addressId;
-	
+	private Long addressId;
+
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "address_id", insertable = false, updatable = false)
-    private Address deliveryAddress;   
+	private Address deliveryAddress;
 }
