@@ -81,7 +81,7 @@ public class CustomerManagementController extends UserManagementBaseController {
 				addressService.saveAddress(address);
 
 				User user = new User();
-				user.setDistributorId(99L);
+				user.setDistributorId(customerRequest.getDistributorId());
 				user.setUsername(customerRequest.getUserName());
 				user.setFirstName(customerRequest.getFirstName());
 				user.setLastName(StringUtils.trim(customerRequest.getLastName()));
@@ -89,7 +89,7 @@ public class CustomerManagementController extends UserManagementBaseController {
 				user.setEnabled(true);
 				user.setPhoneNumber(customerRequest.getPhoneNumber());
 				user.setPassword(RandomStringUtils.randomAlphabetic(10));
-				user.setRole(Role.CUSTOMER);				
+				user.setRole(Role.customer);				
 				userService.save(user);
 				
 				Customer customer = new Customer();
@@ -171,7 +171,7 @@ public class CustomerManagementController extends UserManagementBaseController {
 				addressService.saveAddress(address);
 
 				User user = new User();
-				user.setDistributorId(99L);
+				user.setDistributorId(customerRequest.getDistributorId());
 				user.setUsername(customerRequest.getUserName());
 				user.setDistributorId(customerRequest.getId());
 				user.setFirstName(customerRequest.getFirstName());

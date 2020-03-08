@@ -25,6 +25,8 @@ export class LoginService {
 
     public landingPage: string = "/home/customers";
     public landingPageAdmin: string = "/home/distributors";
+    public landingPageCustomer: string = "/home/facilities";
+    
     constructor(
         private router: Router,
         private userInfoService: UserInfoService,
@@ -82,11 +84,20 @@ export class LoginService {
         this.apiRequest.post('public/auth', bodyData)
         .subscribe(jsonResp => {
                 if (jsonResp !== undefined && jsonResp !== null && jsonResp.operationStatus === "SUCCESS") {
-
+                    
+                    let landingPage = '';
+                    if(jsonResp.item.role === 'admin') {
+                        landingPage = this.landingPageAdmin;
+                    } else if (jsonResp.item.role === 'distributor') {
+                        landingPage = this.landingPage;
+                    } else if (jsonResp.item.role === 'customer') {
+                        landingPage = this.landingPageCustomer;
+                    }
+                    
                     loginInfoReturn = {
                         "success": true,
                         "message": jsonResp.message,
-                        "landingPage": jsonResp.item.role === 'admin' ? this.landingPageAdmin : this.landingPage,
+                        "landingPage": landingPage,
                         "user": {
                             "userId": jsonResp.item.userId,
                             "email": jsonResp.item.email,

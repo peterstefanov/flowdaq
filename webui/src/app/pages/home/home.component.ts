@@ -106,6 +106,14 @@ export class HomeComponent {
         console.log(val);
     }
     
+        
+    /* Facility dialog */
+    createFacility(): void {
+        console.log("FACILITY create");
+    }
+
+    /* END Facility dialog */
+    
     /* Customer dialog */
     createCustomer(
         customer: Customer = {distributorId: this.userInfoService.getDistributorId(), id: 0, userName: '', email: '', firstName: '', lastName: '', contact: '', altContact: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0,  addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'customer'}
