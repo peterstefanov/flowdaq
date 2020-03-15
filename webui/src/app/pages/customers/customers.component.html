@@ -42,17 +42,17 @@
 
 							<div class="btn-group btn-outline-primary btn-sm" style="float: right;">
                                 <button class="btn btn-sm" (click)="editCustomer(sel)"><clr-icon shape="pencil"></clr-icon> Edit</button>
-                                <button *ngIf="!selected[0].userItem.enabled" class="btn btn-sm" (click)="enableCustomer(sel)"><clr-icon shape="unlock"></clr-icon> Enable</button>
-                                <button *ngIf="selected[0].userItem.enabled" class="btn btn-sm" (click)="disableCustomer(sel)"><clr-icon shape="lock"></clr-icon> Disable</button>
+                                <button *ngIf="!selected[0].userItem.enabled" class="btn btn-sm" (click)="enableCustomer(sel)"><clr-icon shape="unlock"></clr-icon></button>
+                                <button *ngIf="selected[0].userItem.enabled" class="btn btn-sm" (click)="disableCustomer(sel)"><clr-icon shape="lock"></clr-icon></button>
                                 <button class="btn btn-warning btn-sm" (click)="deleteCustomer(sel)"><clr-icon shape="trash"></clr-icon> Delete</button>
-                                <button class="btn btn-sm" (click)="createDelivery(sel)"><clr-icon shape="plus"></clr-icon> Create delivery</button> 
+                                <button class="btn btn-sm" (click)="createDelivery(sel)"><clr-icon shape="plus"></clr-icon> Delivery</button> 
                             </div>
                          </div>
                     </div>              
                </div>
            </div>         
        </div>
-        <div class="clr-col-lg-1 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
+       <div class="clr-col-lg-1 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
     </div>
     <div class="clr-row">
         <ngx-datatable 
@@ -77,8 +77,7 @@
             <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
                 <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
                     <div style="padding-left:55px;">
-                        <div><strong>Address</strong></div>
-                        <div>{{ row.userItem.address.addressLine1 }}, {{ row.userItem.address.addressLine2 }}, {{ row.userItem.address.addressLine3 }}, {{ row.userItem.address.city }}, {{ row.userItem.address.state }}, {{ row.userItem.address.country }}, {{ row.userItem.address.postalCode }}</div>
+                        <div><strong>Address: </strong>{{ row.userItem.address.addressLine1 }}, {{ row.userItem.address.addressLine2 }}, {{ row.userItem.address.addressLine3 }}, {{ row.userItem.address.city }}, {{ row.userItem.address.state }}, {{ row.userItem.address.country }}, {{ row.userItem.address.postalCode }}</div>
                         <div><strong>Phone number: </strong> {{ row.userItem.phoneNumber }}</div>
                         <div><strong>Customer enabled: </strong> {{ row.userItem.enabled }}</div>
                    </div>

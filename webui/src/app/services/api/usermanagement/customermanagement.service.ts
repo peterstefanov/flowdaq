@@ -85,7 +85,7 @@ export class CustomerManagementService {
         return cusatomerDataSubject;
     }
     
-    deleteDistributor(customerId): Observable < any > {
+    deleteCustomer(customerId): Observable < any > {
         let me = this;
 
         let cusatomerDataSubject: BehaviorSubject < any > = new BehaviorSubject < any > ([]);

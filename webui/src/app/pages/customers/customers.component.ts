@@ -69,11 +69,6 @@ export class CustomersComponent implements OnDestroy {
        this.editCustomerObject = {id: row.customerId, distributorId: row.userItem.distributorId, userName: row.userItem.userId, email: row.userItem.email.trim(), firstName: row.userItem.firstName, lastName: row.userItem.lastName, contact: row.contact, altContact: row.altContact, enabled: row.userItem.enabled, phoneNumber: row.userItem.phoneNumber, companyName: row.companyName, addressId: row.userItem.address.id, addressLine1: row.userItem.address.addressLine1, addressLine2: row.userItem.address.addressLine2, addressLine3: row.userItem.address.addressLine3, city: row.userItem.address.city, state: row.userItem.address.state, country: row.userItem.address.country, postalCode: row.userItem.address.postalCode, role: 'customer'} ;
        this.customerEditModal = true;       
     }     
-    
-    deleteCustomer(row) {
-       console.log('delete customer');     
-       console.log(row);  
-    }  
        
     enableCustomer(row) {
        console.log('enableCustomer ');     
@@ -94,9 +89,27 @@ export class CustomersComponent implements OnDestroy {
        console.log(row);  
     }  
     
-       /* Customer dialog */
+    /* Customer dialog */    
+    public deleteCustomer(row) {       
+       this.customerManagementService.deleteCustomer(row.customerId)
+           .subscribe(resp => {
+               if (resp.success === false) {
+                   this.customerErrorMsg = resp.message;
+                   return;
+               } else if (resp.success === true) {
+                   this.cancelCustomer();
+                   this.customerSuccessMsg = resp.message;
+                   /**On success unselect the user and reload the table*/
+                   this.remove();
+                   this.getPageData();
+                   return;
+               }              
+           }
+       );
+    }  
+    
     public saveCustomer(): void {
-        
+       
         this.customerManagementService.updateCustomer(this.editCustomerObject)
             .subscribe(resp => {
                 if (resp.success === false) {

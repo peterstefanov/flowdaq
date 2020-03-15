@@ -1,4 +1,4 @@
-package com.flowdaq.app.controller;
+package com.flowdaq.app.controller.usermanagement;
 
 import java.util.List;
 

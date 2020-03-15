@@ -1,4 +1,4 @@
-package com.flowdaq.app.controller;
+package com.flowdaq.app.controller.usermanagement;
 
 import java.util.Optional;
 
@@ -21,25 +21,21 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flowdaq.app.model.Address;
-import com.flowdaq.app.model.Distributor;
+import com.flowdaq.app.model.Customer;
 import com.flowdaq.app.model.Role;
 import com.flowdaq.app.model.User;
-import com.flowdaq.app.model.request.DistributorRequest;
+import com.flowdaq.app.model.request.CustomerRequest;
 import com.flowdaq.app.model.response.Response;
 import com.flowdaq.app.model.response.Response.ResponseStatusEnum;
 import com.flowdaq.app.service.address.AddressService;
 import com.flowdaq.app.service.customer.CustomerService;
-import com.flowdaq.app.service.distributor.DistributorService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Transactional
 @RestController
-public class DistributorManagementController extends UserManagementBaseController {
-
-	@Autowired
-	private DistributorService distributorService;
+public class CustomerManagementController extends UserManagementBaseController {
 
 	@Autowired
 	private AddressService addressService;
@@ -47,14 +43,14 @@ public class DistributorManagementController extends UserManagementBaseControlle
 	@Autowired
 	private CustomerService customerService;
 
-	@PostMapping(value = "/distributor", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Response createDistributor(@Valid @RequestBody DistributorRequest distributorRequest,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@PostMapping(value = "/customer", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Response createCustomer(@Valid @RequestBody CustomerRequest customerRequest, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		Response resp = new Response();
 
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		if (!principal.getRole().toString().equalsIgnoreCase(Role.ADMIN.toString())) {
+		if (!principal.getRole().toString().equalsIgnoreCase(Role.DISTRIBUTOR.toString())) {
 			String messsage = "User is not authorized to perform this action";
 			log.error(messsage);
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -63,7 +59,7 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			return resp;
 		}
 
-		Optional<User> existingUser = userService.findByUsername(distributorRequest.getUserName());
+		Optional<User> existingUser = userService.findByUsername(customerRequest.getUserName());
 
 		if (existingUser.isPresent()) {
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
@@ -77,36 +73,37 @@ public class DistributorManagementController extends UserManagementBaseControlle
 		} else {
 			try {
 				Address address = new Address();
-				address.setAddressLine1(distributorRequest.getAddressLine1());
-				address.setAddressLine2(distributorRequest.getAddressLine2());
-				address.setAddressLine3(distributorRequest.getAddressLine3());
-				address.setCity(distributorRequest.getCity());
-				address.setPostalCode(distributorRequest.getPostalCode());
-				address.setState(distributorRequest.getState());
-				address.setCountry(distributorRequest.getCountry());
+				address.setAddressLine1(customerRequest.getAddressLine1());
+				address.setAddressLine2(customerRequest.getAddressLine2());
+				address.setAddressLine3(customerRequest.getAddressLine3());
+				address.setCity(customerRequest.getCity());
+				address.setPostalCode(customerRequest.getPostalCode());
+				address.setState(customerRequest.getState());
+				address.setCountry(customerRequest.getCountry());
 				addressService.saveAddress(address);
 
-				Distributor distributor = new Distributor();
-				distributor.setAddressId(address.getId());
-				distributor.setDistributorName(distributorRequest.getCompanyName());
-				distributor.setDeliveryAddress(address);
-				distributorService.save(distributor);
-
-				Long distributorId = distributor.getId();
-				address.setDistributorId(distributorId);
-
 				User user = new User();
-				user.setUsername(distributorRequest.getUserName());
-				user.setDistributorId(distributorId);
-				user.setFirstName(distributorRequest.getFirstName());
-				user.setLastName(StringUtils.trim(distributorRequest.getLastName()));
-				user.setEmailAddress(distributorRequest.getEmail());
+				user.setDistributorId(customerRequest.getDistributorId());
+				user.setUsername(customerRequest.getUserName());
+				user.setFirstName(customerRequest.getFirstName());
+				user.setLastName(StringUtils.trim(customerRequest.getLastName()));
+				user.setEmailAddress(customerRequest.getEmail());
 				user.setEnabled(true);
-				user.setPhoneNumber(distributorRequest.getPhoneNumber());
+				user.setPhoneNumber(customerRequest.getPhoneNumber());
 				user.setPassword(RandomStringUtils.randomAlphabetic(10));
-				user.setRole(Role.distributor);
-
+				user.setRole(Role.customer);				
 				userService.save(user);
+				
+				Customer customer = new Customer();
+				customer.setDistributorId(customerRequest.getDistributorId());
+				customer.setAddressId(address.getId());
+				customer.setUsername(user.getUsername());
+				customer.setCompanyName(customerRequest.getCompanyName());
+				customer.setContactName(customerRequest.getContact());
+				customer.setAlternativeContactName(customerRequest.getAltContact());
+				customer.setDeliveryAddress(address);
+				customerService.save(customer);
+				
 				requestService.createResetPasswordRequest(user);
 
 			} catch (DataIntegrityViolationException dive) {
@@ -119,29 +116,29 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				return resp;
 			} catch (Exception e) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);
-				resp.setMessage("Distributor cannot be created.");
+				resp.setMessage("Customer cannot be created.");
 
-				log.error("Distributor cannot be created. ", e);
+				log.error("Customer cannot be created. ", e);
 
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				return resp;
 			}
 
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
-			resp.setMessage("Distributor created and reset password link sent to " + distributorRequest.getEmail());
+			resp.setMessage("Customer created and reset password link sent to " + customerRequest.getEmail());
 		}
 
 		return resp;
 	}
 
-	@PutMapping(value = "/distributor", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Response editDistributor(@Valid @RequestBody DistributorRequest distributorRequest,
-			HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@PutMapping(value = "/customer", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Response editCustomer(@Valid @RequestBody CustomerRequest customerRequest, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
 		Response resp = new Response();
 
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		if (!principal.getRole().toString().equalsIgnoreCase(Role.ADMIN.toString())) {
+		if (!principal.getRole().toString().equalsIgnoreCase(Role.DISTRIBUTOR.toString())) {
 			String messsage = "User is not authorized to perform this action";
 			log.error(messsage);
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -150,7 +147,7 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			return resp;
 		}
 
-		Optional<User> existingUser = userService.findByUsername(distributorRequest.getUserName());
+		Optional<User> existingUser = userService.findByUsername(customerRequest.getUserName());
 
 		if (!existingUser.isPresent()) {
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
@@ -165,34 +162,38 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			try {
 
 				Address address = new Address();
-				address.setId(distributorRequest.getAddressId());
-				address.setAddressLine1(distributorRequest.getAddressLine1());
-				address.setAddressLine2(distributorRequest.getAddressLine2());
-				address.setAddressLine3(distributorRequest.getAddressLine3());
-				address.setCity(distributorRequest.getCity());
-				address.setPostalCode(distributorRequest.getPostalCode());
-				address.setState(distributorRequest.getState());
-				address.setCountry(distributorRequest.getCountry());
+				address.setId(customerRequest.getAddressId());
+				address.setAddressLine1(customerRequest.getAddressLine1());
+				address.setAddressLine2(customerRequest.getAddressLine2());
+				address.setAddressLine3(customerRequest.getAddressLine3());
+				address.setCity(customerRequest.getCity());
+				address.setPostalCode(customerRequest.getPostalCode());
+				address.setState(customerRequest.getState());
+				address.setCountry(customerRequest.getCountry());
 				addressService.saveAddress(address);
 
-				Distributor distributor = new Distributor();
-				distributor.setId(distributorRequest.getId());
-				distributor.setAddressId(address.getId());
-				distributor.setDistributorName(distributorRequest.getCompanyName());
-				distributor.setDeliveryAddress(address);
-				distributorService.save(distributor);
-
 				User user = new User();
-				user.setUsername(distributorRequest.getUserName());
-				user.setDistributorId(distributorRequest.getId());
-				user.setFirstName(distributorRequest.getFirstName());
-				user.setLastName(distributorRequest.getLastName());
-				user.setEnabled(distributorRequest.isEnabled());
-				user.setPhoneNumber(distributorRequest.getPhoneNumber());
-				user.setEmailAddress(StringUtils.trim(distributorRequest.getEmail()));
+				user.setDistributorId(customerRequest.getDistributorId());
+				user.setUsername(customerRequest.getUserName());
+				user.setFirstName(customerRequest.getFirstName());
+				user.setLastName(customerRequest.getLastName());
+				user.setEnabled(customerRequest.isEnabled());
+				user.setPhoneNumber(customerRequest.getPhoneNumber());
+				user.setEmailAddress(StringUtils.trim(customerRequest.getEmail()));
 				user.setPassword(existingUser.get().getPassword());
-				user.setRole(Role.distributor);
+				user.setRole(Role.customer);
 				userService.update(user);
+				
+				Customer customer = new Customer();
+				customer.setId(customerRequest.getId());
+				customer.setDistributorId(customerRequest.getDistributorId());
+				customer.setAddressId(address.getId());
+				customer.setUsername(user.getUsername());
+				customer.setCompanyName(customerRequest.getCompanyName());
+				customer.setContactName(customerRequest.getContact());
+				customer.setAlternativeContactName(customerRequest.getAltContact());
+				customer.setDeliveryAddress(address);
+				customerService.save(customer);
 
 			} catch (DataIntegrityViolationException dive) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);
@@ -204,28 +205,28 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				return resp;
 			} catch (Exception e) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);
-				resp.setMessage("Distributor cannot be edited.");
+				resp.setMessage("Customer cannot be edited.");
 
-				log.error("Distributor cannot be edited. ", e);
+				log.error("Customer cannot be edited. ", e);
 
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				return resp;
 			}
 
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
-			resp.setMessage("Distributor was edited successfully");
+			resp.setMessage("Customer was edited successfully");
 		}
 
 		return resp;
 	}
-
-	@DeleteMapping(value = "/distributor/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Response deleteDistributor(HttpServletResponse response, @PathVariable Long id) throws Exception {
+	
+	@DeleteMapping(value = "/customer/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Response deleteCustomer(HttpServletResponse response, @PathVariable Long id) throws Exception {
 		Response resp = new Response();
 
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		if (!principal.getRole().toString().equalsIgnoreCase(Role.ADMIN.toString())) {
+		if (!principal.getRole().toString().equalsIgnoreCase(Role.DISTRIBUTOR.toString())) {
 			String messsage = "User is not authorized to perform this action";
 			log.error(messsage);
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -234,10 +235,10 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			return resp;
 		}
 
-		Optional<Distributor> existingDistributor = distributorService.findById(id);
+		Optional<Customer> existingCustomer = customerService.findById(id);
 
-		if (!existingDistributor.isPresent()) {
-			String messsage = "No distributor with this id";
+		if (!existingCustomer.isPresent()) {
+			String messsage = "No customer with this id: " + id;
 			log.info(messsage);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
@@ -245,38 +246,38 @@ public class DistributorManagementController extends UserManagementBaseControlle
 			return resp;
 		}
 
-		Optional<User> existingUser = userService.findByDistributorId(id);
+		Optional<User> existingUser = userService.findByUsername(existingCustomer.get().getUsername());
 
 		if (!existingUser.isPresent()) {
+			String messsage = "No user with this username: " + existingCustomer.get().getUsername();
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
-			resp.setMessage("No distributor with this id");
+			resp.setMessage(messsage);
 
-			log.info("No distributor with this id");
+			log.info(messsage);
 
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 
 			return resp;
 		} else {
 			try {
-				addressService.deleteAddress(existingDistributor.get().getAddressId());
-				distributorService.deleteDistributorById(id);
-				customerService.deleteAllByDistributorId(id);
-				/**TODO Delete coolers/devices associated with each customer?*/
+				addressService.deleteAddress(existingCustomer.get().getAddressId());
+				customerService.deleteCustomerById(id);
+				/**TODO Delete all facilities for this customer*/
+				/**TODO Delete coolers/devices associated with each facility?*/
 				userService.deleteUser(existingUser.get());
 
 			} catch (Exception e) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);
-				resp.setMessage("Distributor cannot be deleted.");
+				resp.setMessage("Customer cannot be deleted.");
 
-				log.error("Distributor cannot be deleted. ", e);
+				log.error("Customer cannot be deleted. ", e);
 
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				return resp;
 			}
 
-			// response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
-			resp.setMessage("Distributor was deleted successfully");
+			resp.setMessage("Customer was deleted successfully");
 		}
 
 		return resp;

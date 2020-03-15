@@ -39,6 +39,11 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	public Optional<Customer> findById(Long customerId) {		
+		return customerRepository.findById(customerId);
+	}
+	
+	@Override
 	public List<CustomerItem> findAllByDistributorId(Long distributorId) {
 		return processResult(customerRepository.findAllByDistributorId(distributorId));
 	}
@@ -111,5 +116,10 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public void deleteCustomerById(Long id) {
+		customerRepository.deleteById(id);
 	}
 }

@@ -1,6 +1,6 @@
 @import '../../../assets/scss/var';
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 767px) {
     .desktop-hidden {
         display: initial;
      }
@@ -8,7 +8,7 @@
         display: none;
      }
   }
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 767px) {
      .desktop-hidden {
          display: none;
      }
@@ -19,7 +19,7 @@
  @media screen and (max-width: 1024px) {
     .info, .ngx-datatable {
         text-align: left;
-        width: 98%;
+        width: 90%;
         margin: 0 auto;
     }
  } 
