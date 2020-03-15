@@ -19,5 +19,6 @@ public class CustomerItem {
 	private int count;
 	private String contact;	
 	private String altContact;
+	private Long relatedTo;
 	private UserItem userItem;
 }

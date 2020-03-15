@@ -11,6 +11,7 @@ export interface UserInStorage {
     distributorName: string;
     distributorId: number;
     customerCompany: string;
+    customerId: number;
 }
 
 export interface LoginInfoInStorage {
@@ -61,7 +62,7 @@ export class UserInfoService {
     getUserName(): string {
         let userObj: UserInStorage = this.getUserInfo();
         if (userObj !== null) {
-            return userObj.displayName
+            return userObj.displayName;
         }
         return "no-user";
     }
@@ -70,7 +71,7 @@ export class UserInfoService {
     getDistributorName(): string {
         let userObj: UserInStorage = this.getUserInfo();
         if (userObj !== null) {
-            return userObj.distributorName
+            return userObj.distributorName;
         }
         return "no-distributor";
     }
@@ -79,7 +80,7 @@ export class UserInfoService {
     getUserRole(): string {
         let userObj: UserInStorage = this.getUserInfo();
         if (userObj !== null) {
-            return userObj.role
+            return userObj.role;
         }
         return "user";
     }
@@ -96,7 +97,7 @@ export class UserInfoService {
     getDistributorId(): number {
         let userObj: UserInStorage = this.getUserInfo();
         if (userObj !== null) {
-            return userObj.distributorId
+            return userObj.distributorId;
         }
         return 0;
     }
@@ -123,8 +124,27 @@ export class UserInfoService {
     getCustomerCompany(): string {
         let userObj: UserInStorage = this.getUserInfo();
         if (userObj !== null) {
-            return userObj.customerCompany
+            return userObj.customerCompany;
         }
-        return "no-customerCompany";
+        return "no-customer-company";
+    }
+
+    //Get User's Customer Id from session storage
+    getCustomerId(): number {
+        let userObj: UserInStorage = this.getUserInfo();
+        if (userObj !== null) {
+            return userObj.customerId;
+        }
+        return 9999;
+    }
+
+    setCustomerId(customerId: number) {
+        let userObj: UserInStorage = this.getUserInfo();
+        if (userObj !== null) {
+            let user = {"userId": userObj.userId, "email": userObj.email, "role": userObj.role, "displayName": userObj.displayName,
+                        "distributorName": userObj.distributorName, "token": userObj.token, "distributorId": userObj.distributorId, "customerCompany": userObj.customerCompany,
+                        "customerId": customerId};
+            this.storage.setItem(this.currentUserKey, JSON.stringify(user));
+        }
     }
 }

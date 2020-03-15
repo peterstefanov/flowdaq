@@ -55,6 +55,9 @@ public class Customer implements Serializable {
 	@Column(name = "address_id")
 	private Long addressId;
 
+	@Column(name = "related_to")
+	private Long relatedTo;
+	
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_name", insertable = false, updatable = false)
 	private User user;

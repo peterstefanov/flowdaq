@@ -18,4 +18,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 	public List<Customer> findAllByDistributorId(Long distributorId);
 	
 	public Optional<Customer> findByUsername(String username);
+	
+	public List<Customer> findAllByRelatedTo(Long customerId);
 }

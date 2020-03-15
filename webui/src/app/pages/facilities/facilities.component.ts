@@ -41,7 +41,7 @@ export class FacilitiesComponent implements OnDestroy {
         if (!this.isToggled) {
             let me = this;
             me.isLoading = true;
-            this.customerService.getCustomers(this.userInfoService.getDistributorId()).subscribe((data) => {
+            this.customerService.getFacilities(this.userInfoService.getCustomerId()).subscribe((data) => {
                 me.rows = data.items;
                 me.isLoading = false;
             });

@@ -32,6 +32,8 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `address_id` int(11) NOT NULL, 
   `contact` varchar(60) DEFAULT NULL,
   `alt_contact` varchar(60) DEFAULT NULL,
+  `related_to` int(11) DEFAULT NULL,
+  INDEX (`user_name`, `id`),
   PRIMARY KEY (`id`),
   KEY `fk_org_bill_idx` (`address_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
@@ -45,6 +47,7 @@ CREATE TABLE IF NOT EXISTS `address` (
   `address_state` varchar(45) DEFAULT NULL,
   `address_country` varchar(45) NOT NULL,
   `address_postal_code` varchar(20) DEFAULT NULL,
+  INDEX (`id`),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 

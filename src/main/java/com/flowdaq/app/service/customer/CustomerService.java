@@ -26,4 +26,8 @@ public interface CustomerService {
 	public Optional<Customer> findById(Long customerId);
 
 	public void deleteCustomerById(Long id);
+
+	public List<CustomerItem> findAllFacilities(Long customerId);
+
+	public Long getCustomerId(String username);
 }

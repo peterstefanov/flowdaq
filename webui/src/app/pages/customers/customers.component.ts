@@ -151,6 +151,7 @@ export class CustomersComponent implements OnDestroy {
         this.selected.splice(0, this.selected.length);
         this.selected.push(...selected);
         this.userInfoService.setCustomerCompany(this.selected[0].companyName);
+        this.userInfoService.setCustomerId(this.selected[0].customerId);
     }
 
     remove() {

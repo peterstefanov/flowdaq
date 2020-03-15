@@ -45,9 +45,14 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Override
 	public List<CustomerItem> findAllByDistributorId(Long distributorId) {
-		return processResult(customerRepository.findAllByDistributorId(distributorId));
+		return processResult(customerRepository.findAllByDistributorId(distributorId), false);
 	}
 
+	@Override
+	public List<CustomerItem> findAllFacilities(Long customerId) {
+		return processResult(customerRepository.findAllByRelatedTo(customerId), true);
+	}
+	
 	@Override
 	public Page<Customer> findAll(Pageable pagebale) {
 		return customerRepository.findAll(pagebale);
@@ -66,7 +71,13 @@ public class CustomerServiceImpl implements CustomerService {
 		return cust.isPresent() ? cust.get().getCompanyName() : StringUtils.EMPTY;
 	}
 	
-	private List<CustomerItem> processResult(List<Customer> list) {
+	@Override
+	public Long getCustomerId(String username) {
+		Optional<Customer> cust = customerRepository.findByUsername(username);
+		return cust.isPresent() ? cust.get().getId() : 9999L;
+	}
+	
+	private List<CustomerItem> processResult(List<Customer> list, boolean isFacility) {
 		
 		List<CustomerItem> result = new ArrayList<>();
 		
@@ -84,6 +95,7 @@ public class CustomerServiceImpl implements CustomerService {
 			resultItem.setCount(coolers.size());
 			resultItem.setContact(item.getContactName());
 			resultItem.setAltContact(item.getAlternativeContactName());
+			resultItem.setRelatedTo(item.getRelatedTo());
 			
 			UserItem userItem = new UserItem();
 			User user = item.getUser();
@@ -112,7 +124,12 @@ public class CustomerServiceImpl implements CustomerService {
 			}
 			
 			resultItem.setUserItem(userItem );
-			result.add(resultItem);
+			if (!isFacility && item.getRelatedTo() == null) {
+				result.add(resultItem);
+			} else if (isFacility && item.getRelatedTo() != null) {
+				result.add(resultItem);
+			}
+			
 		}
 		
 		return result;

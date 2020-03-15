@@ -78,10 +78,11 @@ public class AuthenticationController {
 		    respItem.setDistributorName(user.getDistributor().getDistributorName());
 		    respItem.setDistributorId(user.getDistributorId());		    
 		    respItem.setCustomerCompany(StringUtils.EMPTY);
+		    respItem.setCustomerId(9999L);
 		    
 		    if (user.getRole().toString().equalsIgnoreCase(Role.CUSTOMER.toString())) {
-		    	String custCompany = customerService.getCustomerCompany(user.getUsername());
-		    	respItem.setCustomerCompany(custCompany);
+		    	respItem.setCustomerCompany(customerService.getCustomerCompany(user.getUsername()));
+		    	respItem.setCustomerId(customerService.getCustomerId(user.getUsername()));
 		    }
 		    
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);

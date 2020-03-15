@@ -22,7 +22,6 @@ import com.flowdaq.app.model.response.Response.ResponseStatusEnum;
 
 import lombok.extern.slf4j.Slf4j;
 
-@SuppressWarnings("deprecation")
 @Slf4j
 @RestController
 public class AdminManagementController extends UserManagementBaseController{

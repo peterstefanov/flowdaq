@@ -24,4 +24,5 @@ public class UserItem extends Response{
     private Long distributorId;
     private String phoneNumber;
     private AddressItem address;
+    private Long customerId;
 }

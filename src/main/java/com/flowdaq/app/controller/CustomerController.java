@@ -19,13 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
-public class CustomersController {
+public class CustomerController {
 
 	private CustomerService customerService;
 	
 	private final String DATE_FORMAT = "MM-dd-yyyy";
 	
-	public CustomersController(CustomerService customerService) {
+	public CustomerController(CustomerService customerService) {
 		this.customerService = customerService;
 	}
 

@@ -106,7 +106,8 @@ export class LoginService {
                             "distributorName": jsonResp.item.distributorName,
                             "token": jsonResp.item.token,
                             "distributorId": jsonResp.item.distributorId,
-                            "customerCompany": jsonResp.item.customerCompany
+                            "customerCompany": jsonResp.item.customerCompany,
+                            "customerId": jsonResp.item.customerId
                         }
                     };
 
