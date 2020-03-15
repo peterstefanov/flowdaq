@@ -192,7 +192,7 @@ public class DistributorManagementController extends UserManagementBaseControlle
 				user.setEmailAddress(StringUtils.trim(distributorRequest.getEmail()));
 				user.setPassword(existingUser.get().getPassword());
 				user.setRole(Role.distributor);
-				userService.save(user);
+				userService.update(user);
 
 			} catch (DataIntegrityViolationException dive) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);

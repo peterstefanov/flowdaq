@@ -180,7 +180,7 @@ public class CustomerManagementController extends UserManagementBaseController {
 				user.setEmailAddress(StringUtils.trim(customerRequest.getEmail()));
 				user.setPassword(existingUser.get().getPassword());
 				user.setRole(Role.customer);
-				userService.save(user);
+				userService.update(user);
 				
 				Customer customer = new Customer();
 				customer.setId(customerRequest.getId());

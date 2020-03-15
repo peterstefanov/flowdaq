@@ -85,7 +85,8 @@ export class DistributorsComponent implements OnDestroy {
        this.saveDistributor();          
     } 
     
-    deleteDistributor(row) {       
+    /* Distributor dialogs */
+    public deleteDistributor(row) {       
        this.distributorManagementService.deleteDistributor(row.distributorId)
            .subscribe(resp => {
                if (resp.success === false) {
@@ -102,10 +103,7 @@ export class DistributorsComponent implements OnDestroy {
            }
        );
     }  
-  
-   /** END Distributor action*/
-       
-   /* Distributor dialog */
+ 
     public saveDistributor(): void {
         
         this.distributorManagementService.updateDistributor(this.editDistributorObject)
@@ -132,7 +130,8 @@ export class DistributorsComponent implements OnDestroy {
     public closeDistributorSuccess(): void {
         this.distributorSuccessMsg = '';
     }
-    /* END Distributor dialog */
+    /* END Distributor dialogs */   
+    /** END Distributor action*/
     
     toggleExpandRow(row) {
         this.table.rowDetail.toggleExpandRow(row);

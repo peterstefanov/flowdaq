@@ -77,12 +77,16 @@ export class CustomersComponent implements OnDestroy {
        
     enableCustomer(row) {
        console.log('enableCustomer ');     
-       console.log(row);           
+       console.log(row);      
+       this.editCustomerObject = {id: row.customerId, distributorId: row.userItem.distributorId, userName: row.userItem.userId, email: row.userItem.email.trim(), firstName: row.userItem.firstName, lastName: row.userItem.lastName, contact: row.contact, altContact: row.altContact, enabled: true, phoneNumber: row.userItem.phoneNumber, companyName: row.companyName, addressId: row.userItem.address.id, addressLine1: row.userItem.address.addressLine1, addressLine2: row.userItem.address.addressLine2, addressLine3: row.userItem.address.addressLine3, city: row.userItem.address.city, state: row.userItem.address.state, country: row.userItem.address.country, postalCode: row.userItem.address.postalCode, role: 'customer'} ;   
+       this.saveCustomer();
     } 
     
     disableCustomer(row) {
        console.log('disableCustomer');     
-       console.log(row);           
+       console.log(row);    
+       this.editCustomerObject = {id: row.customerId, distributorId: row.userItem.distributorId, userName: row.userItem.userId, email: row.userItem.email.trim(), firstName: row.userItem.firstName, lastName: row.userItem.lastName, contact: row.contact, altContact: row.altContact, enabled: false, phoneNumber: row.userItem.phoneNumber, companyName: row.companyName, addressId: row.userItem.address.id, addressLine1: row.userItem.address.addressLine1, addressLine2: row.userItem.address.addressLine2, addressLine3: row.userItem.address.addressLine3, city: row.userItem.address.city, state: row.userItem.address.state, country: row.userItem.address.country, postalCode: row.userItem.address.postalCode, role: 'customer'} ;   
+       this.saveCustomer();
     } 
     
     createDelivery(row) {
@@ -134,14 +138,6 @@ export class CustomersComponent implements OnDestroy {
         this.selected.splice(0, this.selected.length);
         this.selected.push(...selected);
         this.userInfoService.setCustomerCompany(this.selected[0].companyName);
-    }
-    
-    add() {
-        this.selected.push(this.rows[1], this.rows[3]);
-    }
-
-    update() {
-        this.selected = [this.rows[1], this.rows[3]];
     }
 
     remove() {

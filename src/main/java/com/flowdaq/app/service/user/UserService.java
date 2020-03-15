@@ -9,6 +9,8 @@ import com.flowdaq.app.model.User;
 public interface UserService extends UserDetailsService {
 
 	public User save(User user);
+	
+	public User update(User user);
 
 	public User findByUsernameAndPassword(String id, String password);
 

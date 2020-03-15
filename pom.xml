@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.flowdaq</groupId>
 	<artifactId>flowdaq</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<version>2.0.1</version>
 	<name>flowdaq</name>
 

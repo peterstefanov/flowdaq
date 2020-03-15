@@ -13,8 +13,8 @@
         </button>
     </div>
     <div class="clr-row">
-        <div class="clr-col-lg-2 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
-        <div class="clr-col-lg-8 clr-col-md-10 clr-col-sm-6 clr-col-12">
+        <div class="clr-col-lg-1 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
+        <div class="clr-col-lg-10 clr-col-md-10 clr-col-sm-6 clr-col-12">
             <div class="card f-list-selection">
                 <div class="card-header">
                     Customer list for distributor <strong>{{distributorName}}</strong>
@@ -42,17 +42,17 @@
 
 							<div class="btn-group btn-outline-primary btn-sm" style="float: right;">
                                 <button class="btn btn-sm" (click)="editCustomer(sel)"><clr-icon shape="pencil"></clr-icon> Edit</button>
-                                <button *ngIf="!selected[0].enabled" class="btn btn-sm" (click)="enableCustomer(sel)"><clr-icon shape="unlock"></clr-icon> Enable</button>
-                                <button *ngIf="selected[0].enabled" class="btn btn-sm" (click)="disableCustomer(sel)"><clr-icon shape="lock"></clr-icon> Disable</button>
+                                <button *ngIf="!selected[0].userItem.enabled" class="btn btn-sm" (click)="enableCustomer(sel)"><clr-icon shape="unlock"></clr-icon> Enable</button>
+                                <button *ngIf="selected[0].userItem.enabled" class="btn btn-sm" (click)="disableCustomer(sel)"><clr-icon shape="lock"></clr-icon> Disable</button>
                                 <button class="btn btn-warning btn-sm" (click)="deleteCustomer(sel)"><clr-icon shape="trash"></clr-icon> Delete</button>
                                 <button class="btn btn-sm" (click)="createDelivery(sel)"><clr-icon shape="plus"></clr-icon> Create delivery</button> 
                             </div>
                          </div>
                     </div>              
                </div>
-           </div>
-           <div class="clr-col-lg-2 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
+           </div>         
        </div>
+        <div class="clr-col-lg-1 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
     </div>
     <div class="clr-row">
         <ngx-datatable 
@@ -79,8 +79,8 @@
                     <div style="padding-left:55px;">
                         <div><strong>Address</strong></div>
                         <div>{{ row.userItem.address.addressLine1 }}, {{ row.userItem.address.addressLine2 }}, {{ row.userItem.address.addressLine3 }}, {{ row.userItem.address.city }}, {{ row.userItem.address.state }}, {{ row.userItem.address.country }}, {{ row.userItem.address.postalCode }}</div>
-                        <div><strong>Phone number</strong></div>
-                        <div>{{ row.userItem.phoneNumber }}</div>
+                        <div><strong>Phone number: </strong> {{ row.userItem.phoneNumber }}</div>
+                        <div><strong>Customer enabled: </strong> {{ row.userItem.enabled }}</div>
                    </div>
                </ng-template>
             </ngx-datatable-row-detail> 
