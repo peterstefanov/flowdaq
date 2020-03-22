@@ -29,6 +29,12 @@ export class FacilitiesComponent implements OnDestroy {
     ColumnMode = ColumnMode;
     SelectionType = SelectionType;
 
+    public facilityErrorMsg: string = '';
+    public facilitySuccessMsg: string = '';
+    
+    editFacilityObject: Facility = {distributorId: 0, id: 0, relatedTo: null, userName: '', email: '', firstName: '', lastName: '', contact: '', altContact: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'facility' } as Facility;
+    facilityEditModal = false;
+    
     constructor(private router: Router, private customerService: CustomerService, private userInfoService: UserInfoService, private facilityManagementService: FacilityManagementService) {
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
@@ -40,15 +46,12 @@ export class FacilitiesComponent implements OnDestroy {
     }
 
     getPageData() {
-
-        if (!this.isToggled) {
-            let me = this;
-            me.isLoading = true;
-            this.customerService.getFacilities(this.userInfoService.getCustomerId()).subscribe((data) => {
-                me.rows = data.items;
-                me.isLoading = false;
-            });
-        }
+        let me = this;
+        me.isLoading = true;
+        this.customerService.getFacilities(this.userInfoService.getCustomerId()).subscribe((data) => {
+           me.rows = data.items;
+           me.isLoading = false;
+        });
     }
 
     onPage(event) {
@@ -58,32 +61,80 @@ export class FacilitiesComponent implements OnDestroy {
         }, 100);
     }
 
-    /**Customer action*/
-    editCustomer(row) {
-       console.log('edit customer');     
-       console.log(row);             
+    /**Facility action*/   
+    /**Facility action*/
+    editFacility(row) {
+       this.editFacilityObject = {id: row.customerId, distributorId: row.userItem.distributorId, relatedTo: row.relatedTo, userName: row.userItem.userId, email: row.userItem.email.trim(), firstName: row.userItem.firstName, lastName: row.userItem.lastName, contact: row.contact, altContact: row.altContact, enabled: row.userItem.enabled, phoneNumber: row.userItem.phoneNumber, companyName: row.companyName, addressId: row.userItem.address.id, addressLine1: row.userItem.address.addressLine1, addressLine2: row.userItem.address.addressLine2, addressLine3: row.userItem.address.addressLine3, city: row.userItem.address.city, state: row.userItem.address.state, country: row.userItem.address.country, postalCode: row.userItem.address.postalCode, role: 'facility'} ;
+       this.facilityEditModal = true;       
     }     
-    
-    deleteCustomer(row) {
-       console.log('delete customer');     
-       console.log(row);  
-    }  
        
-     enableCustomer(row) {
-       console.log('enableCustomer ');     
-       console.log(row);           
+    enableFacility(row) {   
+       this.editFacilityObject = {id: row.customerId, distributorId: row.userItem.distributorId, relatedTo: row.relatedTo, userName: row.userItem.userId, email: row.userItem.email.trim(), firstName: row.userItem.firstName, lastName: row.userItem.lastName, contact: row.contact, altContact: row.altContact, enabled: true, phoneNumber: row.userItem.phoneNumber, companyName: row.companyName, addressId: row.userItem.address.id, addressLine1: row.userItem.address.addressLine1, addressLine2: row.userItem.address.addressLine2, addressLine3: row.userItem.address.addressLine3, city: row.userItem.address.city, state: row.userItem.address.state, country: row.userItem.address.country, postalCode: row.userItem.address.postalCode, role: 'facility'} ;   
+       this.saveFacility();
     } 
     
-    disableCustomer(row) {
-       console.log('disableCustomer');     
-       console.log(row);           
+    disableFacility(row) {   
+       this.editFacilityObject = {id: row.customerId, distributorId: row.userItem.distributorId, relatedTo: row.relatedTo, userName: row.userItem.userId, email: row.userItem.email.trim(), firstName: row.userItem.firstName, lastName: row.userItem.lastName, contact: row.contact, altContact: row.altContact, enabled: false, phoneNumber: row.userItem.phoneNumber, companyName: row.companyName, addressId: row.userItem.address.id, addressLine1: row.userItem.address.addressLine1, addressLine2: row.userItem.address.addressLine2, addressLine3: row.userItem.address.addressLine3, city: row.userItem.address.city, state: row.userItem.address.state, country: row.userItem.address.country, postalCode: row.userItem.address.postalCode, role: 'facility'} ;   
+       this.saveFacility();
     } 
     
     createDelivery(row) {
        console.log('create delivery');     
        console.log(row);  
     }  
-   /** END Customer action*/
+    
+    /* Facility dialog */    
+    public deleteFacility(row) {   
+       this.facilitySuccessMsg = '';
+       this.facilityErrorMsg = '';    
+        
+       this.facilityManagementService.deleteFacility(row.customerId)
+           .subscribe(resp => {
+               if (resp.success === false) {
+                   this.facilityErrorMsg = resp.message;
+                   return;
+               } else if (resp.success === true) {
+                   this.cancelFacility();
+                   this.facilitySuccessMsg = resp.message;
+                   /**On success unselect the user and reload the table*/
+                   this.remove();
+                   this.getPageData();
+                   return;
+               }              
+           }
+       );
+    }  
+    
+    public saveFacility(): void {
+        this.facilitySuccessMsg = '';
+        this.facilityErrorMsg = '';
+        
+        this.facilityManagementService.updateFacility(this.editFacilityObject)
+            .subscribe(resp => {
+                if (resp.success === false) {
+                    this.facilityErrorMsg = resp.message;
+                    return;
+                } else if (resp.success === true) {
+                    this.cancelFacility();
+                    this.facilitySuccessMsg = resp.message;
+                    /**On success unselect the user and reload the table*/
+                    this.remove();
+                    this.getPageData();
+                    return;
+                 }              
+             }
+         );
+    }
+
+    public cancelFacility(): void {
+        this.facilityEditModal = false;
+    }
+    
+    public closeFacilitySuccess(): void {
+        this.facilitySuccessMsg = '';
+    }
+    /* END Facility dialog */
+    /** END Facility action*/
             
     toggleExpandRow(row) {
         console.log('Toggled Expand Row!', row);
@@ -99,14 +150,6 @@ export class FacilitiesComponent implements OnDestroy {
         console.log('Select Event', selected, this.selected);
         this.selected.splice(0, this.selected.length);
         this.selected.push(...selected);
-    }
-    
-    add() {
-        this.selected.push(this.rows[1], this.rows[3]);
-    }
-
-    update() {
-        this.selected = [this.rows[1], this.rows[3]];
     }
 
     remove() {

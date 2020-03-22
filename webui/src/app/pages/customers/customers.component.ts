@@ -70,16 +70,12 @@ export class CustomersComponent implements OnDestroy {
        this.customerEditModal = true;       
     }     
        
-    enableCustomer(row) {
-       console.log('enableCustomer ');     
-       console.log(row);      
+    enableCustomer(row) {    
        this.editCustomerObject = {id: row.customerId, distributorId: row.userItem.distributorId, relatedTo: row.relatedTo, userName: row.userItem.userId, email: row.userItem.email.trim(), firstName: row.userItem.firstName, lastName: row.userItem.lastName, contact: row.contact, altContact: row.altContact, enabled: true, phoneNumber: row.userItem.phoneNumber, companyName: row.companyName, addressId: row.userItem.address.id, addressLine1: row.userItem.address.addressLine1, addressLine2: row.userItem.address.addressLine2, addressLine3: row.userItem.address.addressLine3, city: row.userItem.address.city, state: row.userItem.address.state, country: row.userItem.address.country, postalCode: row.userItem.address.postalCode, role: 'customer'} ;   
        this.saveCustomer();
     } 
     
-    disableCustomer(row) {
-       console.log('disableCustomer');     
-       console.log(row);    
+    disableCustomer(row) {   
        this.editCustomerObject = {id: row.customerId, distributorId: row.userItem.distributorId, relatedTo: row.relatedTo, userName: row.userItem.userId, email: row.userItem.email.trim(), firstName: row.userItem.firstName, lastName: row.userItem.lastName, contact: row.contact, altContact: row.altContact, enabled: false, phoneNumber: row.userItem.phoneNumber, companyName: row.companyName, addressId: row.userItem.address.id, addressLine1: row.userItem.address.addressLine1, addressLine2: row.userItem.address.addressLine2, addressLine3: row.userItem.address.addressLine3, city: row.userItem.address.city, state: row.userItem.address.state, country: row.userItem.address.country, postalCode: row.userItem.address.postalCode, role: 'customer'} ;   
        this.saveCustomer();
     } 
@@ -90,7 +86,11 @@ export class CustomersComponent implements OnDestroy {
     }  
     
     /* Customer dialog */    
-    public deleteCustomer(row) {       
+    public deleteCustomer(row) {      
+               
+       this.customerSuccessMsg = '';
+       this.customerErrorMsg = ''; 
+        
        this.customerManagementService.deleteCustomer(row.customerId)
            .subscribe(resp => {
                if (resp.success === false) {
@@ -110,6 +110,9 @@ export class CustomersComponent implements OnDestroy {
     
     public saveCustomer(): void {
        
+        this.customerSuccessMsg = '';
+        this.customerErrorMsg = '';  
+        
         this.customerManagementService.updateCustomer(this.editCustomerObject)
             .subscribe(resp => {
                 if (resp.success === false) {

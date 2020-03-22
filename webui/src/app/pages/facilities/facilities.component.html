@@ -1,4 +1,17 @@
 <div class="padding-20">
+    <div *ngIf="facilitySuccessMsg" class="alert alert-success" role="alert">
+        <div class="alert-items">
+            <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                    <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+                </div>
+                <span class="alert-text">{{facilitySuccessMsg}}</span>
+            </div>
+        </div>
+        <button type="button" class="close" (click)="closeFacilitySuccess()" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
     <div class="clr-row">
         <div class="clr-col-lg-2 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
         <div class="clr-col-lg-8 clr-col-md-10 clr-col-sm-6 clr-col-12">
@@ -28,10 +41,10 @@
                             <div style="float: left;"><strong>{{ sel.companyName }}</strong></div>
 
 							<div class="btn-group btn-outline-primary btn-sm" style="float: right;">
-                                <button class="btn btn-sm" (click)="editCustomer(sel)"><clr-icon shape="pencil"></clr-icon> Edit</button>
-                                <button *ngIf="!selected[0].enabled" class="btn btn-sm" (click)="enableCustomer(sel)"><clr-icon shape="unlock"></clr-icon> Enable</button>
-                                <button *ngIf="selected[0].enabled" class="btn btn-sm" (click)="disableCustomer(sel)"><clr-icon shape="lock"></clr-icon> Disable</button>
-                                <button class="btn btn-warning btn-sm" (click)="deleteCustomer(sel)"><clr-icon shape="trash"></clr-icon> Delete</button>
+                                <button class="btn btn-sm" (click)="editFacility(sel)"><clr-icon shape="pencil"></clr-icon> Edit</button>
+                                <button *ngIf="!selected[0].userItem.enabled" class="btn btn-sm" (click)="enableFacility(sel)"><clr-icon shape="unlock"></clr-icon> Enable</button>
+                                <button *ngIf="selected[0].userItem.enabled" class="btn btn-sm" (click)="disableFacility(sel)"><clr-icon shape="lock"></clr-icon> Disable</button>
+                                <button class="btn btn-warning btn-sm" (click)="deleteFacility(sel)"><clr-icon shape="trash"></clr-icon> Delete</button>
                                 <button class="btn btn-sm" (click)="createDelivery(sel)"><clr-icon shape="plus"></clr-icon> Create delivery</button> 
                             </div>
                          </div>
@@ -117,7 +130,93 @@
     </div>
     <div *ngIf="isLoading" class="spinner spinner-lg">Loading...</div>
 </div>
-
+<clr-modal [(clrModalOpen)]="facilityEditModal" [clrModalClosable]="false">
+    <h3 class="modal-title" >Edit facility</h3>
+    <div class="modal-body">
+        <form clrForm class="clr-form clr-form-horizontal">
+            <clr-input-container>
+                <label>Username</label>
+                <input type="text" clrInput name="customerUserName" [(ngModel)]="editFacilityObject.userName" readonly placeholder="Facility user name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Email</label>
+                <input type="text" clrInput name="customerEmail" [(ngModel)]="editFacilityObject.email" placeholder="Facility email" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>First Name</label>
+                <input type="text" clrInput name="customerFirstName" [(ngModel)]="editFacilityObject.firstName" placeholder="Facility first name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Last Name</label>
+                <input type="text" clrInput name="customerLastName" [(ngModel)]="editFacilityObject.lastName" placeholder="Facility last name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Phone number</label>
+                <input type="text" clrInput name="phoneNumber" [(ngModel)]="editFacilityObject.phoneNumber" placeholder="Phone number" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Contact Name</label>
+                <input type="text" clrInput name="contactName" [(ngModel)]="editFacilityObject.contact" placeholder="Contact Name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Alternative Contact Name</label>
+                <input type="text" clrInput name="altContact" [(ngModel)]="editFacilityObject.altContact" placeholder="Alternative Contact Name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Company Name</label>
+                <input type="text" clrInput name="customerCompany" [(ngModel)]="editFacilityObject.companyName" placeholder="Company name" />
+            </clr-input-container>
+             <clr-input-container>
+                <label>Address Line 1</label>
+                <input type="text" clrInput name="addressLine1" [(ngModel)]="editFacilityObject.addressLine1" placeholder="Address Line 1" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Address Line 2</label>
+                <input type="text" clrInput name="addressLine2" [(ngModel)]="editFacilityObject.addressLine2" placeholder="Address Line 2" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Address Line 3</label>
+                <input type="text" clrInput name="addressLine3" [(ngModel)]="editFacilityObject.addressLine3" placeholder="Address Line 3" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>City</label>
+                <input type="text" clrInput name="city" [(ngModel)]="editFacilityObject.city" placeholder="City name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>State</label>
+                <input type="text" clrInput name="state" [(ngModel)]="editFacilityObject.state" placeholder="State name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Country</label>
+                <input type="text" clrInput name="country" [(ngModel)]="editFacilityObject.country" placeholder="Country name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Postal Code</label>
+                <input type="text" clrInput name="postalCode" [(ngModel)]="editFacilityObject.postalCode" placeholder="Postal Code" />
+            </clr-input-container>
+             <clr-input-container>
+                <label>Id</label>
+                <input type="text" clrInput name="id" [(ngModel)]="editFacilityObject.id" readonly placeholder="Facility id" />
+            </clr-input-container>
+        </form>
+        <div *ngIf="facilityErrorMsg" class="alert alert-danger" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">
+                        {{facilityErrorMsg}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="cancelFacility()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveFacility()">Save</button>
+    </div>
+</clr-modal>
 
 
 
