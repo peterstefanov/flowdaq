@@ -4,6 +4,9 @@ import { Router, NavigationEnd       } from '@angular/router';
 import { CustomerService             } from '../../services/api/customer.service';
 import { UserInfoService             } from '../../services/user-info.service';
 
+import { Facility                    } from '../../models/facility';
+import { FacilityManagementService   } from '../../services/api/usermanagement/facilitymanagement.service';
+
 @Component({
 	selector: 'f-facilities-pg',
 	templateUrl: './facilities.component.html',
@@ -26,7 +29,7 @@ export class FacilitiesComponent implements OnDestroy {
     ColumnMode = ColumnMode;
     SelectionType = SelectionType;
 
-    constructor(private router: Router, private customerService: CustomerService, private userInfoService: UserInfoService) {
+    constructor(private router: Router, private customerService: CustomerService, private userInfoService: UserInfoService, private facilityManagementService: FacilityManagementService) {
         this.navigationSubscription = this.router.events.subscribe((e: any) => {
             // If it is a NavigationEnd event re-initalise the component
             if (e instanceof NavigationEnd) {

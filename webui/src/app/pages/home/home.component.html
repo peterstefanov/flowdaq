@@ -52,6 +52,32 @@
                 <clr-icon aria-hidden="true" shape="close"></clr-icon>
             </button>
         </div>
+        <div *ngIf="customerSuccessMsg" class="alert alert-success" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">{{customerSuccessMsg}}</span>
+                </div>
+            </div>
+            <button type="button" class="close" (click)="closeCustomerSuccess()" aria-label="Close">
+                <clr-icon aria-hidden="true" shape="close"></clr-icon>
+            </button>
+        </div>
+        <div *ngIf="facilitySuccessMsg" class="alert alert-success" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">{{facilitySuccessMsg}}</span>
+                </div>
+            </div>
+            <button type="button" class="close" (click)="closeFacilitySuccess()" aria-label="Close">
+                <clr-icon aria-hidden="true" shape="close"></clr-icon>
+            </button>
+        </div>        
     </div>
     <router-outlet></router-outlet>
 </clr-main-container>
@@ -261,5 +287,89 @@
     <div class="modal-footer">
         <button type="button" class="btn btn-outline" (click)="cancelCustomer()">Cancel</button>
         <button type="button" class="btn btn-primary" (click)="saveCustomer()">Save</button>
+    </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="facilityCreateModal" [clrModalClosable]="false">
+    <h3 class="modal-title" >Add new facility</h3>
+    <div class="modal-body">
+        <form clrForm class="clr-form clr-form-horizontal">
+            <clr-input-container>
+                <label>Username</label>
+                <input type="text" clrInput name="customerUserName" [(ngModel)]="createFacilityObject.userName" placeholder="Facility user name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Email</label>
+                <input type="text" clrInput name="customerEmail" [(ngModel)]="createFacilityObject.email" placeholder="Facility email" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>First Name</label>
+                <input type="text" clrInput name="customerFirstName" [(ngModel)]="createFacilityObject.firstName" placeholder="Facility first name"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Last Name</label>
+                <input type="text" clrInput name="customerLastName" [(ngModel)]="createFacilityObject.lastName" placeholder="Facility last name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Phone number</label>
+                <input type="text" clrInput name="phoneNumber" [(ngModel)]="createCustomerObject.phoneNumber" placeholder="Phone number" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Contact Name</label>
+                <input type="text" clrInput name="contactName" [(ngModel)]="createFacilityObject.contact" placeholder="Contact Name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Alternative Contact Name</label>
+                <input type="text" clrInput name="altContact" [(ngModel)]="createFacilityObject.altContact" placeholder="Alternative Contact Name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Company Name</label>
+                <input type="text" clrInput name="customerCompany" [(ngModel)]="createFacilityObject.companyName" placeholder="Company name" />
+            </clr-input-container>
+             <clr-input-container>
+                <label>Address Line 1</label>
+                <input type="text" clrInput name="addressLine1" [(ngModel)]="createFacilityObject.addressLine1" placeholder="Address Line 1" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Address Line 2</label>
+                <input type="text" clrInput name="addressLine2" [(ngModel)]="createFacilityObject.addressLine2" placeholder="Address Line 2" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Address Line 3</label>
+                <input type="text" clrInput name="addressLine3" [(ngModel)]="createFacilityObject.addressLine3" placeholder="Address Line 3" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>City</label>
+                <input type="text" clrInput name="city" [(ngModel)]="createFacilityObject.city" placeholder="City name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>State</label>
+                <input type="text" clrInput name="state" [(ngModel)]="createFacilityObject.state" placeholder="State name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Country</label>
+                <input type="text" clrInput name="country" [(ngModel)]="createFacilityObject.country" placeholder="Country name" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Postal Code</label>
+                <input type="text" clrInput name="postalCode" [(ngModel)]="createFacilityObject.postalCode" placeholder="Postal Code" />
+            </clr-input-container>
+        </form>
+        <div *ngIf="facilityErrorMsg" class="alert alert-danger" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">
+                        {{facilityErrorMsg}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="cancelFacility()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveFacility()">Save</button>
     </div>
 </clr-modal>

@@ -8,10 +8,12 @@ import { UserInfoService                                 } from '../../services/
 import { AdminManagementService                          } from '../../services/api/usermanagement/adminmanagement.service';
 import { DistributorManagementService                    } from '../../services/api/usermanagement/distributormanagement.service';
 import { CustomerManagementService                       } from '../../services/api/usermanagement/customermanagement.service';
+import { FacilityManagementService                       } from '../../services/api/usermanagement/facilitymanagement.service';
 
 import { Distributor                                     } from '../../models/distributor';
 import { Admin                                           } from '../../models/admin';
 import { Customer                                        } from '../../models/customer';
+import { Facility                                        } from '../../models/facility';
 
 import { Subscription, Observable, Observer, Subject, asapScheduler, pipe, of, from, interval, merge, fromEvent } from 'rxjs';
 import { map, filter, scan, catchError, switchMap        } from 'rxjs/operators';
@@ -34,6 +36,9 @@ export class HomeComponent {
     public customerErrorMsg: string = '';
     public customerSuccessMsg: string = '';
     
+    public facilityErrorMsg: string = '';
+    public facilitySuccessMsg: string = '';
+    
     public appHeaderItems = [];
 
     public selectedHeaderItemIndex: number = 0;
@@ -41,10 +46,12 @@ export class HomeComponent {
     public userRole: string = "";
     public distributorName: string = "";
     
-    createCustomerObject: Customer = {distributorId: 0,id: 0, userName: '', email: '', firstName: '', lastName: '', contact: '', altContact: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'customer' } as Customer;
+    createFacilityObject: Facility = {distributorId: 0, id: 0, relatedTo: null, userName: '', email: '', firstName: '', lastName: '', contact: '', altContact: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'facility' } as Facility;
+    createCustomerObject: Customer = {distributorId: 0, id: 0, relatedTo: null, userName: '', email: '', firstName: '', lastName: '', contact: '', altContact: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'customer' } as Customer;
     createDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
     createAdminObject: Admin = {userName: '', email: '', firstName: '', lastName: '', phoneNumber: '', role: 'admin' } as Admin;
     
+    facilityCreateModal = false;
     customerCreateModal = false;
     distributorCreateModal = false;
     adminCreateModal = false;
@@ -56,7 +63,8 @@ export class HomeComponent {
         private userInfoService: UserInfoService,
         private adminService: AdminManagementService,
         private distributorService: DistributorManagementService,
-        private customerService: CustomerManagementService
+        private customerService: CustomerManagementService,
+        private facilityManagementService: FacilityManagementService
     ) {
 
         this.router.events.pipe(
@@ -104,19 +112,44 @@ export class HomeComponent {
     navbarSelectionChange(val) {
         console.log('navbarSelectionChange');
         console.log(val);
-    }
+    }    
+
     
-        
-    /* Facility dialog */
-    createFacility(): void {
-        console.log("FACILITY create");
+    /* Customer facility */
+    createFacility(
+        facility: Facility = {distributorId: this.userInfoService.getDistributorId(), id: 0, relatedTo: this.userInfoService.getCustomerId(), userName: '', email: '', firstName: '', lastName: '', contact: '', altContact: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0,  addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'facility'}
+    ): void {
+        this.createFacilityObject = facility;
+        this.facilityCreateModal = true;
     }
 
+    public saveFacility(): void {      
+        this.facilityManagementService.createFacility(this.createFacilityObject)
+             .subscribe(resp => {
+                    if (resp.success === false) {
+                        this.facilityErrorMsg = resp.message;
+                        return;
+                    } else if (resp.success === true) {
+                        this.cancelFacility();
+                        this.facilitySuccessMsg = resp.message;
+                        return;
+                    }              
+                }
+            );
+    }
+
+    public cancelFacility(): void {
+        this.facilityCreateModal = false;
+    }
+    
+    public closeFacilitySuccess(): void {
+        this.facilitySuccessMsg = '';
+    }
     /* END Facility dialog */
     
     /* Customer dialog */
     createCustomer(
-        customer: Customer = {distributorId: this.userInfoService.getDistributorId(), id: 0, userName: '', email: '', firstName: '', lastName: '', contact: '', altContact: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0,  addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'customer'}
+        customer: Customer = {distributorId: this.userInfoService.getDistributorId(), id: 0, relatedTo: null, userName: '', email: '', firstName: '', lastName: '', contact: '', altContact: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0,  addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'customer'}
     ): void {
         this.createCustomerObject = customer;
         this.customerCreateModal = true;

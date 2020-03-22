@@ -20,11 +20,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.flowdaq.app.ApplicationException;
 import com.flowdaq.app.model.Address;
 import com.flowdaq.app.model.Customer;
 import com.flowdaq.app.model.Role;
 import com.flowdaq.app.model.User;
-import com.flowdaq.app.model.request.CustomerRequest;
+import com.flowdaq.app.model.request.FacilityRequest;
 import com.flowdaq.app.model.response.Response;
 import com.flowdaq.app.model.response.Response.ResponseStatusEnum;
 import com.flowdaq.app.service.address.AddressService;
@@ -35,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Transactional
 @RestController
-public class CustomerManagementController extends UserManagementBaseController {
+public class FacilityManagementController extends UserManagementBaseController {
 
 	@Autowired
 	private AddressService addressService;
@@ -43,14 +44,14 @@ public class CustomerManagementController extends UserManagementBaseController {
 	@Autowired
 	private CustomerService customerService;
 
-	@PostMapping(value = "/customer", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Response createCustomer(@Valid @RequestBody CustomerRequest customerRequest, HttpServletRequest request,
+	@PostMapping(value = "/facility", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Response createFacility(@Valid @RequestBody FacilityRequest facilityRequest, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		Response resp = new Response();
 
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		if (!principal.getRole().toString().equalsIgnoreCase(Role.DISTRIBUTOR.toString())) {
+		if (!principal.getRole().toString().equalsIgnoreCase(Role.CUSTOMER.toString())) {
 			String messsage = "User is not authorized to perform this action";
 			log.error(messsage);
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -59,7 +60,7 @@ public class CustomerManagementController extends UserManagementBaseController {
 			return resp;
 		}
 
-		Optional<User> existingUser = userService.findByUsername(customerRequest.getUserName());
+		Optional<User> existingUser = userService.findByUsername(facilityRequest.getUserName());
 
 		if (existingUser.isPresent()) {
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
@@ -73,35 +74,41 @@ public class CustomerManagementController extends UserManagementBaseController {
 		} else {
 			try {
 				Address address = new Address();
-				address.setAddressLine1(customerRequest.getAddressLine1());
-				address.setAddressLine2(customerRequest.getAddressLine2());
-				address.setAddressLine3(customerRequest.getAddressLine3());
-				address.setCity(customerRequest.getCity());
-				address.setPostalCode(customerRequest.getPostalCode());
-				address.setState(customerRequest.getState());
-				address.setCountry(customerRequest.getCountry());
+				address.setAddressLine1(facilityRequest.getAddressLine1());
+				address.setAddressLine2(facilityRequest.getAddressLine2());
+				address.setAddressLine3(facilityRequest.getAddressLine3());
+				address.setCity(facilityRequest.getCity());
+				address.setPostalCode(facilityRequest.getPostalCode());
+				address.setState(facilityRequest.getState());
+				address.setCountry(facilityRequest.getCountry());
 				addressService.saveAddress(address);
 
 				User user = new User();
-				user.setDistributorId(customerRequest.getDistributorId());
-				user.setUsername(customerRequest.getUserName());
-				user.setFirstName(customerRequest.getFirstName());
-				user.setLastName(StringUtils.trim(customerRequest.getLastName()));
-				user.setEmailAddress(customerRequest.getEmail());
+				user.setDistributorId(facilityRequest.getDistributorId());
+				user.setUsername(facilityRequest.getUserName());
+				user.setFirstName(facilityRequest.getFirstName());
+				user.setLastName(StringUtils.trim(facilityRequest.getLastName()));
+				user.setEmailAddress(facilityRequest.getEmail());
 				user.setEnabled(true);
-				user.setPhoneNumber(customerRequest.getPhoneNumber());
+				user.setPhoneNumber(facilityRequest.getPhoneNumber());
 				user.setPassword(RandomStringUtils.randomAlphabetic(10));
-				user.setRole(Role.customer);				
+				user.setRole(Role.facility);				
 				userService.save(user);
 				
 				Customer customer = new Customer();
-				customer.setDistributorId(customerRequest.getDistributorId());
+				customer.setDistributorId(facilityRequest.getDistributorId());
 				customer.setAddressId(address.getId());
 				customer.setUsername(user.getUsername());
-				customer.setCompanyName(customerRequest.getCompanyName());
-				customer.setContactName(customerRequest.getContact());
-				customer.setAlternativeContactName(customerRequest.getAltContact());
+				customer.setCompanyName(facilityRequest.getCompanyName());
+				customer.setContactName(facilityRequest.getContact());
+				customer.setAlternativeContactName(facilityRequest.getAltContact());
 				customer.setDeliveryAddress(address);
+				
+				Long relatedTo = facilityRequest.getRelatedTo();
+				if(relatedTo == null) {
+					throw new ApplicationException("relatedTo should not be blank");
+				}
+				customer.setRelatedTo(relatedTo);
 				customerService.save(customer);
 				
 				requestService.createResetPasswordRequest(user);
@@ -116,29 +123,29 @@ public class CustomerManagementController extends UserManagementBaseController {
 				return resp;
 			} catch (Exception e) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);
-				resp.setMessage("Customer cannot be created.");
+				resp.setMessage("Facility cannot be created.");
 
-				log.error("Customer cannot be created. ", e);
+				log.error("Facility cannot be created. ", e);
 
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				return resp;
 			}
 
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
-			resp.setMessage("Customer created and reset password link sent to " + customerRequest.getEmail());
+			resp.setMessage("Facility created and reset password link sent to " + facilityRequest.getEmail());
 		}
 
 		return resp;
 	}
 
-	@PutMapping(value = "/customer", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Response editCustomer(@Valid @RequestBody CustomerRequest customerRequest, HttpServletRequest request,
+	@PutMapping(value = "/facility", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Response editFacility(@Valid @RequestBody FacilityRequest facilityRequest, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		Response resp = new Response();
 
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		if (!principal.getRole().toString().equalsIgnoreCase(Role.DISTRIBUTOR.toString())) {
+		if (!principal.getRole().toString().equalsIgnoreCase(Role.CUSTOMER.toString())) {
 			String messsage = "User is not authorized to perform this action";
 			log.error(messsage);
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -147,7 +154,7 @@ public class CustomerManagementController extends UserManagementBaseController {
 			return resp;
 		}
 
-		Optional<User> existingUser = userService.findByUsername(customerRequest.getUserName());
+		Optional<User> existingUser = userService.findByUsername(facilityRequest.getUserName());
 
 		if (!existingUser.isPresent()) {
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
@@ -162,37 +169,43 @@ public class CustomerManagementController extends UserManagementBaseController {
 			try {
 
 				Address address = new Address();
-				address.setId(customerRequest.getAddressId());
-				address.setAddressLine1(customerRequest.getAddressLine1());
-				address.setAddressLine2(customerRequest.getAddressLine2());
-				address.setAddressLine3(customerRequest.getAddressLine3());
-				address.setCity(customerRequest.getCity());
-				address.setPostalCode(customerRequest.getPostalCode());
-				address.setState(customerRequest.getState());
-				address.setCountry(customerRequest.getCountry());
+				address.setId(facilityRequest.getAddressId());
+				address.setAddressLine1(facilityRequest.getAddressLine1());
+				address.setAddressLine2(facilityRequest.getAddressLine2());
+				address.setAddressLine3(facilityRequest.getAddressLine3());
+				address.setCity(facilityRequest.getCity());
+				address.setPostalCode(facilityRequest.getPostalCode());
+				address.setState(facilityRequest.getState());
+				address.setCountry(facilityRequest.getCountry());
 				addressService.saveAddress(address);
 
 				User user = new User();
-				user.setDistributorId(customerRequest.getDistributorId());
-				user.setUsername(customerRequest.getUserName());
-				user.setFirstName(customerRequest.getFirstName());
-				user.setLastName(customerRequest.getLastName());
-				user.setEnabled(customerRequest.isEnabled());
-				user.setPhoneNumber(customerRequest.getPhoneNumber());
-				user.setEmailAddress(StringUtils.trim(customerRequest.getEmail()));
+				user.setDistributorId(facilityRequest.getDistributorId());
+				user.setUsername(facilityRequest.getUserName());
+				user.setFirstName(facilityRequest.getFirstName());
+				user.setLastName(facilityRequest.getLastName());
+				user.setEnabled(facilityRequest.isEnabled());
+				user.setPhoneNumber(facilityRequest.getPhoneNumber());
+				user.setEmailAddress(StringUtils.trim(facilityRequest.getEmail()));
 				user.setPassword(existingUser.get().getPassword());
-				user.setRole(Role.customer);
+				user.setRole(Role.facility);
 				userService.update(user);
 				
 				Customer customer = new Customer();
-				customer.setId(customerRequest.getId());
-				customer.setDistributorId(customerRequest.getDistributorId());
+				customer.setId(facilityRequest.getId());
+				customer.setDistributorId(facilityRequest.getDistributorId());
 				customer.setAddressId(address.getId());
 				customer.setUsername(user.getUsername());
-				customer.setCompanyName(customerRequest.getCompanyName());
-				customer.setContactName(customerRequest.getContact());
-				customer.setAlternativeContactName(customerRequest.getAltContact());
+				customer.setCompanyName(facilityRequest.getCompanyName());
+				customer.setContactName(facilityRequest.getContact());
+				customer.setAlternativeContactName(facilityRequest.getAltContact());
 				customer.setDeliveryAddress(address);
+				
+				Long relatedTo = facilityRequest.getRelatedTo();
+				if(relatedTo == null) {
+					throw new ApplicationException("relatedTo should not be blank");
+				}
+				customer.setRelatedTo(relatedTo);
 				customerService.save(customer);
 
 			} catch (DataIntegrityViolationException dive) {
@@ -205,28 +218,28 @@ public class CustomerManagementController extends UserManagementBaseController {
 				return resp;
 			} catch (Exception e) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);
-				resp.setMessage("Customer cannot be edited.");
+				resp.setMessage("Facility cannot be edited.");
 
-				log.error("Customer cannot be edited. ", e);
+				log.error("Facility cannot be edited. ", e);
 
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				return resp;
 			}
 
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
-			resp.setMessage("Customer was edited successfully");
+			resp.setMessage("Facility was edited successfully");
 		}
 
 		return resp;
 	}
 	
-	@DeleteMapping(value = "/customer/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Response deleteCustomer(HttpServletResponse response, @PathVariable Long id) throws Exception {
+	@DeleteMapping(value = "/facility/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Response deleteFacility(HttpServletResponse response, @PathVariable Long id) throws Exception {
 		Response resp = new Response();
 
 		User principal = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-		if (!principal.getRole().toString().equalsIgnoreCase(Role.DISTRIBUTOR.toString())) {
+		if (!principal.getRole().toString().equalsIgnoreCase(Role.CUSTOMER.toString())) {
 			String messsage = "User is not authorized to perform this action";
 			log.error(messsage);
 			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -238,7 +251,7 @@ public class CustomerManagementController extends UserManagementBaseController {
 		Optional<Customer> existingCustomer = customerService.findById(id);
 
 		if (!existingCustomer.isPresent()) {
-			String messsage = "No customer with this id: " + id;
+			String messsage = "No facility with this id: " + id;
 			log.info(messsage);
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			resp.setOperationStatus(ResponseStatusEnum.ERROR);
@@ -262,23 +275,21 @@ public class CustomerManagementController extends UserManagementBaseController {
 			try {
 				addressService.deleteAddress(existingCustomer.get().getAddressId());
 				customerService.deleteCustomerById(id);
-				/**TODO Delete coolers/devices associated with this customer*/
-				/**TODO Delete all facilities for this customer*/
-				/**TODO Delete coolers/devices associated with each facility*/
+				/**TODO Delete coolers/devices associated with this facility*/
 				userService.deleteUser(existingUser.get());
 
 			} catch (Exception e) {
 				resp.setOperationStatus(ResponseStatusEnum.ERROR);
-				resp.setMessage("Customer cannot be deleted.");
+				resp.setMessage("Facility cannot be deleted.");
 
-				log.error("Customer cannot be deleted. ", e);
+				log.error("fFcility cannot be deleted. ", e);
 
 				response.setStatus(HttpServletResponse.SC_CONFLICT);
 				return resp;
 			}
 
 			resp.setOperationStatus(ResponseStatusEnum.SUCCESS);
-			resp.setMessage("Customer was deleted successfully");
+			resp.setMessage("Facility was deleted successfully");
 		}
 
 		return resp;

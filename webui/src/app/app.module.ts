@@ -35,6 +35,7 @@ import { DistributorService            } from './services/api/distributor.servic
 import { AdminManagementService        } from './services/api/usermanagement/adminmanagement.service';
 import { DistributorManagementService  } from './services/api/usermanagement/distributormanagement.service';
 import { CustomerManagementService     } from './services/api/usermanagement/customermanagement.service';
+import { FacilityManagementService     } from './services/api/usermanagement/facilitymanagement.service';
 
 // Components
 import { LogoComponent                 } from './components/logo/logo.component';
@@ -82,7 +83,8 @@ import { HeaderLogoComponent           } from './components/headerlogo/headerlog
     DistributorService,
     AdminManagementService,
     DistributorManagementService,
-    CustomerManagementService
+    CustomerManagementService,
+    FacilityManagementService
     ],
   bootstrap: [AppComponent]
 })

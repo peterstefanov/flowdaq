@@ -1,4 +1,4 @@
-export interface Customer {
+export interface Facility {
   distributorId: number;
   id: number;
   relatedTo: number;
@@ -19,5 +19,5 @@ export interface Customer {
   state: string;
   postalCode: string;  
   country: string;
-  role: 'customer';
+  role: 'facility';
 }
