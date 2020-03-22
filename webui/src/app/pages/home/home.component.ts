@@ -97,16 +97,15 @@ export class HomeComponent {
         } else if (this.userRole === 'customer') {
             this.appHeaderItems = [  
                 {label: 'Facilities', href: '/home/facilities', subNav: []},
-                {label: 'Deliveries', href: '/home/deliveries', subNav: []}
-            ];
-        }else {
-             this.appHeaderItems = [
-                {label: 'Customers', href: '/home/customers', subNav: []},
-                {label: 'Facilities', href: '/home/locations', subNav: []},
                 {label: 'Devices', href: '/home/devices', subNav: []},
                 {label: 'Deliveries', href: '/home/deliveries', subNav: []}
             ];
-        }
+        } else if (this.userRole === 'facility') {
+            this.appHeaderItems = [  
+                {label: 'Devices', href: '/home/devices', subNav: []},
+                {label: 'Deliveries', href: '/home/deliveries', subNav: []}
+            ];
+        } 
     }
 
     navbarSelectionChange(val) {
