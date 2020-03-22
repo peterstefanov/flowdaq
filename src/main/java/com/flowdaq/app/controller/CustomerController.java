@@ -38,7 +38,7 @@ public class CustomerController {
 		try {
 			result = customerService.findAllByDistributorId(distributorId);
 		} catch (Exception e) {
-			log.error("Retrieving customers error: ", e.getCause());
+			log.error("Retrieving customers error: ", e);
 		}
 		
 	      

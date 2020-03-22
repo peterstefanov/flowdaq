@@ -38,7 +38,7 @@ public class FacilityController {
 		try {
 			result = customerService.findAllFacilities(customerId);
 		} catch (Exception e) {
-			log.error("Retrieving facilities error: ", e.getCause());
+			log.error("Retrieving facilities error: ", e);
 			response.setItems(Collections.EMPTY_LIST);
 			return response;
 		}

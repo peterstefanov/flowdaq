@@ -22,6 +22,8 @@ import { LogoutComponent               } from './pages/logout/logout.component';
 import { CustomersComponent            } from './pages/customers/customers.component';
 import { DistributorsComponent         } from './pages/distributors/distributors.component';
 import { FacilitiesComponent           } from './pages/facilities/facilities.component';
+import { DevicesComponent              } from './pages/devices/devices.component';
+
 
 // Services
 import { AppConfig                     } from './app-config';
@@ -36,6 +38,7 @@ import { AdminManagementService        } from './services/api/usermanagement/adm
 import { DistributorManagementService  } from './services/api/usermanagement/distributormanagement.service';
 import { CustomerManagementService     } from './services/api/usermanagement/customermanagement.service';
 import { FacilityManagementService     } from './services/api/usermanagement/facilitymanagement.service';
+import { DeviceService                 } from './services/api/device.service';
 
 // Components
 import { LogoComponent                 } from './components/logo/logo.component';
@@ -55,7 +58,8 @@ import { HeaderLogoComponent           } from './components/headerlogo/headerlog
     LogoutComponent,
     CustomersComponent,
     DistributorsComponent,
-    FacilitiesComponent
+    FacilitiesComponent,
+    DevicesComponent
   ],
   imports: [
   
@@ -84,7 +88,8 @@ import { HeaderLogoComponent           } from './components/headerlogo/headerlog
     AdminManagementService,
     DistributorManagementService,
     CustomerManagementService,
-    FacilityManagementService
+    FacilityManagementService,
+    DeviceService
     ],
   bootstrap: [AppComponent]
 })
