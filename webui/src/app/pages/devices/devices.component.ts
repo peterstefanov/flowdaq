@@ -48,7 +48,6 @@ export class DevicesComponent implements OnDestroy {
             me.rows = data.items;
             me.isLoading = false;
         });
-        console.log(me.rows);
     }
 
     onPage(event) {

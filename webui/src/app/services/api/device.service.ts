@@ -21,13 +21,10 @@ export class DeviceService {
         .subscribe(jsonResp => {
             let itemsDisplay = jsonResp.items.map(function(value, i, a) {
                 let newRow = Object.assign({}, value, {
-                    companyName: value.companyName,
-                    full: value.full,
-                    empty: value.empty,
-                    max: value.max,
-                    capacity: value.capacity,
-                    deliveryDate: value.deliveryDate,
-                    count: value.count
+                    coolerIdentifier: value.coolerIdentifier,
+                    currentFull: value.currentFull,
+                    currentEmpty: value.currentEmpty,
+                    deviceName: value.deviceName
                 });
                 return newRow;
             });

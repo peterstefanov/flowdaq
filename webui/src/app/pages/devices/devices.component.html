@@ -40,7 +40,7 @@
     <div class="clr-row">
         <ngx-datatable 
              #myTable 
-             class="material expandable" 
+             class="material" 
              [rows]="rows" 
              [columnMode]="ColumnMode.force" 
              [headerHeight]="70" 
@@ -56,59 +56,37 @@
              (select)="onSelect($event)"
          > 
          
-            <!-- Row Detail Template -->
-            <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
-                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
-                    <div style="padding-left:55px;">
-                        <div><strong>Address: </strong>{{ row.userItem.address.addressLine1 }}, {{ row.userItem.address.addressLine2 }}, {{ row.userItem.address.addressLine3 }}, {{ row.userItem.address.city }}, {{ row.userItem.address.state }}, {{ row.userItem.address.country }}, {{ row.userItem.address.postalCode }}</div>
-                        <div><strong>Phone number: </strong> {{ row.userItem.phoneNumber }}</div>
-                        <div><strong>Customer enabled: </strong> {{ row.userItem.enabled }}</div>
-                   </div>
-               </ng-template>
-            </ngx-datatable-row-detail> 
-        
+            <!-- Row Detail Template -->  
+            <ngx-datatable-column name="Device Id" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="mobile-hidden">{{row.coolerIdentifier}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+              
             <ngx-datatable-column name="Customer" prop="companyName" [flexGrow]="3" [minWidth]="200" [maxWidth]="500">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <strong>{{row.companyName}}</strong>
+                    <strong>{{customerName}}</strong>
                 </ng-template>
             </ngx-datatable-column>
         
             <ngx-datatable-column name="Full" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <span class="mobile-hidden">{{row.full}}</span>
+                    <span class="mobile-hidden">{{row.currentFull}}</span>
                 </ng-template>
             </ngx-datatable-column>
         
             <ngx-datatable-column name="Empty" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <span class="mobile-hidden">{{row.empty}}</span>
+                    <span class="mobile-hidden">{{row.currentEmpty}}</span>
                 </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column>      
         
-            <ngx-datatable-column name="Max" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
+            <ngx-datatable-column name="Name" [flexGrow]="2" [minWidth]="70" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <span class="mobile-hidden">{{row.max}}</span>
+                    <span class="mobile-hidden">{{row.deviceName}}</span>
                 </ng-template>
             </ngx-datatable-column>
-        
-            <ngx-datatable-column name="Capacity" [flexGrow]="2" [minWidth]="70" [maxWidth]="200">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <span class="mobile-hidden">{{row.capacity}}</span>
-                </ng-template>
-            </ngx-datatable-column>
-        
-            <ngx-datatable-column name="Last Delivery" [flexGrow]="3" [minWidth]="200" [maxWidth]="500">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <span class="mobile-hidden">{{row.deliveryDate | date}}</span>
-                </ng-template>
-            </ngx-datatable-column>
-        
-            <ngx-datatable-column name="No. Coolers" [flexGrow]="1" [minWidth]="80" [maxWidth]="200">
-                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <span class="mobile-hidden">{{row.count}}</span>
-                </ng-template>
-            </ngx-datatable-column>
- 
+
         </ngx-datatable>
     </div>
     <div *ngIf="isLoading" class="spinner spinner-lg">Loading...</div>
