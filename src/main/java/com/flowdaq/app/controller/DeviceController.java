@@ -29,7 +29,7 @@ public class DeviceController {
 	}
 
 	@GetMapping(value = "/devices/{customerId}")
-	public DeviceResponse getCustomers(@PathVariable Long customerId) {
+	public DeviceResponse getDevices(@PathVariable Long customerId) {
 
 		
 		DeviceResponse response = new DeviceResponse();

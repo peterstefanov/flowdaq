@@ -77,3 +77,21 @@ CREATE TABLE IF NOT EXISTS `resetpassword` (
   `created_at` date NOT NULL,
   PRIMARY KEY (`user_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `delivery` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `status` varchar(30) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `facility_id` int(11) NOT NULL,
+  `driver_id` int(11) DEFAULT NULL,
+  `vehicle_id` int(11) DEFAULT NULL,
+  `delivery_date` date NOT NULL,
+  `full_bottles` int(11) NOT NULL,
+  `route_id` int(11) DEFAULT NULL,
+  `empties_retrieved` int(11) DEFAULT NULL,
+  `delivery_notes` text NOT NULL,
+  `actual_fulls_delivered` int(11) NOT NULL,
+  `actual_delivery_date` date DEFAULT NULL,
+  `actual_empties_retrieved` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=152 ;
