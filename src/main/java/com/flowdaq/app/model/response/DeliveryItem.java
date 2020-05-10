@@ -20,10 +20,18 @@ public class DeliveryItem {
 
 	private String status;
 
-	private Long customerId;
+	private Long fromDitributorId;
 
-	private Long facilityId;
+	private Long fromCustomerId;
 
+	private Long fromFacilityId;
+
+	private Long toCustomerId;
+
+	private Long toFacilityId;
+
+	private Long toCoolerId;
+	
 	private Long driverId;
 
 	private Long vehicleId;

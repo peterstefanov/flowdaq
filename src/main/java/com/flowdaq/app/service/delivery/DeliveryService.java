@@ -6,7 +6,10 @@ import com.flowdaq.app.model.response.DeliveryItem;
 
 public interface DeliveryService {
 	
-	List<DeliveryItem> findAllByCustomerId(Long customerId);
+	public List<DeliveryItem> findAllByDistributorId(Long distributorId);
 	
-	List<DeliveryItem> findAllByFacilityId(Long facilityId);
+	public List<DeliveryItem> findAllByCustomerId(Long customerId);
+	
+	public List<DeliveryItem> findAllByFacilityId(Long facilityId);
+
 }

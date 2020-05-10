@@ -8,8 +8,9 @@ import com.flowdaq.app.model.Delivery;
 
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 
+	public List<Delivery> findAllByFromDistributorId(Long distributorId);
 	
-	List<Delivery> findAllByCustomerId(Long customerId);
+	public List<Delivery> findAllByFromCustomerId(Long customerId);
 	
-	List<Delivery> findAllByFacilityId(Long facilityId);
+	public List<Delivery> findAllByFromFacilityId(Long facilityId);	
 }

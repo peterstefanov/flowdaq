@@ -14,38 +14,37 @@ import com.flowdaq.app.repository.DeliveryRepository;
 public class DeliveryServiceImpl implements DeliveryService {
 
 	@Autowired
-	private DeliveryRepository deliveryRepository ;
+	private DeliveryRepository deliveryRepository;
+
+	@Override
+	public List<DeliveryItem> findAllByDistributorId(Long distributorId) {
+		return processDeliveries(deliveryRepository.findAllByFromDistributorId(distributorId));
+	}
 	
 	@Override
-	public List<DeliveryItem> findAllByCustomerId(Long customerId) {		
-		return processDeliveries(deliveryRepository.findAllByCustomerId(customerId));
+	public List<DeliveryItem> findAllByCustomerId(Long customerId) {
+		return processDeliveries(deliveryRepository.findAllByFromCustomerId(customerId));
 	}
 
 	@Override
-	public List<DeliveryItem> findAllByFacilityId(Long facilityId) {		
-		return processDeliveries(deliveryRepository.findAllByFacilityId(facilityId));
+	public List<DeliveryItem> findAllByFacilityId(Long facilityId) {
+		return processDeliveries(deliveryRepository.findAllByFromFacilityId(facilityId));
 	}
 
 	private List<DeliveryItem> processDeliveries(List<Delivery> list) {
-		
+
 		List<DeliveryItem> result = new ArrayList<>();
-		
+
 		for (Delivery item : list) {
-			DeliveryItem deviceItem = DeliveryItem.builder()
-					.id(item.getId())
-					.status(item.getStatus())
-					.customerId(item.getCustomerId())
-					.facilityId(item.getFacilityId())
-	                .driverId(item.getDriverId())
-	                .vehicleId(item.getVehicleId())
-	                .deliveryDate(item.getDeliveryDate())
-	                .actualDeliveryDate(item.getActualDeliveryDate())
-	                .fullBottles(item.getFullBottles())
-	                .actualFullsDelivered(item.getActualFullsDelivered())
-	                .routeId(item.getRouteId())
-	                .emptiesRetrieved(item.getEmptiesRetrieved())
-	                .actualEmptiesRetrieved(item.getActualEmptiesRetrieved())
-	                .deliveryNotes(item.getDeliveryNotes())
+			DeliveryItem deviceItem = DeliveryItem.builder().id(item.getId()).status(item.getStatus())
+					.fromDitributorId(item.getFromDitributorId()).fromCustomerId(item.getFromCustomerId())
+					.fromFacilityId(item.getFromFacilityId()).toCustomerId(item.getToCustomerId())
+					.toFacilityId(item.getToFacilityId()).toCoolerId(item.getToCoolerId()).driverId(item.getDriverId())
+					.vehicleId(item.getVehicleId()).deliveryDate(item.getDeliveryDate())
+					.actualDeliveryDate(item.getActualDeliveryDate()).fullBottles(item.getFullBottles())
+					.actualFullsDelivered(item.getActualFullsDelivered()).routeId(item.getRouteId())
+					.emptiesRetrieved(item.getEmptiesRetrieved())
+					.actualEmptiesRetrieved(item.getActualEmptiesRetrieved()).deliveryNotes(item.getDeliveryNotes())
 					.build();
 			result.add(deviceItem);
 		}

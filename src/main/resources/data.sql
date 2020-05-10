@@ -81,8 +81,12 @@ CREATE TABLE IF NOT EXISTS `resetpassword` (
 CREATE TABLE IF NOT EXISTS `delivery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` varchar(30) NOT NULL,
-  `customer_id` int(11) NOT NULL,
-  `facility_id` int(11) NOT NULL,
+  `from_ditributor_id` int(11) DEFAULT NULL,
+  `from_customer_id` int(11) DEFAULT NULL,
+  `from_facility_id` int(11) DEFAULT NULL,
+  `to_customer_id` int(11) DEFAULT NULL,
+  `to_facility_id` int(11) DEFAULT NULL,
+  `to_cooler_id` int(11) DEFAULT NULL,
   `driver_id` int(11) DEFAULT NULL,
   `vehicle_id` int(11) DEFAULT NULL,
   `delivery_date` date NOT NULL,
@@ -94,4 +98,4 @@ CREATE TABLE IF NOT EXISTS `delivery` (
   `actual_delivery_date` date DEFAULT NULL,
   `actual_empties_retrieved` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=152 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=152;

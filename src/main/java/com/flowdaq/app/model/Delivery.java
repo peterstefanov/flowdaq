@@ -36,12 +36,24 @@ public class Delivery implements Serializable {
 	@Column(name = "status")
 	private String status;
 
-	@Column(name = "customer_id")
-	private Long customerId;
+	@Column(name = "from_ditributor_id")
+	private Long fromDitributorId;
+	
+	@Column(name = "from_customer_id")
+	private Long fromCustomerId;
 
-	@Column(name = "facility_id")
-	private Long facilityId;
+	@Column(name = "from_facility_id")
+	private Long fromFacilityId;
 
+	@Column(name = "to_customer_id")
+	private Long toCustomerId;
+	
+	@Column(name = "to_facility_id")
+	private Long toFacilityId;
+
+	@Column(name = "to_cooler_id")
+	private Long toCoolerId;
+	
 	@Column(name = "driver_id")
 	private Long driverId;
 
