@@ -36,8 +36,8 @@ public class DeliveryServiceImpl implements DeliveryService {
 		List<DeliveryItem> result = new ArrayList<>();
 
 		for (Delivery item : list) {
-			DeliveryItem deviceItem = DeliveryItem.builder().id(item.getId()).status(item.getStatus())
-					.fromDitributorId(item.getFromDitributorId()).fromCustomerId(item.getFromCustomerId())
+			DeliveryItem deviceItem = DeliveryItem.builder().id(item.getId()).status(item.getStatus().toString())
+					.fromDistributorId(item.getFromDistributorId()).fromCustomerId(item.getFromCustomerId())
 					.fromFacilityId(item.getFromFacilityId()).toCustomerId(item.getToCustomerId())
 					.toFacilityId(item.getToFacilityId()).toCoolerId(item.getToCoolerId()).driverId(item.getDriverId())
 					.vehicleId(item.getVehicleId()).deliveryDate(item.getDeliveryDate())

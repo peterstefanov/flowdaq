@@ -81,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `resetpassword` (
 CREATE TABLE IF NOT EXISTS `delivery` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `status` varchar(30) NOT NULL,
-  `from_ditributor_id` int(11) DEFAULT NULL,
+  `from_distributor_id` int(11) DEFAULT NULL,
   `from_customer_id` int(11) DEFAULT NULL,
   `from_facility_id` int(11) DEFAULT NULL,
   `to_customer_id` int(11) DEFAULT NULL,

@@ -20,7 +20,7 @@ public class DeliveryItem {
 
 	private String status;
 
-	private Long fromDitributorId;
+	private Long fromDistributorId;
 
 	private Long fromCustomerId;
 
