@@ -34,4 +34,11 @@ springfox:
       v2:
         path: '/api-docs'   
  
-     
+flowdaq:
+  app:
+    security:
+      jwt:
+        issuer: flowdaq  
+        expiration-sec: 100  
+        clock-skew-sec: 3000 
+        secret: some_secret!changeMe

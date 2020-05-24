@@ -40,10 +40,10 @@ public final class JwtTokenService implements Clock, TokenService {
 	int clockSkewSec;
 	String secretKey;
 
-	public JwtTokenService(final DateService dates, @Value("${jwt.issuer:flowdaq}") final String issuer,
-			@Value("${jwt.expiration-sec:100}") final int expirationSec,
-			@Value("${jwt.clock-skew-sec:3000}") final int clockSkewSec,
-			@Value("${jwt.secret:some_secret}") final String secret) {
+	public JwtTokenService(final DateService dates, @Value("${flowdaq.app.security.jwt.issuer}") final String issuer,
+			@Value("${flowdaq.app.security.jwt.expiration-sec}") final int expirationSec,
+			@Value("${flowdaq.app.security.jwt.clock-skew-sec}") final int clockSkewSec,
+			@Value("${flowdaq.app.security.jwt.secret}") final String secret) {
 		super();
 		this.dates = requireNonNull(dates);
 		this.issuer = requireNonNull(issuer);
@@ -71,8 +71,9 @@ public final class JwtTokenService implements Clock, TokenService {
 			claims.setExpiration(expiresAt.toDate());
 		}
 		claims.putAll(attributes);
+		String jwt = Jwts.builder().setClaims(claims).signWith(HS256, secretKey).compressWith(COMPRESSION_CODEC).compact();
 
-		return Jwts.builder().setClaims(claims).signWith(HS256, secretKey).compressWith(COMPRESSION_CODEC).compact();
+		return jwt;
 	}
 
 	@Override
