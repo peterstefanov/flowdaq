@@ -77,6 +77,11 @@ public class CustomerServiceImpl implements CustomerService {
 		return cust.isPresent() ? cust.get().getId() : 9999L;
 	}
 	
+	@Override
+	public void deleteCustomerById(Long id) {
+		customerRepository.deleteById(id);
+	}
+	
 	private List<CustomerItem> processResult(List<Customer> list, boolean isFacility) {
 		
 		List<CustomerItem> result = new ArrayList<>();
@@ -133,10 +138,5 @@ public class CustomerServiceImpl implements CustomerService {
 		}
 		
 		return result;
-	}
-
-	@Override
-	public void deleteCustomerById(Long id) {
-		customerRepository.deleteById(id);
 	}
 }

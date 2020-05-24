@@ -2,6 +2,7 @@ package com.flowdaq.app.service.delivery;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,22 @@ public class DeliveryServiceImpl implements DeliveryService {
 		return processDeliveries(deliveryRepository.findAllByFromFacilityId(facilityId));
 	}
 
+	@Override
+	public void deleteDeliveryById(Long id) {
+		deliveryRepository.deleteById(id);		
+	}
+	
+	@Override
+	public Optional<Delivery> findById(Long id) {
+		return deliveryRepository.findById(id);
+	}
+	
+	@Override
+	public Delivery save(Delivery delivery) {
+		return deliveryRepository.save(delivery);
+		
+	}
+	
 	private List<DeliveryItem> processDeliveries(List<Delivery> list) {
 
 		List<DeliveryItem> result = new ArrayList<>();
