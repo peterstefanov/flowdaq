@@ -3,6 +3,7 @@ package com.flowdaq.app.controller;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flowdaq.app.model.User;
 import com.flowdaq.app.model.response.CustomerItem;
 import com.flowdaq.app.model.response.CustomerResponse;
+import com.flowdaq.app.model.response.DeliveryItem;
+import com.flowdaq.app.model.response.DeliveryResponse;
 import com.flowdaq.app.service.customer.CustomerService;
+import com.flowdaq.app.service.delivery.DeliveryService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,9 +27,12 @@ import lombok.extern.slf4j.Slf4j;
 public class FacilityController {
 
 	private CustomerService customerService;
+	private DeliveryService deliveryService;
 	
-	public FacilityController(CustomerService customerService) {
+	@Autowired
+	public FacilityController(CustomerService customerService, DeliveryService deliveryService) {
 		this.customerService = customerService;
+		this.deliveryService = deliveryService;
 	}
 
 	@GetMapping(value = "/facilities/{customerId}")
@@ -43,6 +50,25 @@ public class FacilityController {
 			return response;
 		}
 			      
+		response.setItems(result);
+		
+		return response;
+	}
+	
+	@GetMapping(value = "/facilities/delivery/{facilityId}")
+	public DeliveryResponse getDeliveriesForFacility(@PathVariable Long customerId) {
+
+		
+		DeliveryResponse response = new DeliveryResponse();
+		List<DeliveryItem> result = null;
+		try {
+			result = deliveryService.findAllByFacilityId(customerId);
+		} catch (Exception e) {
+			log.error("Retrieving deliveries error: ", e);
+			response.setItems(Collections.EMPTY_LIST);
+			return response;
+		}
+
 		response.setItems(result);
 		
 		return response;
