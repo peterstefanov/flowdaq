@@ -20,4 +20,7 @@ public interface DeliveryService {
 
 	public Delivery save(Delivery delivery);
 
+	/**Remove this method*/
+	public List<DeliveryItem> findAll();
+
 }

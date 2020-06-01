@@ -33,6 +33,11 @@ public class DeliveryServiceImpl implements DeliveryService {
 	}
 
 	@Override
+	public List<DeliveryItem> findAll() {
+		return processDeliveries(deliveryRepository.findAll());
+	}
+	
+	@Override
 	public void deleteDeliveryById(Long id) {
 		deliveryRepository.deleteById(id);		
 	}

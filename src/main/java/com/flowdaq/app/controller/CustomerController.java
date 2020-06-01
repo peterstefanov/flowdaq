@@ -73,4 +73,24 @@ public class CustomerController {
 		
 		return response;
 	}
+	
+	/**Remove this method*/
+	@GetMapping(value = "/customers/delivery")
+	public DeliveryResponse getAllDeliveries() {
+
+		
+		DeliveryResponse response = new DeliveryResponse();
+		List<DeliveryItem> result = null;
+		try {
+			result = deliveryService.findAll();
+		} catch (Exception e) {
+			log.error("Retrieving deliveries error: ", e);
+			response.setItems(Collections.EMPTY_LIST);
+			return response;
+		}
+
+		response.setItems(result);
+		
+		return response;
+	}
 }

@@ -26,6 +26,7 @@ export class LoginService {
     public landingPage: string = "/home/customers";
     public landingPageAdmin: string = "/home/distributors";
     public landingPageCustomer: string = "/home/facilities";
+    public landingPageFacility: string = "/home/devices";
     
     constructor(
         private router: Router,
@@ -92,6 +93,8 @@ export class LoginService {
                         landingPage = this.landingPage;
                     } else if (jsonResp.item.role === 'customer') {
                         landingPage = this.landingPageCustomer;
+                    } else if (jsonResp.item.role === 'facility') {
+                        landingPage = this.landingPageFacility;
                     }
                     
                     loginInfoReturn = {

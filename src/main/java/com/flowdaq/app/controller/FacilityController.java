@@ -56,13 +56,13 @@ public class FacilityController {
 	}
 	
 	@GetMapping(value = "/facilities/delivery/{facilityId}")
-	public DeliveryResponse getDeliveriesForFacility(@PathVariable Long customerId) {
+	public DeliveryResponse getDeliveriesForFacility(@PathVariable Long facilityId) {
 
 		
 		DeliveryResponse response = new DeliveryResponse();
 		List<DeliveryItem> result = null;
 		try {
-			result = deliveryService.findAllByFacilityId(customerId);
+			result = deliveryService.findAllByFacilityId(facilityId);
 		} catch (Exception e) {
 			log.error("Retrieving deliveries error: ", e);
 			response.setItems(Collections.EMPTY_LIST);

@@ -23,6 +23,7 @@ import { CustomersComponent            } from './pages/customers/customers.compo
 import { DistributorsComponent         } from './pages/distributors/distributors.component';
 import { FacilitiesComponent           } from './pages/facilities/facilities.component';
 import { DevicesComponent              } from './pages/devices/devices.component';
+import { DeliveriesComponent           } from './pages/deliveries/deliveries.component';
 
 
 // Services
@@ -39,6 +40,7 @@ import { DistributorManagementService  } from './services/api/usermanagement/dis
 import { CustomerManagementService     } from './services/api/usermanagement/customermanagement.service';
 import { FacilityManagementService     } from './services/api/usermanagement/facilitymanagement.service';
 import { DeviceService                 } from './services/api/device.service';
+import { DeliveryService               } from './services/api/delivery.service';
 
 // Components
 import { LogoComponent                 } from './components/logo/logo.component';
@@ -59,7 +61,8 @@ import { HeaderLogoComponent           } from './components/headerlogo/headerlog
     CustomersComponent,
     DistributorsComponent,
     FacilitiesComponent,
-    DevicesComponent
+    DevicesComponent,
+    DeliveriesComponent
   ],
   imports: [
   
@@ -89,7 +92,8 @@ import { HeaderLogoComponent           } from './components/headerlogo/headerlog
     DistributorManagementService,
     CustomerManagementService,
     FacilityManagementService,
-    DeviceService
+    DeviceService,
+    DeliveryService
     ],
   bootstrap: [AppComponent]
 })

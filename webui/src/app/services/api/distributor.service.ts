@@ -38,4 +38,25 @@ export class DistributorService {
 
         return distributorListSubject;
     }
+    
+    getDistributorsDeliveries(distributorId): Observable < any > {
+        let me = this;
+
+        let distributorDeliveriesListSubject = new Subject < any > ();
+
+        this.apiRequest.getNoParams('api/distributors/delivery/' + distributorId)
+        .subscribe(jsonResp => {
+            let itemsDisplay = jsonResp.items.map(function(value, i, a) {
+                let newRow = Object.assign({}, value, {});
+                return newRow;
+            });
+
+            let returnObj = Object.assign({}, jsonResp, {
+                items: itemsDisplay
+            })
+            distributorDeliveriesListSubject.next(returnObj);
+        });
+
+        return distributorDeliveriesListSubject;
+    }
 }

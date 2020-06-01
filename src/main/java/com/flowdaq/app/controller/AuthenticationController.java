@@ -80,7 +80,7 @@ public class AuthenticationController {
 		    respItem.setCustomerCompany(StringUtils.EMPTY);
 		    respItem.setCustomerId(9999L);
 		    
-		    if (user.getRole().toString().equalsIgnoreCase(Role.CUSTOMER.toString())) {
+		    if (user.getRole().toString().equalsIgnoreCase(Role.CUSTOMER.toString()) || user.getRole().toString().equalsIgnoreCase(Role.FACILITY.toString())) {
 		    	respItem.setCustomerCompany(customerService.getCustomerCompany(user.getUsername()));
 		    	respItem.setCustomerId(customerService.getCustomerId(user.getUsername()));
 		    }

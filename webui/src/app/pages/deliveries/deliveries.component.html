@@ -1,0 +1,256 @@
+<div class="padding-20">
+    <div *ngIf="deliverySuccessMsg" class="alert alert-success" role="alert">
+        <div class="alert-items">
+            <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                    <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
+                </div>
+                <span class="alert-text">{{deliverySuccessMsg}}</span>
+            </div>
+        </div>
+        <button type="button" class="close" (click)="closeDeliverySuccess()" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
+    <div class="clr-row">
+        <div class="clr-col-lg-2 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
+        <div class="clr-col-lg-8 clr-col-md-10 clr-col-sm-6 clr-col-12">
+            <div class="card f-list-selection">
+                <div *ngIf="userRole === 'distributor'" class="card-header">
+                    Delivery list for distributor <strong>{{distributorName}}</strong>
+                </div>
+                <div *ngIf="userRole === 'customer'" class="card-header">
+                    Delivery list for customer <strong>{{customerName}}</strong>
+                </div>
+                <div *ngIf="userRole === 'facility'" class="card-header">
+                    Delivery list for facility <strong>{{customerName}}</strong>
+                </div>
+                <div *ngIf="userRole === 'admin'" class="card-header">
+                    Delivery list for all customers & distributors <strong>{{userName}}</strong>
+                </div>
+                <div class="card-block">
+                    <div class="card-media-block wrap">         
+                        <div class="card-media-description">
+                            <span class="card-media-text">Expand the row to see the delivery details. You can also delete or amend, once you have selected it.</span>
+                        </div>
+                    </div>             
+                    <div *ngIf="selected.length">
+                        <div style="margin-bottom: 10px;">
+                            <span class="card-media-title">
+                                You can 
+                                <small>
+                                    <a href="javascript:void(0)" (click)="remove()">remove</a>
+                                </small>
+                                selected delivery.
+                            </span>
+                        </div>
+                        
+                        <div *ngFor="let sel of selected" style="display: flow-root;margin-bottom: 10px;">
+                            <div style="float: left;"><strong>{{ sel.companyName }}</strong></div>
+
+							<div class="btn-group btn-outline-primary btn-sm" style="float: right;">
+                                <button class="btn btn-sm" (click)="editDelivery(sel)"><clr-icon shape="pencil"></clr-icon> Edit</button>
+                                <button class="btn btn-warning btn-sm" (click)="deleteDelivery(sel)"><clr-icon shape="trash"></clr-icon> Delete</button>
+                            </div>
+                         </div>
+                    </div>              
+               </div>
+           </div>
+       </div>
+        <div class="clr-col-lg-2 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
+    </div>
+    <div class="clr-row">
+        <ngx-datatable 
+             #myTable 
+             class="material expandable" 
+             [rows]="rows" 
+             [columnMode]="ColumnMode.force" 
+             [headerHeight]="70" 
+             [footerHeight]="50" 
+             rowHeight="auto" 
+             [scrollbarV]="false" 
+             [sorts]="[{prop: 'name', dir: 'desc'}]"
+             (page)="onPage($event)"
+             [limit]="5"
+             [selected]="selected"
+             [selectionType]="SelectionType.single"
+             (activate)="onActivate($event)"
+             (select)="onSelect($event)"
+         > 
+         
+            <!-- Row Detail Template -->
+            <ngx-datatable-row-detail [rowHeight]="100" #myDetailRow (toggle)="onDetailToggle($event)">
+                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+                    <div style="padding-left:55px;">
+                        <div><strong>Details: </strong> Driver Id - {{ row.driverId }},  Vehicle Id - {{ row.vehicleId }}, Route Id - {{ row.routeId }}</div>
+                        <div><strong>Delivery Notes: </strong>{{ row.deliveryNotes }}</div>        
+                        <div><strong>Actual: </strong>Full delivered - {{ row.actualFullsDelivered }}, Empties retrieved - {{ row.actualEmptiesRetrieved }}</div>             
+                   </div>
+               </ng-template>
+            </ngx-datatable-row-detail> 
+        
+           <ngx-datatable-column name="Id" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <strong>{{row.id}}</strong>
+                </ng-template>
+            </ngx-datatable-column>
+            
+            <ngx-datatable-column name="From" prop="from" [flexGrow]="2" [minWidth]="80" [maxWidth]="200">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <strong *ngIf="userRole === 'distributor'">{{row.fromDistributorId}}</strong>
+                    <strong *ngIf="userRole === 'customer'">{{row.fromCustomerId}}</strong>
+                    <strong *ngIf="userRole === 'facility'">{{row.fromFacilityId}}</strong>
+                </ng-template>
+            </ngx-datatable-column>
+        
+            <ngx-datatable-column name="To" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <strong *ngIf="userRole === 'distributor'">{{row.toCustomerId}}</strong>
+                    <strong *ngIf="userRole === 'customer'">{{row.toFacilityId}}</strong>
+                    <strong *ngIf="userRole === 'facility'">{{row.toCoolerId}}</strong>
+                </ng-template>
+            </ngx-datatable-column>
+        
+            <ngx-datatable-column name="Status" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="mobile-hidden">{{row.status}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+        
+            <ngx-datatable-column name="Full Bottles" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="mobile-hidden">{{row.fullBottles}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+        
+            <ngx-datatable-column name="Retrieved" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="mobile-hidden">{{row.emptiesRetrieved}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+        
+            <ngx-datatable-column name="Delivery Date" [flexGrow]="3" [minWidth]="200" [maxWidth]="500">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="mobile-hidden">{{row.deliveryDate | date}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+        
+            <ngx-datatable-column name="Actual Date" [flexGrow]="3" [minWidth]="200" [maxWidth]="500">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <span class="mobile-hidden">{{row.actualDeliveryDate | date}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+ 
+        </ngx-datatable>
+    </div>
+    <div *ngIf="isLoading" class="spinner spinner-lg">Loading...</div>
+</div>
+
+<clr-modal [(clrModalOpen)]="deliveryEditModal" [clrModalClosable]="false">
+    <h3 class="modal-title" >Edit delivery</h3>
+    <div class="modal-body">
+        <form clrForm class="clr-form clr-form-horizontal">
+            <clr-input-container>
+                <label>Status</label>
+                <input type="text" clrInput name="deliveryStatus" [(ngModel)]="editDeliveryObject.status" placeholder="Delivery status"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>From Distributor</label>
+                <input type="text" clrInput name="fromDistributorId" [(ngModel)]="editDeliveryObject.fromDistributorId" placeholder="Delivery from Distributor"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>From Customer</label>
+                <input type="text" clrInput name="fromCustomerId" [(ngModel)]="editDeliveryObject.fromCustomerId" placeholder="Delivery from Customer"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>From Facility</label>
+                <input type="text" clrInput name="fromFacilityId" [(ngModel)]="editDeliveryObject.fromFacilityId" placeholder="Delivery from Facility"/>
+            </clr-input-container>
+             <clr-input-container>
+                <label>To Customer</label>
+                <input type="text" clrInput name="toCustomerId" [(ngModel)]="editDeliveryObject.toCustomerId" placeholder="Delivery to Customer"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>To Facility</label>
+                <input type="text" clrInput name="toFacilityId" [(ngModel)]="editDeliveryObject.toFacilityId" placeholder="Delivery to Facility"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>To Cooler</label>
+                <input type="text" clrInput name="toCoolerId" [(ngModel)]="editDeliveryObject.toCoolerId" placeholder="Delivery to Cooler"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Driver id</label>
+                <input type="text" clrInput name="driverId" [(ngModel)]="editDeliveryObject.driverId" placeholder="Delivery driver id" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Vehicle id</label>
+                <input type="text" clrInput name="vehicleId" [(ngModel)]="editDeliveryObject.vehicleId" placeholder="Delivery vehicle id" />
+            </clr-input-container>         
+            <clr-input-container>
+                <label>Delivery Date</label>
+                <input type="text" clrInput name="deliveryDate" [(ngModel)]="editDeliveryObject.deliveryDate" placeholder="Delivery Date"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Actual Delivery Date</label>
+                <input type="text" clrInput name="actualDeliveryDate" [(ngModel)]="editDeliveryObject.actualDeliveryDate" placeholder="Actual Delivery Date"/>
+            </clr-input-container>            
+            <clr-input-container>
+                <label>Full Bottles</label>
+                <input type="text" clrInput name="fullBottles" [(ngModel)]="editDeliveryObject.fullBottles" placeholder="Full Bottles" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Full Bottles Delivered</label>
+                <input type="text" clrInput name="actualFullsDelivered" [(ngModel)]="editDeliveryObject.actualFullsDelivered" placeholder="Full Bottles Delivered" />
+            </clr-input-container>         
+            <clr-input-container>
+                <label>Route Id</label>
+                <input type="text" clrInput name="routeId" [(ngModel)]="editDeliveryObject.routeId" placeholder="Route Id" />
+            </clr-input-container>           
+            <clr-input-container>
+                <label>Empties Retrieved</label>
+                <input type="text" clrInput name="emptiesRetrieved" [(ngModel)]="editDeliveryObject.emptiesRetrieved" placeholder="Empties Retrieved" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Actual Empties Retrieved</label>
+                <input type="text" clrInput name="actualEmptiesRetrieved" [(ngModel)]="editDeliveryObject.actualEmptiesRetrieved" placeholder="Actual Empties Retrieved" />
+            </clr-input-container>         
+            <clr-input-container>
+                <label>Delivery Notes</label>
+                <input type="text" clrInput name="deliveryNotes" [(ngModel)]="editDeliveryObject.deliveryNotes" placeholder="Delivery Notes" />
+            </clr-input-container>
+             <clr-input-container>
+                <label>Id</label>
+                <input type="text" clrInput name="id" [(ngModel)]="editDeliveryObject.id" readonly placeholder="Delivery id" />
+            </clr-input-container>
+        </form>
+        <div *ngIf="deliveryErrorMsg" class="alert alert-danger" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">
+                        {{deliveryErrorMsg}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="cancelDelivery()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveDelivery()">Save</button>
+    </div>
+</clr-modal>
+
+
+
+
+
+
+
+
+
+
+
+
+

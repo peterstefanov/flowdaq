@@ -69,4 +69,68 @@ export class CustomerService {
 
         return customerListSubject;
     }
+    
+    getCustomerDeliveries(customerId): Observable < any > {
+        let me = this;
+
+        let customersDeliveriesListSubject = new Subject < any > ();
+
+        this.apiRequest.getNoParams('api/customers/delivery/' + customerId)
+        .subscribe(jsonResp => {
+            let itemsDisplay = jsonResp.items.map(function(value, i, a) {
+                let newRow = Object.assign({}, value, {});
+                return newRow;
+            });
+
+            let returnObj = Object.assign({}, jsonResp, {
+                items: itemsDisplay
+            })
+            customersDeliveriesListSubject.next(returnObj);
+        });
+
+        return customersDeliveriesListSubject;
+    }
+     
+   getFacilityDeliveries(customerId): Observable < any > {
+        let me = this;
+
+        let facilitiesDeliveriesListSubject = new Subject < any > ();
+
+        this.apiRequest.getNoParams('api/facilities/delivery/' + customerId)
+        .subscribe(jsonResp => {
+            let itemsDisplay = jsonResp.items.map(function(value, i, a) {
+                let newRow = Object.assign({}, value, {});
+                return newRow;
+            });
+
+            let returnObj = Object.assign({}, jsonResp, {
+                items: itemsDisplay
+            })
+            facilitiesDeliveriesListSubject.next(returnObj);
+        });
+
+        return facilitiesDeliveriesListSubject;
+    }
+    
+    /**remove this method*/
+    getAllDeliveries(): Observable < any > {
+        let me = this;
+
+        let allDeliveriesListSubject = new Subject < any > ();
+
+        this.apiRequest.getNoParams('api/customers/delivery')
+        .subscribe(jsonResp => {
+            let itemsDisplay = jsonResp.items.map(function(value, i, a) {
+                let newRow = Object.assign({}, value, {});
+                return newRow;
+            });
+
+            let returnObj = Object.assign({}, jsonResp, {
+                items: itemsDisplay
+            })
+            allDeliveriesListSubject.next(returnObj);
+        });
+
+        return allDeliveriesListSubject;
+    }
 }

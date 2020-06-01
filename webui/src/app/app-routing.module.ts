@@ -12,6 +12,8 @@ import { CustomersComponent       }   from './pages/customers/customers.componen
 import { DistributorsComponent    }   from './pages/distributors/distributors.component';
 import { FacilitiesComponent      }   from './pages/facilities/facilities.component';
 import { DevicesComponent         }   from './pages/devices/devices.component';
+import { DeliveriesComponent      }   from './pages/deliveries/deliveries.component';
+
 
 import { AuthGuard                } from './services/auth.guard.service';
 import { PageNotFoundComponent    }   from './pages/404/page-not-found.component';
@@ -24,7 +26,7 @@ const routes: Routes = [
             {path: 'customers',component: CustomersComponent, data: [{selectedHeaderItemIndex: 1, selectedSubNavItemIndex: -1}]},
             {path: 'facilities',component: FacilitiesComponent, data: [{selectedHeaderItemIndex: 2, selectedSubNavItemIndex: -1}]},
             {path: 'devices',component: DevicesComponent, data: [{selectedHeaderItemIndex: 3, selectedSubNavItemIndex: -1}]},
-            {path: 'deliveries',component: CustomersComponent, data: [{selectedHeaderItemIndex: 4, selectedSubNavItemIndex: -1}]},
+            {path: 'deliveries',component: DeliveriesComponent, data: [{selectedHeaderItemIndex: 4, selectedSubNavItemIndex: -1}]},
         ]
     },
 
