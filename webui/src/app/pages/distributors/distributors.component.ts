@@ -6,6 +6,7 @@ import { UserInfoService                                                    } fr
 import { Distributor                                                        } from '../../models/distributor';
 import { DistributorManagementService                                       } from '../../services/api/usermanagement/distributormanagement.service';
 
+
 import '@clr/icons/shapes/core-shapes';
 import '@clr/icons/shapes/essential-shapes';
 import '@clr/icons/shapes/technology-shapes';
@@ -34,11 +35,11 @@ export class DistributorsComponent implements OnDestroy {
     SelectionType = SelectionType;
 
     public distributorErrorMsg: string = '';
-    public distributorSuccessMsg: string = '';
+    public distributorSuccessMsg: string = '';  
     
     editDistributorObject: Distributor = {id: 0, userName: '', email: '', firstName: '', lastName: '', enabled: true, phoneNumber: '', companyName: '', addressId: 0, addressLine1: '', addressLine2: '',addressLine3: '', city: '', state: '', country: '', postalCode: '', role: 'distributor' } as Distributor;
     distributorEditModal = false;
-    
+        
     constructor(
         private router: Router, 
         private distributorService: DistributorService, 
@@ -131,7 +132,7 @@ export class DistributorsComponent implements OnDestroy {
         this.distributorSuccessMsg = '';
     }
     /* END Distributor dialogs */   
-    /** END Distributor action*/
+    /** END Distributor action*/ 
     
     toggleExpandRow(row) {
         this.table.rowDetail.toggleExpandRow(row);

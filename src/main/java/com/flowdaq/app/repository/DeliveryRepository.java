@@ -12,5 +12,9 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
 	
 	public List<Delivery> findAllByFromCustomerId(Long customerId);
 	
+	public List<Delivery> findAllByToCustomerId(Long customerId);
+	
 	public List<Delivery> findAllByFromFacilityId(Long facilityId);	
+	
+	public List<Delivery> findAllByToFacilityId(Long facilityId);	
 }

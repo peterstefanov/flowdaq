@@ -1,17 +1,17 @@
 <div class="padding-20">
-        <div *ngIf="distributorSuccessMsg" class="alert alert-success" role="alert">
-            <div class="alert-items">
-                <div class="alert-item static">
-                    <div class="alert-icon-wrapper">
-                        <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
-                    </div>
-                    <span class="alert-text">{{distributorSuccessMsg}}</span>
+    <div *ngIf="distributorSuccessMsg" class="alert alert-success" role="alert">
+        <div class="alert-items">
+            <div class="alert-item static">
+                <div class="alert-icon-wrapper">
+                    <clr-icon class="alert-icon" shape="check-circle"></clr-icon>
                 </div>
+                <span class="alert-text">{{distributorSuccessMsg}}</span>
             </div>
-            <button type="button" class="close" (click)="closeDistributorSuccess()" aria-label="Close">
-                <clr-icon aria-hidden="true" shape="close"></clr-icon>
-            </button>
         </div>
+        <button type="button" class="close" (click)="closeDistributorSuccess()" aria-label="Close">
+            <clr-icon aria-hidden="true" shape="close"></clr-icon>
+        </button>
+    </div>
     <div class="clr-row">
         <div class="clr-col-lg-2 clr-col-md-1 clr-col-sm-3 clr-col-12"></div>
         <div class="clr-col-lg-8 clr-col-md-10 clr-col-sm-6 clr-col-12">

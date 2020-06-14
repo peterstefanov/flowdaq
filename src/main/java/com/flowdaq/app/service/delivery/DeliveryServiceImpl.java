@@ -24,12 +24,18 @@ public class DeliveryServiceImpl implements DeliveryService {
 	
 	@Override
 	public List<DeliveryItem> findAllByCustomerId(Long customerId) {
-		return processDeliveries(deliveryRepository.findAllByFromCustomerId(customerId));
+		List<Delivery> from = deliveryRepository.findAllByFromCustomerId(customerId);
+		List<Delivery> to = deliveryRepository.findAllByToCustomerId(customerId);
+		from.addAll(to);
+		return processDeliveries(from);
 	}
 
 	@Override
 	public List<DeliveryItem> findAllByFacilityId(Long facilityId) {
-		return processDeliveries(deliveryRepository.findAllByFromFacilityId(facilityId));
+		List<Delivery> from = deliveryRepository.findAllByFromFacilityId(facilityId);
+		List<Delivery> to = deliveryRepository.findAllByToFacilityId(facilityId);
+		from.addAll(to);
+		return processDeliveries(from);
 	}
 
 	@Override

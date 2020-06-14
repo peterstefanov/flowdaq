@@ -98,16 +98,20 @@
             <ngx-datatable-column name="From" prop="from" [flexGrow]="2" [minWidth]="80" [maxWidth]="200">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <strong *ngIf="userRole === 'distributor'">{{row.fromDistributorId}}</strong>
-                    <strong *ngIf="userRole === 'customer'">{{row.fromCustomerId}}</strong>
-                    <strong *ngIf="userRole === 'facility'">{{row.fromFacilityId}}</strong>
+                    <strong *ngIf="userRole === 'customer' && row.fromCustomerId">{{row.fromCustomerId}}</strong>
+                    <strong *ngIf="userRole === 'customer' && !row.fromCustomerId">{{row.fromDistributorId}}</strong>
+                    <strong *ngIf="userRole === 'facility' && row.fromFacilityId">{{row.fromFacilityId}}</strong>
+                    <strong *ngIf="userRole === 'facility' && !row.fromFacilityId">{{row.fromCustomerId}}</strong>
                 </ng-template>
             </ngx-datatable-column>
         
             <ngx-datatable-column name="To" [flexGrow]="1" [minWidth]="70" [maxWidth]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
                     <strong *ngIf="userRole === 'distributor'">{{row.toCustomerId}}</strong>
-                    <strong *ngIf="userRole === 'customer'">{{row.toFacilityId}}</strong>
-                    <strong *ngIf="userRole === 'facility'">{{row.toCoolerId}}</strong>
+                    <strong *ngIf="userRole === 'customer' && row.toFacilityId">{{row.toFacilityId}}</strong>
+                    <strong *ngIf="userRole === 'customer' && !row.toFacilityId">{{row.toCustomerId}}</strong>
+                    <strong *ngIf="userRole === 'facility' && row.toCoolerId">{{row.toCoolerId}}</strong>
+                    <strong *ngIf="userRole === 'facility' && !row.toCoolerId">{{row.toFacilityId}}</strong>
                 </ng-template>
             </ngx-datatable-column>
         
