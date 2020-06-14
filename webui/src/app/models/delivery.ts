@@ -9,8 +9,8 @@ export interface Delivery {
   toCoolerId: number;
   driverId: number;
   vehicleId: number;
-  deliveryDate: string;
-  actualDeliveryDate: string;
+  deliveryDate: Date;
+  actualDeliveryDate: Date;
   fullBottles: number;
   actualFullsDelivered: number;
   routeId: number;

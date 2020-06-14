@@ -36,7 +36,7 @@ export class DeliveriesComponent implements OnDestroy {
     public deliveryErrorMsg: string = '';
     public deliverySuccessMsg: string = '';
     
-    editDeliveryObject: Delivery = {id: 0, status: '', fromDistributorId: 0, fromCustomerId: 0, fromFacilityId: 0, toCustomerId: 0, toFacilityId: 0, toCoolerId: 0, driverId: 0, vehicleId: 0, deliveryDate: '', actualDeliveryDate: '', fullBottles: 0, actualFullsDelivered: 0, routeId: 0, emptiesRetrieved: 0, actualEmptiesRetrieved: 0, deliveryNotes: ''} as Delivery;
+    editDeliveryObject: Delivery = {id: 0, status: '', fromDistributorId: 0, fromCustomerId: 0, fromFacilityId: 0, toCustomerId: 0, toFacilityId: 0, toCoolerId: 0, driverId: 0, vehicleId: 0, deliveryDate: new Date(), actualDeliveryDate: new Date(), fullBottles: 0, actualFullsDelivered: 0, routeId: 0, emptiesRetrieved: 0, actualEmptiesRetrieved: 0, deliveryNotes: ''} as Delivery;
     deliveryEditModal = false;
     
     constructor(private router: Router, private customerService: CustomerService, private distributorService: DistributorService, private userInfoService: UserInfoService, private deliveryService: DeliveryService) {
@@ -89,7 +89,7 @@ export class DeliveriesComponent implements OnDestroy {
 
     /**Delivery action*/   
     editDelivery(row) {
-       this.editDeliveryObject = {id: row.id, status: row.status, fromDistributorId: row.fromDistributorId, fromCustomerId: row.fromCustomerId, fromFacilityId: row.fromFacilityId, toCustomerId: row.toCustomerId, toFacilityId: row.toFacilityId, toCoolerId: row.toCoolerId, driverId: row.driverId, vehicleId: row.vehicleId, deliveryDate: row.deliveryDate, actualDeliveryDate: row.actualDeliveryDate, fullBottles: row.fullBottles, actualFullsDelivered: row.actualFullsDelivered, routeId: row.routeId, emptiesRetrieved: row.emptiesRetrieved, actualEmptiesRetrieved: row.actualEmptiesRetrieved, deliveryNotes: row.deliveryNotes};
+       this.editDeliveryObject = {id: row.id, status: row.status, fromDistributorId: row.fromDistributorId, fromCustomerId: row.fromCustomerId, fromFacilityId: row.fromFacilityId, toCustomerId: row.toCustomerId, toFacilityId: row.toFacilityId, toCoolerId: row.toCoolerId, driverId: row.driverId, vehicleId: row.vehicleId, deliveryDate: new Date(row.deliveryDate), actualDeliveryDate: new Date(row.actualDeliveryDate), fullBottles: row.fullBottles, actualFullsDelivered: row.actualFullsDelivered, routeId: row.routeId, emptiesRetrieved: row.emptiesRetrieved, actualEmptiesRetrieved: row.actualEmptiesRetrieved, deliveryNotes: row.deliveryNotes};
        this.deliveryEditModal = true;       
     }     
  
@@ -119,6 +119,14 @@ export class DeliveriesComponent implements OnDestroy {
     public saveDelivery(): void {
         this.deliverySuccessMsg = '';
         this.deliveryErrorMsg = '';
+        
+        var deliveryDate = new Date(this.editDeliveryObject.deliveryDate);
+        var deliveryDateFormatted = new Date(deliveryDate.getTime() - (deliveryDate.getTimezoneOffset() * 60000 )).toISOString().split("T")[0];
+        this.editDeliveryObject.deliveryDate = new Date(deliveryDateFormatted);
+
+        var actualDeliveryDate = new Date(this.editDeliveryObject.actualDeliveryDate);
+        var actualDeliveryDateFormatted = new Date(actualDeliveryDate.getTime() - (actualDeliveryDate.getTimezoneOffset() * 60000 )).toISOString().split("T")[0];
+        this.editDeliveryObject.actualDeliveryDate = new Date(actualDeliveryDateFormatted);
         
         this.deliveryService.updateDelivery(this.editDeliveryObject)
             .subscribe(resp => {

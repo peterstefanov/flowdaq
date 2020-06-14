@@ -186,14 +186,14 @@
                 <label>Vehicle id</label>
                 <input type="text" clrInput name="vehicleId" [(ngModel)]="editDeliveryObject.vehicleId" placeholder="Delivery vehicle id" />
             </clr-input-container>         
-            <clr-input-container>
+            <clr-date-container>
                 <label>Delivery Date</label>
-                <input type="text" clrInput name="deliveryDate" [(ngModel)]="editDeliveryObject.deliveryDate" placeholder="Delivery Date"/>
-            </clr-input-container>
-            <clr-input-container>
+                <input type="date"  name="deliveryDate" [(clrDate)]="editDeliveryObject.deliveryDate" placeholder="Delivery Date"/>
+            </clr-date-container>
+            <clr-date-container>
                 <label>Actual Delivery Date</label>
-                <input type="text" clrInput name="actualDeliveryDate" [(ngModel)]="editDeliveryObject.actualDeliveryDate" placeholder="Actual Delivery Date"/>
-            </clr-input-container>            
+                <input type="date"  name="actualDeliveryDate" [(clrDate)]="editDeliveryObject.actualDeliveryDate" placeholder="Actual Delivery Date"/>
+            </clr-date-container>            
             <clr-input-container>
                 <label>Full Bottles</label>
                 <input type="text" clrInput name="fullBottles" [(ngModel)]="editDeliveryObject.fullBottles" placeholder="Full Bottles" />
