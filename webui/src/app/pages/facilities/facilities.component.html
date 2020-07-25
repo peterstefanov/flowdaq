@@ -218,6 +218,69 @@
     </div>
 </clr-modal>
 
+<clr-modal [(clrModalOpen)]="deliveryCreateModal" [clrModalClosable]="false">
+    <h3 class="modal-title" >Create delivery</h3>
+    <div class="modal-body">
+        <form clrForm class="clr-form clr-form-horizontal">
+            <clr-input-container>
+                <label>Status</label>
+                <input type="text" clrInput name="deliveryStatus" [(ngModel)]="createDeliveryObject.status" readonly placeholder="Delivery status"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>From Customer</label>
+                <input type="text" clrInput name="fromCustomerId" [(ngModel)]="createDeliveryObject.fromCustomerId" readonly placeholder="Delivery from Customer"/>
+            </clr-input-container>
+             <clr-input-container>
+                <label>To Facility</label>
+                <input type="text" clrInput name="toFacilityId" [(ngModel)]="createDeliveryObject.toFacilityId" readonly placeholder="Delivery to Facility"/>
+            </clr-input-container>
+            <clr-input-container>
+                <label>Driver id</label>
+                <input type="text" clrInput name="driverId" [(ngModel)]="createDeliveryObject.driverId" placeholder="Delivery driver id" />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Vehicle id</label>
+                <input type="text" clrInput name="vehicleId" [(ngModel)]="createDeliveryObject.vehicleId" placeholder="Delivery vehicle id" />
+            </clr-input-container>         
+            <clr-date-container>
+                <label>Delivery Date</label>
+                <input type="date"  name="deliveryDate" [(clrDate)]="createDeliveryObject.deliveryDate" placeholder="Delivery Date"/>
+            </clr-date-container>           
+            <clr-input-container>
+                <label>Full Bottles</label>
+                <input type="text" clrInput name="fullBottles" [(ngModel)]="createDeliveryObject.fullBottles" placeholder="Full Bottles" />
+            </clr-input-container>        
+            <clr-input-container>
+                <label>Route Id</label>
+                <input type="text" clrInput name="routeId" [(ngModel)]="createDeliveryObject.routeId" placeholder="Route Id" />
+            </clr-input-container>           
+            <clr-input-container>
+                <label>Empties Retrieved</label>
+                <input type="text" clrInput name="emptiesRetrieved" [(ngModel)]="createDeliveryObject.emptiesRetrieved" placeholder="Empties Retrieved" />
+            </clr-input-container>        
+            <clr-input-container>
+                <label>Delivery Notes</label>
+                <input type="text" clrInput name="deliveryNotes" [(ngModel)]="createDeliveryObject.deliveryNotes" placeholder="Delivery Notes" />
+            </clr-input-container>
+        </form>
+        <div *ngIf="deliveryErrorMsg" class="alert alert-danger" role="alert">
+            <div class="alert-items">
+                <div class="alert-item static">
+                    <div class="alert-icon-wrapper">
+                        <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+                    </div>
+                    <span class="alert-text">
+                        {{deliveryErrorMsg}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="cancelDelivery()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="saveDelivery()">Save</button>
+    </div>
+</clr-modal>
 
 
 
