@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration>
 
+    <property name="LOGS" value="./logs" />
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>%X{user}:%X{requestId}| %date{ISO8601} %-5level
@@ -10,7 +12,26 @@
         <target>System.out</target>
     </appender>
 
-
+    <appender name="RollingFile"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS}/flowdaq-logger.log</file>
+        <encoder
+            class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+        </encoder>
+ 
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily and when the file reaches 10 MegaBytes -->
+            <fileNamePattern>${LOGS}/archived/flowdaq-logger-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+    
     <logger name="org.springframework.boot.autoconfigure.security">
         <level value="DEBUG"/>
     </logger>
@@ -35,6 +56,7 @@
 
     <root>
         <level value="INFO"/>
+        <appender-ref ref="RollingFile" />
         <appender-ref ref="STDOUT"/>
     </root>
 
