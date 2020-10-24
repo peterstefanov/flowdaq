@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,14 @@ public class ResetPasswordRequestServiceImpl implements ResetPasswordRequestServ
     
     private final JavaMailSender emailSender;
     private final ResetPasswordRequestRepository repository;
+    private String port;
+    private String noreplyEmail;
     
-	public ResetPasswordRequestServiceImpl(ResetPasswordRequestRepository repository, JavaMailSender emailSender) {
+	public ResetPasswordRequestServiceImpl(ResetPasswordRequestRepository repository, JavaMailSender emailSender, @Value("${server.server.port}") final String port, @Value("${spring.mail.username}") final String noreplyEmail) {
 		this.repository = repository;
 		this.emailSender = emailSender;
+		this.port = port;
+		this.noreplyEmail = noreplyEmail;
 	}
 
 	@Transactional
@@ -69,7 +74,7 @@ public class ResetPasswordRequestServiceImpl implements ResetPasswordRequestServ
 		final String messageBody = "\nYou can use the following link to reset your password: \n\n" + url + "\n\nIf you don’t use this link within 3 hours, it will expire. To get a new password reset link, visit ... \n\nPlease do not reply to this email. \n\nThanks,\nThe Flowdaq Team";
 		
         SimpleMailMessage message = new SimpleMailMessage(); 
-        message.setFrom("noreply@flowdaq.com");
+        message.setFrom(this.noreplyEmail);
         message.setTo(user.getEmailAddress()); 
         message.setSubject("Flowdaq  Please reset your password"); 
         message.setText(messageBody);
@@ -83,9 +88,9 @@ public class ResetPasswordRequestServiceImpl implements ResetPasswordRequestServ
 		final String messageBody = "Hello " + user.getUsername() + ",\n\nWe wanted to let you know that your Flowdaq password was reset. \n\nPlease do not reply to this email with your password. We will never ask for your password, and we strongly discourage you from sharing it with anyone.\n\nThanks,\nThe Flowdaq Team";
 		
         SimpleMailMessage message = new SimpleMailMessage(); 
-        message.setFrom("noreply@flowdaq.com");
+        message.setFrom(this.noreplyEmail);
         message.setTo(user.getEmailAddress()); 
-        message.setSubject("Flowdaq  Your password was reset"); 
+        message.setSubject("Flowdaq Your password was reset"); 
         message.setText(messageBody);
         
 		log.info(MessageFormat.format("Confirmation Reset password email to be send: {0}", message));
@@ -100,9 +105,12 @@ public class ResetPasswordRequestServiceImpl implements ResetPasswordRequestServ
     	String requestCode = createRequestCode(user.getUsername());
     	
         StringBuilder url = new StringBuilder();
-        //TODO replace with the host name
-        url.append("http://localhost:8082");
-        //url1.append(request.getContextPath());
+
+        url.append(request.getScheme());
+        url.append("://");
+        url.append(request.getServerName());
+        url.append(":");
+        url.append(this.port);
         url.append("/#/resetpassword/");                
         
         try {
@@ -110,8 +118,6 @@ public class ResetPasswordRequestServiceImpl implements ResetPasswordRequestServ
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        
-    	System.err.println("URL : " + url.toString());
 
         return url.toString();
     }
