@@ -33,17 +33,17 @@
     </appender>
     
     <logger name="org.springframework.boot.autoconfigure.security">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
     <logger name="org.springframework.jdbc.datasource">
         <level value="INFO"/>
     </logger>
 
     <logger name="org.springframework.security">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
     <logger name="org.springframework.web">
-        <level value="DEBUG"/>
+        <level value="INFO"/>
     </logger>
 
     <logger name="org.eclipse">
