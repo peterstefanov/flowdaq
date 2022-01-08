@@ -8,7 +8,7 @@ Building the backend app (using maven) it will pickup the code from ```webui/dis
 # Navigate to PROJECT_FOLDER/webui 
 npm install
 # build the project 
-ng build --prod --aot=true
+ng build --aot=true
 ```
 
 ### Build Backend 
